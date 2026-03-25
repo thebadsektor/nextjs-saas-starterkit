@@ -4,26 +4,26 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 const DISCUSSION_TITLES = [
-    "How to scale Next.js apps?",
-    "Best practices for Prisma migrations",
-    "Tailwind CSS vs Styled Components",
-    "Implementing auth with BetterAuth",
-    "The future of Server Components",
-    "Handling CORS in Next.js",
-    "Optimizing database queries",
-    "State management in 2026",
-    "Using Framer Motion for SaaS",
-    "PostgreSQL vs MongoDB for starters",
-    "Improving Core Web Vitals",
-    "Serverless vs Edge Functions",
-    "Building a plugin system",
-    "Accessibility in modern web",
-    "Micro-frontends with Vite",
-    "Caching strategies for APIs",
-    "TypeScript advanced patterns",
-    "Testing React components",
-    "Dark mode implementation",
-    "The rise of Agent UI"
+    "Best Funnel Strategies for Lead Generation",
+    "How I 3x'd My Conversion Rate with ClickFunnels",
+    "Top AI Tools for Marketing Automation",
+    "Email Sequence That Generated $50K in 30 Days",
+    "Funnel Teardown: High-Converting Webinar Funnel",
+    "Building a Community Around Your Funnel",
+    "Best Practices for Upsell and Downsell Funnels",
+    "How to Use Storytelling in Your Funnel Copy",
+    "Paid Ads vs Organic Traffic for Funnels",
+    "ClickFunnels 2.0 Tips and Tricks",
+    "Split Testing Your Landing Pages Effectively",
+    "Creating a Membership Funnel That Retains",
+    "The Power of Tripwire Offers",
+    "How to Write Headlines That Convert",
+    "Scaling Your Funnel with Affiliate Marketing",
+    "Video Sales Letters: Still Worth It?",
+    "Building Trust Before the Sale",
+    "Cart Abandonment Recovery Strategies",
+    "Using Social Proof in Your Funnels",
+    "The Rise of AI-Powered Funnel Builders"
 ];
 
 const CONTENT_SNIPPETS = [

@@ -3,55 +3,51 @@
 import Link from "next/link";
 import {
     ArrowRight,
-    ShieldCheck,
-    ChatCircleText,
-    Users,
     Lightning,
     CheckCircle,
     Star,
-    DeviceMobile,
-    Globe,
-    Lock,
-    CreditCard,
-    Database,
-    HardDrive,
-    Code,
+    ChatCircleText,
+    Users,
+    Lightbulb,
+    TrendUp,
+    Cpu,
+    Megaphone,
     Command
 } from "@phosphor-icons/react";
 import { SignedIn, SignedOut } from "@daveyplate/better-auth-ui";
 import { motion } from "framer-motion";
 import { saasMeta } from "@/lib/constants";
 
-const techStack = [
+const digestSections = [
     {
-        name: "Next.js 15",
-        description: "App Router, Server Components & React 19.",
-        icon: <Lightning size={24} weight="duotone" className="text-amber-500" />,
+        name: "FBM Expert Tip",
+        description: "Proven marketing and growth strategies from top funnel experts.",
+        icon: <Lightbulb size={24} weight="duotone" className="text-amber-500" />,
     },
     {
-        name: "Better-auth",
-        description: "Secure, multi-tenant & social authentication.",
-        icon: <Lock size={24} weight="duotone" className="text-indigo-500" />,
+        name: "Marketing Tip of the Week",
+        description: "The latest AI tools and productivity hacks to work smarter.",
+        icon: <Cpu size={24} weight="duotone" className="text-indigo-500" />,
     },
     {
-        name: "Stripe",
-        description: "Built-in subscriptions, checkouts & webhooks.",
-        icon: <CreditCard size={24} weight="duotone" className="text-emerald-500" />,
+        name: "Community Spotlight",
+        description: "Real results from fellow funnel builders in the ClickFunnels community.",
+        icon: <Users size={24} weight="duotone" className="text-emerald-500" />,
     },
     {
-        name: "Prisma + Postgres",
-        description: "Type-safe database ORM and reliable storage.",
-        icon: <Database size={24} weight="duotone" className="text-sky-500" />,
+        name: "Funnel of the Week",
+        description: "Funnel breakdowns you can steal for your own business.",
+        icon: <TrendUp size={24} weight="duotone" className="text-sky-500" />,
     },
     {
-        name: "MinIO",
-        description: "S3-compatible object storage for user uploads.",
-        icon: <HardDrive size={24} weight="duotone" className="text-orange-500" />,
-    },
-    {
-        name: "Shadcn + Tailwind",
-        description: "Beautifully designed, fully customizable UI.",
+        name: "Food for Thought",
+        description: "Inspiring quotes and insights to fuel your entrepreneurial mindset.",
         icon: <Star size={24} weight="duotone" className="text-rose-500" />,
+    },
+    {
+        name: "Curated Sources",
+        description: "Sourced from HubSpot, Neil Patel, Product Hunt, Social Media Examiner, and more.",
+        icon: <Megaphone size={24} weight="duotone" className="text-orange-500" />,
     }
 ];
 
@@ -91,7 +87,7 @@ export default function LandingPage() {
                     className="inline-flex items-center gap-2.5 px-5 py-2 rounded-2xl bg-primary/5 border border-primary/10 text-primary text-xs font-bold tracking-widest uppercase shadow-sm"
                 >
                     <Command weight="bold" />
-                    <span>The Ultimate Developer Boilerplate</span>
+                    <span>Your Weekly Marketing Edge</span>
                 </motion.div>
 
                 <div className="space-y-6">
@@ -101,8 +97,8 @@ export default function LandingPage() {
                         transition={{ duration: 0.6, delay: 0.1 }}
                         className="text-6xl md:text-8xl font-black tracking-tight leading-[0.9] text-foreground"
                     >
-                        Ship your SaaS <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-indigo-500 to-indigo-400">in days, not months.</span>
+                        Grow your funnels <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-indigo-500 to-indigo-400">3x per week.</span>
                     </motion.h1>
 
                     <motion.p
@@ -111,8 +107,7 @@ export default function LandingPage() {
                         transition={{ duration: 0.8, delay: 0.3 }}
                         className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
                     >
-                        A battle-tested production stack designed for serious builders. 
-                        We've integrated the complex bits so you can focus on your actual product.
+                        Curated marketing strategies, AI tools, and real funnel results — delivered every Monday, Wednesday, and Friday. Built for ClickFunnels users and online entrepreneurs who want actionable insights, not fluff.
                     </motion.p>
                 </div>
 
@@ -136,44 +131,43 @@ export default function LandingPage() {
                             href="/auth/sign-up"
                             className="group relative flex items-center gap-3 bg-primary text-primary-foreground px-10 py-5 rounded-2xl font-bold text-lg transition-all hover:shadow-[0_0_40px_rgba(var(--primary),0.2)] hover:-translate-y-1 active:scale-95"
                         >
-                            Get Started Now
+                            Subscribe to FBM Digest
                             <ArrowRight weight="bold" className="transition-transform group-hover:translate-x-1" />
                         </Link>
                     </SignedOut>
                     <Link
-                        href="#stack"
+                        href="#whats-inside"
                         className="flex items-center gap-3 bg-card border border-border px-10 py-5 rounded-2xl font-bold text-lg transition-all hover:bg-muted/50 hover:border-border hover:-translate-y-1 active:scale-95 shadow-lg"
                     >
-                        Explore Stack
+                        See What's Inside
                     </Link>
                 </motion.div>
 
-                {/* Trusted Tech - Marquee style feel */}
+                {/* Trusted Sources - Marquee style feel */}
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1, delay: 0.8 }}
                     className="pt-16 flex flex-wrap justify-center items-center gap-x-10 gap-y-6 opacity-30 font-mono text-xs uppercase tracking-[0.2em] font-bold"
                 >
-                    <span>Next.js 15</span>
+                    <span>Mon / Wed / Fri</span>
                     <div className="w-1.5 h-1.5 rounded-full bg-border"></div>
-                    <span>Stripe Billing</span>
+                    <span>ClickFunnels</span>
                     <div className="w-1.5 h-1.5 rounded-full bg-border"></div>
-                    <span>Prisma + Postgres</span>
+                    <span>Marketing</span>
                     <div className="w-1.5 h-1.5 rounded-full bg-border"></div>
-                    <span>Better-Auth</span>
+                    <span>AI Tools</span>
                     <div className="w-1.5 h-1.5 rounded-full bg-border"></div>
-                    <span>MinIO S3</span>
+                    <span>Funnels</span>
                 </motion.div>
             </section>
 
-            {/* Tech Stack Grid */}
-            <section id="stack" className="container max-w-7xl mx-auto px-6 space-y-16">
+            {/* What's Inside Grid */}
+            <section id="whats-inside" className="container max-w-7xl mx-auto px-6 space-y-16">
                 <div className="text-center space-y-4">
-                    <h2 className="text-4xl md:text-5xl font-black tracking-tight">Everything Integrated.</h2>
+                    <h2 className="text-4xl md:text-5xl font-black tracking-tight">Every Edition, Packed With Value.</h2>
                     <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
-                        Don't spend weeks wiring up authentication, database schemas, or storage buckets. 
-                        It's all here, configured for production.
+                        Each digest brings you the week's best marketing insights, hand-picked from top sources and the funnel builder community.
                     </p>
                 </div>
 
@@ -184,7 +178,7 @@ export default function LandingPage() {
                     viewport={{ once: true, margin: "-100px" }}
                     className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
                 >
-                    {techStack.map((tech, idx) => (
+                    {digestSections.map((section, idx) => (
                         <motion.div
                             key={idx}
                             variants={itemVariants}
@@ -193,15 +187,15 @@ export default function LandingPage() {
                             <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                                 <span className="text-8xl font-black select-none pointer-events-none">{idx + 1}</span>
                             </div>
-                            
+
                             <div className="relative z-10 space-y-6">
                                 <div className="p-4 bg-primary/5 w-fit rounded-2xl group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 border border-primary/10">
-                                    {tech.icon}
+                                    {section.icon}
                                 </div>
                                 <div className="space-y-2">
-                                    <h3 className="text-2xl font-bold tracking-tight">{tech.name}</h3>
+                                    <h3 className="text-2xl font-bold tracking-tight">{section.name}</h3>
                                     <p className="text-muted-foreground leading-relaxed text-sm font-medium">
-                                        {tech.description}
+                                        {section.description}
                                     </p>
                                 </div>
                             </div>
@@ -210,7 +204,7 @@ export default function LandingPage() {
                 </motion.div>
             </section>
 
-            {/* Performance & DX Section */}
+            {/* Built for Funnel Builders Section */}
             <section className="container max-w-7xl mx-auto px-6">
                 <div className="relative bg-zinc-950 p-10 md:p-24 rounded-[3.5rem] overflow-hidden border border-white/[0.05] shadow-3xl">
                     <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/10 blur-[180px] -mr-[400px] -mt-[400px] rounded-full"></div>
@@ -220,25 +214,24 @@ export default function LandingPage() {
                         <div className="space-y-10">
                             <div className="inline-flex items-center gap-3 text-primary font-mono text-xs uppercase tracking-[0.3em] font-black">
                                 <span className="block h-[1px] w-12 bg-current"></span>
-                                Focus on your logic
+                                Focus on building
                             </div>
                             <h2 className="text-4xl md:text-7xl font-black text-white leading-[0.95] tracking-tighter">
                                 Built for <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-br from-indigo-400 to-indigo-600 italic">Productivity.</span>
+                                <span className="text-transparent bg-clip-text bg-gradient-to-br from-indigo-400 to-indigo-600 italic">Funnel Builders.</span>
                             </h2>
                             <p className="text-zinc-400 text-xl leading-relaxed max-w-md font-medium">
-                                Launching a SaaS usually means writing a lot of "boring" code. 
-                                We've already written it for you.
+                                Stop spending hours hunting for marketing tips. We research, curate, and deliver the best insights so you can focus on building funnels that convert.
                             </p>
-                            
+
                             <div className="grid grid-cols-2 gap-10">
                                 <div className="space-y-2">
-                                    <div className="text-white text-4xl font-black tabular-nums">100%</div>
-                                    <div className="text-zinc-500 text-xs font-bold uppercase tracking-widest">Type-Safe</div>
+                                    <div className="text-white text-4xl font-black tabular-nums">3x</div>
+                                    <div className="text-zinc-500 text-xs font-bold uppercase tracking-widest">Weekly Editions</div>
                                 </div>
                                 <div className="space-y-2">
-                                    <div className="text-white text-4xl font-black tabular-nums">~50</div>
-                                    <div className="text-zinc-500 text-xs font-bold uppercase tracking-widest">Pre-built Components</div>
+                                    <div className="text-white text-4xl font-black tabular-nums">15+</div>
+                                    <div className="text-zinc-500 text-xs font-bold uppercase tracking-widest">Curated Insights Per Week</div>
                                 </div>
                             </div>
                         </div>
@@ -247,8 +240,8 @@ export default function LandingPage() {
                             <div className="bg-[#0b0b0e] rounded-[2.2rem] p-4 md:p-8 space-y-6">
                                 <div className="flex items-center justify-between text-zinc-600 border-b border-white/[0.03] pb-4 mb-2">
                                     <div className="flex items-center gap-3">
-                                        <Code size={18} />
-                                        <span className="text-xs font-mono font-bold uppercase tracking-widest">lib/constants.ts</span>
+                                        <ChatCircleText size={18} />
+                                        <span className="text-xs font-mono font-bold uppercase tracking-widest">This Week's Digest</span>
                                     </div>
                                     <div className="flex gap-2">
                                         <div className="w-2.5 h-2.5 rounded-full bg-zinc-800"></div>
@@ -256,28 +249,55 @@ export default function LandingPage() {
                                         <div className="w-2.5 h-2.5 rounded-full bg-zinc-800"></div>
                                     </div>
                                 </div>
-                                <pre className="text-indigo-300 font-mono text-xs leading-relaxed overflow-x-auto p-2">
-                                    {`export const saasMeta = {
-  name: "SAAS Starter",
-  description: "Next.js + Better-auth + Stripe + 
-               Prisma + Postgres + MinIO + 
-               Shadcn UI + Tailwind CSS",
-};
-
-// Ready to deploy with one command`}
-                                </pre>
+                                <div className="space-y-4 text-sm">
+                                    <div className="flex items-start gap-3">
+                                        <div className="h-2 w-2 rounded-full bg-amber-500 mt-1.5 shrink-0"></div>
+                                        <div>
+                                            <span className="text-zinc-300 font-bold text-xs">FBM Expert Tip</span>
+                                            <p className="text-zinc-500 text-xs mt-1">Growth strategy breakdown</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-3">
+                                        <div className="h-2 w-2 rounded-full bg-indigo-500 mt-1.5 shrink-0"></div>
+                                        <div>
+                                            <span className="text-zinc-300 font-bold text-xs">Marketing Tip of the Week</span>
+                                            <p className="text-zinc-500 text-xs mt-1">New AI tool spotlight</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-3">
+                                        <div className="h-2 w-2 rounded-full bg-emerald-500 mt-1.5 shrink-0"></div>
+                                        <div>
+                                            <span className="text-zinc-300 font-bold text-xs">Community Spotlight</span>
+                                            <p className="text-zinc-500 text-xs mt-1">Real results from a member</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-3">
+                                        <div className="h-2 w-2 rounded-full bg-sky-500 mt-1.5 shrink-0"></div>
+                                        <div>
+                                            <span className="text-zinc-300 font-bold text-xs">Funnel of the Week</span>
+                                            <p className="text-zinc-500 text-xs mt-1">Steal-worthy funnel teardown</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-3">
+                                        <div className="h-2 w-2 rounded-full bg-rose-500 mt-1.5 shrink-0"></div>
+                                        <div>
+                                            <span className="text-zinc-300 font-bold text-xs">Food for Thought</span>
+                                            <p className="text-zinc-500 text-xs mt-1">Quote to fuel your week</p>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className="space-y-4 pt-4 border-t border-white/[0.03]">
                                     <div className="flex items-center gap-3 group/item">
                                         <div className="h-2 w-2 rounded-full bg-emerald-500"></div>
-                                        <span className="text-xs text-zinc-400 font-bold tracking-wide uppercase">Multi-tenant Ready</span>
+                                        <span className="text-xs text-zinc-400 font-bold tracking-wide uppercase">Monday Edition</span>
                                     </div>
                                     <div className="flex items-center gap-3 group/item">
                                         <div className="h-2 w-2 rounded-full bg-indigo-500"></div>
-                                        <span className="text-xs text-zinc-400 font-bold tracking-wide uppercase">Subscription Logic Built-in</span>
+                                        <span className="text-xs text-zinc-400 font-bold tracking-wide uppercase">Wednesday Edition</span>
                                     </div>
                                     <div className="flex items-center gap-3 group/item">
-                                        <div className="h-2 w-2 rounded-full bg-zinc-700"></div>
-                                        <span className="text-xs text-zinc-400 font-bold tracking-wide uppercase">S3 Storage Configured</span>
+                                        <div className="h-2 w-2 rounded-full bg-amber-500"></div>
+                                        <span className="text-xs text-zinc-400 font-bold tracking-wide uppercase">Friday Edition</span>
                                     </div>
                                 </div>
                             </div>
@@ -292,11 +312,11 @@ export default function LandingPage() {
                     <div className="absolute inset-0 bg-primary/[0.02] -z-10"></div>
                     <div className="space-y-6">
                         <h2 className="text-5xl md:text-7xl font-black tracking-tight leading-tight">
-                            Ready to build? <br />
-                            <span className="text-primary italic">Stop overthinking.</span>
+                            Ready to grow? <br />
+                            <span className="text-primary italic">Your next funnel breakthrough is one digest away.</span>
                         </h2>
                         <p className="text-xl text-muted-foreground font-medium">
-                            Grab the starter kit and launch your next big idea today.
+                            Join thousands of funnel builders getting smarter every week.
                         </p>
                     </div>
                     <div className="flex justify-center">
@@ -304,7 +324,7 @@ export default function LandingPage() {
                             href="/auth/sign-up"
                             className="flex items-center gap-4 bg-foreground text-background px-12 py-6 rounded-[1.5rem] font-black text-xl hover:scale-105 active:scale-95 transition-all shadow-2xl"
                         >
-                            Start Your SaaS
+                            Subscribe to FBM Digest
                             <ArrowRight weight="bold" />
                         </Link>
                     </div>
@@ -319,35 +339,34 @@ export default function LandingPage() {
                             {saasMeta.name}
                         </div>
                         <p className="text-muted-foreground text-sm max-w-sm leading-relaxed font-medium">
-                            The ultimate production-ready boilerplate for modern web applications. 
-                            Clean code, scalable architecture, and built-in essential features.
+                            The curated marketing newsletter for ClickFunnels users and funnel builders.
+                            Fresh strategies, tools, and community wins — 3x per week.
                         </p>
                     </div>
                     <div className="space-y-6">
                         <h4 className="font-bold text-xs uppercase tracking-widest">Platform</h4>
                         <ul className="space-y-4 text-sm text-muted-foreground font-medium">
-                            <li><Link href="/forum" className="hover:text-primary transition-colors">Forum</Link></li>
+                            <li><Link href="/forum" className="hover:text-primary transition-colors">Community</Link></li>
                             <li><Link href="/feedback" className="hover:text-primary transition-colors">Feedback</Link></li>
                             <li><Link href="/auth/sign-in" className="hover:text-primary transition-colors">Sign In</Link></li>
                         </ul>
                     </div>
                     <div className="space-y-6">
-                        <h4 className="font-bold text-xs uppercase tracking-widest">Stack</h4>
+                        <h4 className="font-bold text-xs uppercase tracking-widest">In Every Digest</h4>
                         <ul className="space-y-4 text-sm text-muted-foreground font-medium">
-                            <li>Next.js 15</li>
-                            <li>Better-auth</li>
-                            <li>Stripe</li>
-                            <li>Prisma</li>
+                            <li>Expert Tips</li>
+                            <li>AI Tools</li>
+                            <li>Funnel Breakdowns</li>
+                            <li>Community Wins</li>
                         </ul>
                     </div>
                 </div>
                 <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-muted-foreground text-xs font-bold uppercase tracking-widest border-t border-border/20 pt-10">
                     <div>
-                        © {new Date().getFullYear()} {saasMeta.name}. Built for developers.
+                        &copy; {new Date().getFullYear()} {saasMeta.name}. Built for funnel builders.
                     </div>
                     <div className="flex gap-10">
                         <Link href="#" className="hover:text-primary transition-colors">Twitter</Link>
-                        <Link href="#" className="hover:text-primary transition-colors">GitHub</Link>
                         <Link href="#" className="hover:text-primary transition-colors">Terms</Link>
                     </div>
                 </div>

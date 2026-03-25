@@ -1,6 +1,6 @@
-# SaaS Starter Kit
+# FBM Digest
 
-A robust and scalable SaaS starter kit built with Next.js, Better Auth, Prisma, and Stripe. This project provides a solid foundation for building your next SaaS application with built-in subscription management, authentication, and more.
+Funnel Builders Marketplace Digest — a curated marketing newsletter platform for ClickFunnels users and online entrepreneurs.
 
 ## Tech Stack
 
@@ -27,7 +27,7 @@ Clone the repository and install dependencies:
 
 ```bash
 git clone <repository-url>
-cd saas-starter
+cd fbm-digest
 pnpm install
 ```
 
@@ -81,20 +81,13 @@ The application will be available at `http://localhost:3000`.
 ## Features
 
 - **Authentication:** Secure login with Google and email/password.
-- **Subscription Management:** Tiered plans (Plus, Enterprise) powered by Stripe.
-- **Gated Content:** Feature-level access control based on user subscriptions.
+- **Subscription Management:** Tiered plans (Free, Plus, Enterprise) powered by Stripe.
+- **Newsletter Delivery:** Curated marketing digests 3x per week (Mon/Wed/Fri).
+- **Community Forum:** Discussions and community spotlight.
 - **Admin Dashboard:** Manage users, monitor subscriptions, and send notifications.
-- **Feedback System:** Integrated user feedback and discussion boards.
+- **Feedback System:** Integrated user feedback.
 - **Storage:** S3-compatible file uploads via MinIO.
 - **Emails:** Transactional emails for verification and notifications via SendGrid.
-
-## Project Structure
-
-- `app/`: Next.js App Router pages and layouts.
-- `components/`: Reusable UI components.
-- `lib/`: Utilities, constants, and database client.
-- `prisma/`: Database schema and migrations.
-- `config/`: Application configuration (Stripe, Auth).
 
 ## License
 

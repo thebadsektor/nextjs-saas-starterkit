@@ -29,10 +29,10 @@ export default function SubscriptionPage() {
                     Subscription Management
                 </div>
                 <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">
-                    Choose the right plan for your business
+                    Choose the right plan for your funnel growth
                 </h1>
                 <p className="text-muted-foreground text-lg">
-                    Manage your current subscription or upgrade to unlock pro features and scale your application.
+                    Get the marketing insights that match your ambitions. Upgrade anytime.
                 </p>
             </div>
 
@@ -47,13 +47,12 @@ export default function SubscriptionPage() {
             </div>
 
             <div className="bg-muted px-8 py-10 rounded-2xl border border-border/50 text-center space-y-4 max-w-4xl mx-auto">
-                <h3 className="text-xl font-bold">Need a custom plan?</h3>
+                <h3 className="text-xl font-bold">Need a custom plan for your team or agency?</h3>
                 <p className="text-muted-foreground text-sm max-w-xl mx-auto">
-                    If you have specific requirements or need more than what our standard plans offer, 
-                    get in touch with our sales team for a custom enterprise solution.
+                    If you have specific requirements or need more than what our standard plans offer, get in touch.
                 </p>
                 <div className="pt-2 text-primary font-bold hover:underline cursor-pointer">
-                    Contact Sales →
+                    Contact Us →
                 </div>
             </div>
         </div>

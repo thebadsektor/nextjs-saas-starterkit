@@ -55,10 +55,10 @@ export default function DocsPage() {
                     <span className="text-sm uppercase tracking-widest">Documentation</span>
                 </div>
                 <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">
-                    Subscription & Gating System
+                    Subscription & Access Guide
                 </h1>
                 <p className="text-lg text-muted-foreground max-w-2xl">
-                    A comprehensive guide on managing feature access, plans, and user sessions within your SaaS application.
+                    How to manage your FBM Digest subscription and access all features.
                 </p>
             </motion.div>
 
