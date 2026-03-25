@@ -220,6 +220,112 @@ model FeedbackNotificationEmail {
   @@map("feedback_notification_email")
 }
 
+// ── FBM Digest Models ──────────────────────────────────────────
+
+enum PublishDay {
+  MONDAY
+  WEDNESDAY
+  FRIDAY
+}
+
+enum DigestStatus {
+  DRAFT
+  IN_REVIEW
+  APPROVED
+  PUBLISHED
+  FAILED
+}
+
+enum SectionType {
+  EXPERT_TIP
+  MARKETING_TIP
+  COMMUNITY_SPOTLIGHT
+  FUNNEL_OF_THE_WEEK
+  FOOD_FOR_THOUGHT
+}
+
+enum SourceType {
+  RSS
+  SOCIAL
+  NEWSLETTER
+  MANUAL
+}
+
+model Digest {
+  id             String       @id @default(cuid())
+  digestNumber   Int          @unique
+  title          String?
+  subjectLine    String?
+  preHeader      String?
+  publishDay     PublishDay
+  publishDate    DateTime
+  status         DigestStatus @default(DRAFT)
+  leeApproved    Boolean      @default(false)
+  hannaApproved  Boolean      @default(false)
+  personalNote   String?      @db.Text
+  googleDocUrl   String?
+  clickFunnelsId String?
+  sections       DigestSection[]
+  topics         DigestTopic[]
+  stagedContent  StagedContent[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  publishedAt    DateTime?
+
+  @@index([status])
+  @@index([publishDay])
+  @@index([publishDate])
+  @@map("digest")
+}
+
+model DigestSection {
+  id          String      @id @default(cuid())
+  digestId    String
+  digest      Digest      @relation(fields: [digestId], references: [id], onDelete: Cascade)
+  sectionType SectionType
+  order       Int
+  heading     String?
+  body        String?     @db.Text
+  sourceUrl   String?
+  sourceTitle String?
+  sourceDate  DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@unique([digestId, sectionType])
+  @@map("digest_section")
+}
+
+model DigestTopic {
+  id        String   @id @default(cuid())
+  title     String
+  digestId  String
+  digest    Digest   @relation(fields: [digestId], references: [id], onDelete: Cascade)
+  weekOf    DateTime
+  createdAt DateTime @default(now())
+
+  @@map("digest_topic")
+}
+
+model StagedContent {
+  id          String     @id @default(cuid())
+  title       String
+  summary     String     @db.Text
+  sourceUrl   String
+  sourceName  String
+  sourceType  SourceType
+  category    String?
+  publishedAt DateTime?
+  used        Boolean    @default(false)
+  digestId    String?
+  digest      Digest?    @relation(fields: [digestId], references: [id], onDelete: SetNull)
+  createdAt   DateTime   @default(now())
+
+  @@index([used])
+  @@index([sourceType])
+  @@map("staged_content")
+}
+
 model Subscription {
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt

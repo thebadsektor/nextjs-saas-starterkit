@@ -9,7 +9,42 @@
 * 🟢 You can import this file directly.
 */
 
+export const PublishDay = {
+  MONDAY: 'MONDAY',
+  WEDNESDAY: 'WEDNESDAY',
+  FRIDAY: 'FRIDAY'
+} as const
+
+export type PublishDay = (typeof PublishDay)[keyof typeof PublishDay]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const DigestStatus = {
+  DRAFT: 'DRAFT',
+  IN_REVIEW: 'IN_REVIEW',
+  APPROVED: 'APPROVED',
+  PUBLISHED: 'PUBLISHED',
+  FAILED: 'FAILED'
+} as const
+
+export type DigestStatus = (typeof DigestStatus)[keyof typeof DigestStatus]
+
+
+export const SectionType = {
+  EXPERT_TIP: 'EXPERT_TIP',
+  MARKETING_TIP: 'MARKETING_TIP',
+  COMMUNITY_SPOTLIGHT: 'COMMUNITY_SPOTLIGHT',
+  FUNNEL_OF_THE_WEEK: 'FUNNEL_OF_THE_WEEK',
+  FOOD_FOR_THOUGHT: 'FOOD_FOR_THOUGHT'
+} as const
+
+export type SectionType = (typeof SectionType)[keyof typeof SectionType]
+
+
+export const SourceType = {
+  RSS: 'RSS',
+  SOCIAL: 'SOCIAL',
+  NEWSLETTER: 'NEWSLETTER',
+  MANUAL: 'MANUAL'
+} as const
+
+export type SourceType = (typeof SourceType)[keyof typeof SourceType]

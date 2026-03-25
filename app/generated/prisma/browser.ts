@@ -88,6 +88,26 @@ export type FeedbackReply = Prisma.FeedbackReplyModel
  */
 export type FeedbackNotificationEmail = Prisma.FeedbackNotificationEmailModel
 /**
+ * Model Digest
+ * 
+ */
+export type Digest = Prisma.DigestModel
+/**
+ * Model DigestSection
+ * 
+ */
+export type DigestSection = Prisma.DigestSectionModel
+/**
+ * Model DigestTopic
+ * 
+ */
+export type DigestTopic = Prisma.DigestTopicModel
+/**
+ * Model StagedContent
+ * 
+ */
+export type StagedContent = Prisma.StagedContentModel
+/**
  * Model Subscription
  * 
  */

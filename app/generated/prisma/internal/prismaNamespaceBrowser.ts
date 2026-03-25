@@ -65,6 +65,10 @@ export const ModelName = {
   Feedback: 'Feedback',
   FeedbackReply: 'FeedbackReply',
   FeedbackNotificationEmail: 'FeedbackNotificationEmail',
+  Digest: 'Digest',
+  DigestSection: 'DigestSection',
+  DigestTopic: 'DigestTopic',
+  StagedContent: 'StagedContent',
   Subscription: 'Subscription'
 } as const
 
@@ -267,6 +271,73 @@ export const FeedbackNotificationEmailScalarFieldEnum = {
 } as const
 
 export type FeedbackNotificationEmailScalarFieldEnum = (typeof FeedbackNotificationEmailScalarFieldEnum)[keyof typeof FeedbackNotificationEmailScalarFieldEnum]
+
+
+export const DigestScalarFieldEnum = {
+  id: 'id',
+  digestNumber: 'digestNumber',
+  title: 'title',
+  subjectLine: 'subjectLine',
+  preHeader: 'preHeader',
+  publishDay: 'publishDay',
+  publishDate: 'publishDate',
+  status: 'status',
+  leeApproved: 'leeApproved',
+  hannaApproved: 'hannaApproved',
+  personalNote: 'personalNote',
+  googleDocUrl: 'googleDocUrl',
+  clickFunnelsId: 'clickFunnelsId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  publishedAt: 'publishedAt'
+} as const
+
+export type DigestScalarFieldEnum = (typeof DigestScalarFieldEnum)[keyof typeof DigestScalarFieldEnum]
+
+
+export const DigestSectionScalarFieldEnum = {
+  id: 'id',
+  digestId: 'digestId',
+  sectionType: 'sectionType',
+  order: 'order',
+  heading: 'heading',
+  body: 'body',
+  sourceUrl: 'sourceUrl',
+  sourceTitle: 'sourceTitle',
+  sourceDate: 'sourceDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DigestSectionScalarFieldEnum = (typeof DigestSectionScalarFieldEnum)[keyof typeof DigestSectionScalarFieldEnum]
+
+
+export const DigestTopicScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  digestId: 'digestId',
+  weekOf: 'weekOf',
+  createdAt: 'createdAt'
+} as const
+
+export type DigestTopicScalarFieldEnum = (typeof DigestTopicScalarFieldEnum)[keyof typeof DigestTopicScalarFieldEnum]
+
+
+export const StagedContentScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  summary: 'summary',
+  sourceUrl: 'sourceUrl',
+  sourceName: 'sourceName',
+  sourceType: 'sourceType',
+  category: 'category',
+  publishedAt: 'publishedAt',
+  used: 'used',
+  digestId: 'digestId',
+  createdAt: 'createdAt'
+} as const
+
+export type StagedContentScalarFieldEnum = (typeof StagedContentScalarFieldEnum)[keyof typeof StagedContentScalarFieldEnum]
 
 
 export const SubscriptionScalarFieldEnum = {
