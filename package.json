@@ -2,6 +2,9 @@
   "name": "fbm-digest",
   "version": "0.1.0",
   "private": true,
+  "pnpm": {
+    "onlyBuiltDependencies": ["@prisma/engines"]
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
