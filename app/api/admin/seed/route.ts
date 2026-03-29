@@ -75,7 +75,7 @@ Write a marketing or growth strategy tip in 2-3 short paragraphs.
 Voice: {{BRAND_VOICE}}
 Use contractions (it's, you're, don't). Second person (you/your). Short paragraphs (2-3 sentences max).
 End with a practical action the reader can take this week.
-Format the body as clean HTML using <p> tags for paragraphs, <strong> for emphasis, <em> for italic, <ul>/<li> for lists. Do NOT use markdown.
+Format as properly structured HTML: wrap every paragraph in <p> tags, use <ul>/<li> for any lists (never bare text lines), <strong> for bold, <em> for italic, <blockquote> for quotes. No markdown.
 Do NOT include any section headers — just the body content.`,
     },
     {
@@ -88,7 +88,7 @@ Write about a practical AI tool or productivity hack in under 150 words.
 Voice: {{BRAND_VOICE}}
 Include the specific benefit or result if possible.
 End with one clear action step the reader can take this week, starting with "Action step:".
-Format the body as clean HTML using <p> tags for paragraphs, <strong> for emphasis, <em> for italic, <ul>/<li> for lists. Do NOT use markdown.
+Format as properly structured HTML: wrap every paragraph in <p> tags, use <ul>/<li> for any lists (never bare text lines), <strong> for bold, <em> for italic, <blockquote> for quotes. No markdown.
 Do NOT include any section headers — just the body content.`,
     },
     {
@@ -101,7 +101,7 @@ Frame this as a success story from a ClickFunnels/funnel builder community membe
 Lead with the result (numbers, revenue, growth), then explain how they achieved it.
 Voice: {{BRAND_VOICE}} Sharing something too good not to pass along.
 Make it feel authentic and relatable. Use a realistic first name.
-Format the body as clean HTML using <p> tags for paragraphs, <strong> for emphasis, <em> for italic, <ul>/<li> for lists. Do NOT use markdown.
+Format as properly structured HTML: wrap every paragraph in <p> tags, use <ul>/<li> for any lists (never bare text lines), <strong> for bold, <em> for italic, <blockquote> for quotes. No markdown.
 Do NOT include any section headers — just the body content.`,
     },
     {
@@ -114,7 +114,7 @@ Describe a funnel strategy in plain English — no jargon.
 Include 2-3 observations or elements the reader can steal for their own funnel.
 Voice: {{BRAND_VOICE}} Breaking down what works and why.
 End with exactly this line: "Want a funnel like this built for your business? Send us a message here → funnelbuildermarketplace.com"
-Format the body as clean HTML using <p> tags for paragraphs, <strong> for emphasis, <em> for italic, <ul>/<li> for lists. Do NOT use markdown.
+Format as properly structured HTML: wrap every paragraph in <p> tags, use <ul>/<li> for any lists (never bare text lines), <strong> for bold, <em> for italic, <blockquote> for quotes. No markdown.
 Do NOT include any section headers — just the body content.`,
     },
     {
@@ -127,7 +127,7 @@ Provide an inspiring business or marketing quote, properly attributed.
 Format: Start with the quote in quotation marks, then "— [Author Name]" on the next line.
 Then add 1-2 sentences connecting the quote to funnel building or marketing.
 Voice: {{BRAND_VOICE}} Reflective and encouraging.
-Format the body as clean HTML using <p> tags for paragraphs, <strong> for emphasis, <em> for italic, <ul>/<li> for lists. Do NOT use markdown.
+Format as properly structured HTML: wrap every paragraph in <p> tags, use <ul>/<li> for any lists (never bare text lines), <strong> for bold, <em> for italic, <blockquote> for quotes. No markdown.
 Do NOT include any section headers — just the body content.`,
     },
 ];

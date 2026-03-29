@@ -10,7 +10,7 @@ const GENERIC_PROMPT = `You are writing a section for a marketing newsletter.
 Write engaging, actionable content in 2-3 short paragraphs.
 Use contractions (it's, you're, don't). Second person (you/your). Short paragraphs (2-3 sentences max).
 Do NOT include any section headers — just the body content.
-Format the body as clean HTML paragraphs using <p>, <strong>, <em>, and <ul>/<li> tags. Do NOT use markdown.`;
+Format as properly structured HTML: wrap every paragraph in <p> tags, use <ul>/<li> for any lists (never bare text lines), <strong> for bold, <em> for italic. No markdown.`;
 
 export async function POST(
     req: NextRequest,
@@ -144,10 +144,16 @@ async function generateForArticle(
         userPrompt += `\n\nChoose a timely, relevant topic for ClickFunnels users and funnel builders. Make it specific and actionable.`;
     }
 
-    userPrompt += `\n\nFormat the body as clean HTML. Use <p> tags for paragraphs, <strong> for emphasis, <em> for italic, <ul>/<li> for lists. Do NOT use markdown syntax like ** or *.
+    userPrompt += `\n\nFormat the body as properly structured HTML for an email newsletter. STRICT RULES:
+- Every paragraph MUST be wrapped in <p>...</p> tags
+- Lists MUST use <ul> with <li> items (never bare text lines)
+- Use <strong> for bold emphasis, <em> for italic
+- Use <blockquote> for quotes
+- Do NOT use markdown (no **, no *, no -)
+- Ensure spacing between sections with separate <p> tags
 
 Respond in this exact JSON format (no markdown, no code fences):
-{"heading": "The section heading", "body": "<p>First paragraph.</p><p>Second paragraph with <strong>key point</strong>.</p>"}`;
+{"heading": "3 Ways to Boost Conversions", "body": "<p>Here's what top funnel builders are doing differently this week.</p><p>The data is clear — <strong>personalized follow-ups</strong> convert 3x better than generic sequences. Here's how to implement it:</p><ul><li>Segment your list by entry point</li><li>Customize your first 3 emails based on their specific pain point</li><li>Add a personal P.S. line referencing their opt-in topic</li></ul><p>Start with just one segment this week and watch your open rates climb.</p>"}`;
 
     const completion = await openai.chat.completions.create({
         model: "gpt-4o-mini",
