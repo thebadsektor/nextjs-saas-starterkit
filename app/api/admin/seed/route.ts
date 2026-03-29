@@ -228,9 +228,16 @@ export async function POST() {
             },
         ];
 
+        let digestsSeeded = 0;
         for (const seed of digestSeeds) {
             const { sections, ...digestData } = seed;
-            const digest = await prisma.digest.create({
+            // Skip if digest number already exists
+            const existing = await prisma.digest.findUnique({
+                where: { digestNumber: digestData.digestNumber },
+            });
+            if (existing) continue;
+
+            await prisma.digest.create({
                 data: {
                     ...digestData,
                     sections: {
@@ -245,11 +252,12 @@ export async function POST() {
                     },
                 },
             });
+            digestsSeeded++;
         }
 
         return NextResponse.json({
             success: true,
-            message: `Successfully seeded ${discussionsToCreate.length} discussions, ${feedbackToCreate.length} feedback entries, and ${digestSeeds.length} digests.`
+            message: `Successfully seeded ${discussionsToCreate.length} discussions, ${feedbackToCreate.length} feedback entries, and ${digestsSeeded} digests (${digestSeeds.length - digestsSeeded} skipped — already exist).`
         });
 
     } catch (error) {

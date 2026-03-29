@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
         if (status) where.status = status;
         if (day) where.publishDay = day;
 
-        const [digests, total] = await Promise.all([
+        const [digests, total, totalAll, published, inReview, drafts] = await Promise.all([
             prisma.digest.findMany({
                 where,
                 orderBy: { publishDate: "desc" },
@@ -43,6 +43,10 @@ export async function GET(req: NextRequest) {
                 },
             }),
             prisma.digest.count({ where }),
+            prisma.digest.count(),
+            prisma.digest.count({ where: { status: "PUBLISHED" } }),
+            prisma.digest.count({ where: { status: "IN_REVIEW" } }),
+            prisma.digest.count({ where: { status: "DRAFT" } }),
         ]);
 
         return NextResponse.json({
@@ -52,6 +56,12 @@ export async function GET(req: NextRequest) {
                 limit,
                 total,
                 totalPages: Math.ceil(total / limit),
+            },
+            stats: {
+                total: totalAll,
+                published,
+                inReview,
+                drafts,
             },
         });
     } catch (error) {

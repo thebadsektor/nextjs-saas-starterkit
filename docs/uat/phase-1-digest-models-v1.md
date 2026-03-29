@@ -1,7 +1,7 @@
 # Phase 1 — User Acceptance Testing (UAT)
 
 **Document:** `phase-1-digest-models-v1.md`
-**Version:** 1.0
+**Version:** 2.0
 **Phase:** Phase 1 — Digest Data Models, Admin CRUD, and API Routes
 **Branch:** `feature/phase-1-digest-models`
 **Date:** 2026-03-29
@@ -77,6 +77,22 @@ Open a **published** digest (e.g., #94) for tests 1–6. Open the **draft** dige
 
 ---
 
+## UAT-1.4b: AI Content Generation (v2)
+
+Open a **draft** digest (e.g., #99 or newly created #100) for these tests.
+
+| # | Test Step | Expected Result | Pass |
+|---|-----------|-----------------|------|
+| 1 | Each section editor card | "Generate with AI" button visible in card header | [ ] |
+| 2 | Click "Generate with AI" on Expert Tip section (empty) | Button shows spinner, after 3-10s heading and body fields populate with AI-generated content | [ ] |
+| 3 | Review generated Expert Tip content | Content is a marketing/growth strategy tip in Lee's conversational voice, 2-3 short paragraphs | [ ] |
+| 4 | Click "Generate with AI" on Food for Thought section | Generates a quote with attribution + Lee's connecting sentence | [ ] |
+| 5 | Type a topic in Section 2 heading (e.g., "Notion AI") → click Generate | AI generates content specifically about the typed topic | [ ] |
+| 6 | Click Generate while another section is generating | Button is disabled — only one generation at a time | [ ] |
+| 7 | Save after generating | Generated content persists after refresh | [ ] |
+
+---
+
 ## UAT-1.5: Digest API Routes
 
 | # | Test Step | Expected Result | Pass |
@@ -119,3 +135,4 @@ Open a **published** digest (e.g., #94) for tests 1–6. Open the **draft** dige
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0 | 2026-03-29 | Initial UAT for Phase 1 — Digest data models, admin CRUD, API routes |
+| 2.0 | 2026-03-29 | Added UAT-1.4b: AI Content Generation tests. Fixed stats API, field name mismatches, duplicate-safe seeding |

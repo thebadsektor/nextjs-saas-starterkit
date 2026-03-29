@@ -40,7 +40,7 @@ type PublishDay = "MONDAY" | "WEDNESDAY" | "FRIDAY"
 
 interface Digest {
     id: string
-    number: number
+    digestNumber: number
     title: string | null
     publishDay: PublishDay
     status: DigestStatus
@@ -247,7 +247,7 @@ export default function AdminDigestsPage() {
                                 ) : (
                                     digests.map((digest) => (
                                         <TableRow key={digest.id}>
-                                            <TableCell className="font-medium">{digest.number}</TableCell>
+                                            <TableCell className="font-medium">{digest.digestNumber}</TableCell>
                                             <TableCell className="max-w-[200px] truncate">
                                                 {digest.title || <span className="text-muted-foreground italic">Untitled</span>}
                                             </TableCell>

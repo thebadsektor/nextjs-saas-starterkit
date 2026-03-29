@@ -34,6 +34,7 @@ import {
     Eye,
     EyeSlash,
     Warning,
+    MagicWand,
 } from "@phosphor-icons/react"
 
 type DigestStatus = "DRAFT" | "IN_REVIEW" | "APPROVED" | "PUBLISHED" | "FAILED"
@@ -51,7 +52,7 @@ interface DigestSection {
 
 interface Digest {
     id: string
-    number: number
+    digestNumber: number
     title: string | null
     publishDay: string
     status: DigestStatus
@@ -116,6 +117,7 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
     const [deleting, setDeleting] = useState(false)
     const [publishing, setPublishing] = useState(false)
     const [showPreview, setShowPreview] = useState(false)
+    const [generatingSection, setGeneratingSection] = useState<number | null>(null)
 
     // Form state
     const [subjectLine, setSubjectLine] = useState("")
@@ -236,6 +238,36 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
         })
     }
 
+    const handleGenerate = async (index: number) => {
+        const section = sections[index]
+        setGeneratingSection(index)
+        try {
+            const res = await fetch(`/api/admin/digests/${id}/generate`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    sectionType: section.sectionType,
+                    topic: section.heading || undefined,
+                }),
+            })
+            if (!res.ok) {
+                const data = await res.json().catch(() => ({}))
+                throw new Error(data.error || "Failed to generate")
+            }
+            const { heading, body } = await res.json()
+            setSections((prev) => {
+                const updated = [...prev]
+                updated[index] = { ...updated[index], heading, body }
+                return updated
+            })
+            toast.success(`Generated ${SECTION_DISPLAY_NAMES[section.sectionType]} content`)
+        } catch (error: any) {
+            toast.error(error.message || "Failed to generate content")
+        } finally {
+            setGeneratingSection(null)
+        }
+    }
+
     if (isPending) {
         return (
             <div className="flex items-center justify-center min-h-screen text-xs">
@@ -294,7 +326,7 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
                 </Link>
                 <div className="flex items-center gap-3">
                     <h1 className="text-2xl font-bold tracking-tight">
-                        Digest #{digest.number} &mdash; {DAY_LABELS[digest.publishDay] ?? digest.publishDay}
+                        Digest #{digest.digestNumber} &mdash; {DAY_LABELS[digest.publishDay] ?? digest.publishDay}
                     </h1>
                     <Badge variant={statusConfig.variant} className={`text-[10px] py-0 px-1.5 font-normal ${statusConfig.className ?? ""}`}>
                         {statusConfig.label}
@@ -341,7 +373,7 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
                                 <AlertDialogTitle>Delete Digest</AlertDialogTitle>
                             </div>
                             <AlertDialogDescription>
-                                Are you sure you want to delete Digest #{digest.number}? This action cannot be undone and will permanently remove the digest and all its sections.
+                                Are you sure you want to delete Digest #{digest.digestNumber}? This action cannot be undone and will permanently remove the digest and all its sections.
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
@@ -496,11 +528,25 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
             {/* Section Editors */}
             {sections.map((section, index) => (
                 <Card key={section.sectionType} className="border-none shadow-sm">
-                    <CardHeader>
+                    <CardHeader className="flex flex-row items-center justify-between">
                         <CardTitle className="text-lg flex items-center gap-2">
                             <span className="text-xs text-muted-foreground font-normal">Section {index + 1}</span>
                             {SECTION_DISPLAY_NAMES[section.sectionType]}
                         </CardTitle>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            className="text-xs"
+                            onClick={() => handleGenerate(index)}
+                            disabled={generatingSection !== null}
+                        >
+                            {generatingSection === index ? (
+                                <CircleNotch className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+                            ) : (
+                                <MagicWand className="mr-1.5 h-3.5 w-3.5" />
+                            )}
+                            {generatingSection === index ? "Generating..." : "Generate with AI"}
+                        </Button>
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <div className="space-y-2">
