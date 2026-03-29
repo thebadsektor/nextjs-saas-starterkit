@@ -223,6 +223,25 @@ export async function POST(
         },
       });
 
+      // Auto-add default reviewers (Lee as reviewer, Hanna as proofreader)
+      const defaultReviewers = [
+        { email: "lee@fbmdigest.com", role: "reviewer" },
+        { email: "hanna@fbmdigest.com", role: "proofreader" },
+      ];
+      for (const reviewer of defaultReviewers) {
+        const user = await prisma.user.findFirst({ where: { email: reviewer.email } });
+        if (user && user.id !== session.user.id) {
+          await prisma.digestApproval.create({
+            data: {
+              digestId: digest.id,
+              userId: user.id,
+              role: reviewer.role,
+              approved: false,
+            },
+          }).catch(() => {}); // Skip if already exists
+        }
+      }
+
       createdDigests.push({
         digestId: digest.id,
         digestNumber: nextDigestNumber,

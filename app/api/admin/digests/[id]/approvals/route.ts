@@ -15,11 +15,18 @@ export async function POST(
 
         const { id } = await params;
         const body = await req.json();
-        const { userId, role } = body;
+        const { userId, email, role } = body;
 
-        if (!userId || !role) {
+        if (!role) {
             return NextResponse.json(
-                { error: "userId and role are required" },
+                { error: "role is required" },
+                { status: 400 }
+            );
+        }
+
+        if (!userId && !email) {
+            return NextResponse.json(
+                { error: "userId or email is required" },
                 { status: 400 }
             );
         }
@@ -30,16 +37,33 @@ export async function POST(
             return NextResponse.json({ error: "Digest not found" }, { status: 404 });
         }
 
-        // Verify the user exists
-        const user = await prisma.user.findUnique({ where: { id: userId } });
-        if (!user) {
-            return NextResponse.json({ error: "User not found" }, { status: 404 });
+        // Look up user by email or userId
+        let resolvedUserId = userId;
+        if (!resolvedUserId && email) {
+            const user = await prisma.user.findFirst({ where: { email } });
+            if (!user) {
+                return NextResponse.json({ error: `No user found with email: ${email}` }, { status: 404 });
+            }
+            resolvedUserId = user.id;
+        } else {
+            const user = await prisma.user.findUnique({ where: { id: resolvedUserId } });
+            if (!user) {
+                return NextResponse.json({ error: "User not found" }, { status: 404 });
+            }
+        }
+
+        // Check if approval already exists
+        const existing = await prisma.digestApproval.findUnique({
+            where: { digestId_userId: { digestId: id, userId: resolvedUserId } },
+        });
+        if (existing) {
+            return NextResponse.json({ error: "This user is already a reviewer on this digest" }, { status: 409 });
         }
 
         const approval = await prisma.digestApproval.create({
             data: {
                 digestId: id,
-                userId,
+                userId: resolvedUserId,
                 role,
             },
             include: {
