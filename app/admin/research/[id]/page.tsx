@@ -337,17 +337,6 @@ export default function ResearchEditorPage({ params }: { params: Promise<{ id: s
         <div className="space-y-6 max-w-4xl mx-auto">
             {/* Header */}
             <div>
-                <Breadcrumb className="mb-4">
-                    <BreadcrumbList className="text-xs">
-                        <BreadcrumbItem>
-                            <BreadcrumbLink href="/admin/research">Research</BreadcrumbLink>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                            <BreadcrumbPage>{research.name}</BreadcrumbPage>
-                        </BreadcrumbItem>
-                    </BreadcrumbList>
-                </Breadcrumb>
                 <h1 className="text-2xl font-bold tracking-tight">{research.name}</h1>
                 <p className="text-muted-foreground text-xs">{research.description || "Research configuration"}</p>
             </div>

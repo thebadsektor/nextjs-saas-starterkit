@@ -436,17 +436,6 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
         <div className="space-y-6 max-w-4xl mx-auto">
             {/* Header */}
             <div>
-                <Breadcrumb className="mb-4">
-                    <BreadcrumbList className="text-xs">
-                        <BreadcrumbItem>
-                            <BreadcrumbLink href="/admin/digests">Digests</BreadcrumbLink>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                            <BreadcrumbPage>{digest.title || `Digest #${digest.digestNumber} — ${DAY_LABELS[digest.publishDay] ?? digest.publishDay}`}</BreadcrumbPage>
-                        </BreadcrumbItem>
-                    </BreadcrumbList>
-                </Breadcrumb>
                 <div className="flex items-center gap-3">
                     <h1 className="text-2xl font-bold tracking-tight">
                         Digest #{digest.digestNumber} &mdash; {DAY_LABELS[digest.publishDay] ?? digest.publishDay}
