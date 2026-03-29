@@ -65,6 +65,17 @@ export async function POST(
                 const result = await generateForArticle(article, topic, context);
                 results.push(result);
             }
+
+            // After generating all articles, update statuses
+            await prisma.articleSet.update({
+                where: { id: digest.articleSet.id },
+                data: { status: "GENERATED" },
+            });
+            await prisma.digest.update({
+                where: { id },
+                data: { status: "IN_REVIEW" },
+            });
+
             return NextResponse.json({ articles: results });
         }
 

@@ -45,6 +45,28 @@ export async function PATCH(
             },
         });
 
+        // Auto-transition digest status based on approvals
+        const allApprovals = await prisma.digestApproval.findMany({
+            where: { digestId: approval.digestId },
+        });
+        const allApproved = allApprovals.length > 0 && allApprovals.every(a => a.approved);
+
+        const digest = await prisma.digest.findUnique({
+            where: { id: approval.digestId },
+        });
+
+        if (allApproved && digest && ["DRAFT", "IN_REVIEW"].includes(digest.status)) {
+            await prisma.digest.update({
+                where: { id: approval.digestId },
+                data: { status: "APPROVED" },
+            });
+        } else if (!allApproved && digest && digest.status === "APPROVED") {
+            await prisma.digest.update({
+                where: { id: approval.digestId },
+                data: { status: "IN_REVIEW" },
+            });
+        }
+
         return NextResponse.json(approval);
     } catch (error) {
         console.error("Failed to update approval:", error);

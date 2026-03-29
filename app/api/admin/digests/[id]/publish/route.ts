@@ -73,6 +73,39 @@ export async function POST(
             },
         });
 
+        // Append finding titles to KnowledgeBase.previousTopics
+        const publishedDigest = await prisma.digest.findUnique({
+            where: { id },
+            include: {
+                articleSet: {
+                    include: {
+                        articles: {
+                            include: { finding: true },
+                        },
+                        run: {
+                            include: { research: { include: { knowledgeBase: true } } },
+                        },
+                    },
+                },
+            },
+        });
+
+        if (publishedDigest?.articleSet?.run?.research?.knowledgeBase) {
+            const kb = publishedDigest.articleSet.run.research.knowledgeBase;
+            const findingTitles = publishedDigest.articleSet.articles
+                .filter(a => a.finding)
+                .map(a => a.finding!.title);
+
+            if (findingTitles.length > 0) {
+                await prisma.knowledgeBase.update({
+                    where: { id: kb.id },
+                    data: {
+                        previousTopics: [...kb.previousTopics, ...findingTitles],
+                    },
+                });
+            }
+        }
+
         return NextResponse.json(published);
     } catch (error) {
         console.error("Failed to publish digest:", error);

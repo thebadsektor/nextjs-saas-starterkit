@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, use } from "react"
+import { useState, useEffect, use, Fragment } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { useSession } from "@/lib/auth-client"
@@ -42,10 +42,13 @@ import {
     CaretRight,
     CheckCircle,
     X,
+    ArrowRight,
+    Newspaper,
 } from "@phosphor-icons/react"
 
 type ResearchRunStatus = "PENDING" | "RUNNING" | "COMPLETED" | "FAILED" | "PARTIAL"
 type ResearchPromptType = "RESEARCH" | "WRITING"
+type DigestStatus = "DRAFT" | "REVIEW" | "APPROVED" | "PUBLISHED" | "ARCHIVED"
 
 interface SectionTemplate {
     id: string
@@ -86,8 +89,16 @@ interface ResearchRun {
     completedAt: string | null
     error: string | null
     findings: ResearchFinding[]
-    _count?: { findings: number }
+    _count?: { findings: number; articleSets: number }
     createdAt: string
+}
+
+interface RunDigest {
+    id: string
+    digestNumber: number
+    publishDay: string
+    publishDate: string
+    status: DigestStatus
 }
 
 interface KnowledgeBase {
@@ -119,6 +130,14 @@ const RUN_STATUS_BADGE: Record<ResearchRunStatus, { label: string; className: st
     PARTIAL: { label: "Partial", className: "border-yellow-500/30 bg-yellow-50 text-yellow-700 dark:bg-yellow-500/10 dark:text-yellow-400" },
 }
 
+const DIGEST_STATUS_BADGE: Record<DigestStatus, { label: string; className: string }> = {
+    DRAFT: { label: "Draft", className: "border-gray-400/30 bg-gray-50 text-gray-600 dark:bg-gray-500/10 dark:text-gray-400" },
+    REVIEW: { label: "Review", className: "border-blue-500/30 bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400" },
+    APPROVED: { label: "Approved", className: "border-purple-500/30 bg-purple-50 text-purple-700 dark:bg-purple-500/10 dark:text-purple-400" },
+    PUBLISHED: { label: "Published", className: "border-green-500/30 bg-green-50 text-green-700 dark:bg-green-500/10 dark:text-green-400" },
+    ARCHIVED: { label: "Archived", className: "border-yellow-500/30 bg-yellow-50 text-yellow-700 dark:bg-yellow-500/10 dark:text-yellow-400" },
+}
+
 export default function ResearchEditorPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params)
     const { data: session, isPending } = useSession()
@@ -146,6 +165,9 @@ export default function ResearchEditorPage({ params }: { params: Promise<{ id: s
 
     // Run history expanded state
     const [expandedRun, setExpandedRun] = useState<string | null>(null)
+
+    // Digests created per run (keyed by run id)
+    const [runDigests, setRunDigests] = useState<Record<string, RunDigest[]>>({})
 
     const fetchResearch = async () => {
         setLoading(true)
@@ -235,7 +257,15 @@ export default function ResearchEditorPage({ params }: { params: Promise<{ id: s
                 throw new Error(data.error || "Failed to trigger run")
             }
 
-            toast.success("Research run triggered (PENDING)")
+            const data = await res.json()
+            const digestCount = data.digests?.length ?? 0
+
+            // Store digests for this run
+            if (data.run?.id && data.digests) {
+                setRunDigests((prev) => ({ ...prev, [data.run.id]: data.digests }))
+            }
+
+            toast.success(`Research complete — ${digestCount} digest${digestCount !== 1 ? "s" : ""} created`)
             await fetchResearch()
         } catch (error: any) {
             toast.error(error.message || "Failed to trigger research run")
@@ -641,94 +671,152 @@ export default function ResearchEditorPage({ params }: { params: Promise<{ id: s
                     <CardTitle className="text-lg">Run History</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    {research.runs.length === 0 ? (
+                    {(!research.runs || research.runs.length === 0) ? (
                         <p className="text-xs text-muted-foreground">No runs yet. Trigger a research run to get started.</p>
                     ) : (
-                        <div className="rounded-md border border-muted/50 overflow-hidden">
-                            <Table>
-                                <TableHeader className="bg-muted/30 text-xs">
-                                    <TableRow>
-                                        <TableHead className="w-[30px]"></TableHead>
-                                        <TableHead>Status</TableHead>
-                                        <TableHead>Window</TableHead>
-                                        <TableHead>Findings</TableHead>
-                                        <TableHead>Started</TableHead>
-                                        <TableHead>Completed</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody className="text-xs">
-                                    {research.runs.map((run) => {
-                                        const statusCfg = RUN_STATUS_BADGE[run.status]
-                                        const isExpanded = expandedRun === run.id
-                                        const findingsCount = run._count?.findings ?? run.findings?.length ?? 0
+                        <div className="space-y-0">
+                            <div className="rounded-md border border-muted/50 overflow-hidden">
+                                <Table>
+                                    <TableHeader className="bg-muted/30 text-xs">
+                                        <TableRow>
+                                            <TableHead className="w-[30px]"></TableHead>
+                                            <TableHead>Status</TableHead>
+                                            <TableHead>Date</TableHead>
+                                            <TableHead>Findings</TableHead>
+                                            <TableHead>Digests</TableHead>
+                                            <TableHead></TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody className="text-xs">
+                                        {research.runs.map((run) => {
+                                            const statusCfg = RUN_STATUS_BADGE[run.status]
+                                            const isExpanded = expandedRun === run.id
+                                            const findingsCount = run._count?.findings ?? run.findings?.length ?? 0
+                                            const articleSetsCount = run._count?.articleSets ?? 0
 
-                                        return (
-                                            <TableRow key={run.id} className="cursor-pointer" onClick={() => setExpandedRun(isExpanded ? null : run.id)}>
-                                                <TableCell>
-                                                    {isExpanded
-                                                        ? <CaretDown className="h-3 w-3 text-muted-foreground" />
-                                                        : <CaretRight className="h-3 w-3 text-muted-foreground" />
-                                                    }
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Badge variant="outline" className={`text-[10px] py-0 px-1.5 font-normal ${statusCfg.className}`}>
-                                                        {statusCfg.label}
-                                                    </Badge>
-                                                </TableCell>
-                                                <TableCell>{run.searchWindowDays}d</TableCell>
-                                                <TableCell>{findingsCount}</TableCell>
-                                                <TableCell className="text-muted-foreground">
-                                                    {run.startedAt ? new Date(run.startedAt).toLocaleString() : "--"}
-                                                </TableCell>
-                                                <TableCell className="text-muted-foreground">
-                                                    {run.completedAt ? new Date(run.completedAt).toLocaleString() : "--"}
-                                                </TableCell>
-                                            </TableRow>
-                                        )
-                                    })}
-                                </TableBody>
-                            </Table>
-
-                            {/* Expanded findings for selected run */}
-                            {expandedRun && (() => {
-                                const run = research.runs.find((r) => r.id === expandedRun)
-                                if (!run || !run.findings || run.findings.length === 0) return null
-                                return (
-                                    <div className="border-t border-muted/50 p-3 bg-muted/5">
-                                        <p className="text-xs font-medium mb-2">Findings ({run.findings.length})</p>
-                                        <div className="space-y-2">
-                                            {run.findings.map((finding) => (
-                                                <div key={finding.id} className="rounded-md border border-muted/50 p-2 bg-background">
-                                                    <div className="flex items-center gap-2 mb-1">
-                                                        <span className="text-[10px] text-muted-foreground">#{finding.order}</span>
-                                                        <Badge variant="outline" className="text-[10px] py-0 px-1.5 font-normal">
-                                                            {finding.category}
-                                                        </Badge>
-                                                        <span className="text-xs font-medium flex-1 truncate">{finding.title}</span>
-                                                        {finding.used && (
-                                                            <Badge variant="outline" className="text-[10px] py-0 px-1.5 font-normal border-green-500/30 bg-green-50 text-green-700 dark:bg-green-500/10 dark:text-green-400">
-                                                                <CheckCircle className="h-2.5 w-2.5 mr-0.5" weight="fill" />
-                                                                Used
+                                            return (
+                                                <Fragment key={run.id}>
+                                                    <TableRow
+                                                        className="cursor-pointer hover:bg-muted/20"
+                                                        onClick={() => setExpandedRun(isExpanded ? null : run.id)}
+                                                    >
+                                                        <TableCell>
+                                                            {isExpanded
+                                                                ? <CaretDown className="h-3 w-3 text-muted-foreground" />
+                                                                : <CaretRight className="h-3 w-3 text-muted-foreground" />
+                                                            }
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <Badge variant="outline" className={`text-[10px] py-0 px-1.5 font-normal ${statusCfg.className}`}>
+                                                                {statusCfg.label}
                                                             </Badge>
-                                                        )}
-                                                    </div>
-                                                    <p className="text-xs text-muted-foreground line-clamp-2">{finding.summary}</p>
-                                                    {finding.sourceUrl && (
-                                                        <p className="text-[10px] text-blue-600 mt-1 truncate">
-                                                            {finding.sourceTitle || finding.sourceUrl}
-                                                        </p>
+                                                        </TableCell>
+                                                        <TableCell className="text-muted-foreground">
+                                                            {run.startedAt ? new Date(run.startedAt).toLocaleString() : run.createdAt ? new Date(run.createdAt).toLocaleString() : "--"}
+                                                        </TableCell>
+                                                        <TableCell>{findingsCount}</TableCell>
+                                                        <TableCell>{articleSetsCount}</TableCell>
+                                                        <TableCell className="text-right">
+                                                            {run.status === "COMPLETED" && (
+                                                                <Link
+                                                                    href="/admin/digests"
+                                                                    onClick={(e) => e.stopPropagation()}
+                                                                    className="text-[10px] text-primary hover:underline inline-flex items-center gap-0.5"
+                                                                >
+                                                                    View Digests
+                                                                    <ArrowRight className="h-2.5 w-2.5" />
+                                                                </Link>
+                                                            )}
+                                                        </TableCell>
+                                                    </TableRow>
+
+                                                    {/* Expanded content */}
+                                                    {isExpanded && (
+                                                        <TableRow>
+                                                            <TableCell colSpan={6} className="p-0">
+                                                                <div className="border-t border-muted/50 p-3 bg-muted/5">
+                                                                    {/* Error */}
+                                                                    {run.error && (
+                                                                        <div className="mb-3 rounded-md border border-red-200/50 p-2 bg-red-50/50 dark:bg-red-500/5">
+                                                                            <p className="text-xs text-red-700 dark:text-red-400">{run.error}</p>
+                                                                        </div>
+                                                                    )}
+
+                                                                    {/* Findings */}
+                                                                    {run.findings && run.findings.length > 0 ? (
+                                                                        <div>
+                                                                            <p className="text-xs font-medium mb-2">Findings ({run.findings.length})</p>
+                                                                            <div className="space-y-2">
+                                                                                {run.findings.map((finding) => (
+                                                                                    <div key={finding.id} className="rounded-md border border-muted/50 p-2 bg-background">
+                                                                                        <div className="flex items-center gap-2 mb-1">
+                                                                                            <span className="text-[10px] text-muted-foreground">#{finding.order}</span>
+                                                                                            <Badge variant="outline" className="text-[10px] py-0 px-1.5 font-normal">
+                                                                                                {finding.category}
+                                                                                            </Badge>
+                                                                                            <span className="text-xs font-medium flex-1 truncate">{finding.title}</span>
+                                                                                            {finding.used && (
+                                                                                                <Badge variant="outline" className="text-[10px] py-0 px-1.5 font-normal border-green-500/30 bg-green-50 text-green-700 dark:bg-green-500/10 dark:text-green-400">
+                                                                                                    <CheckCircle className="h-2.5 w-2.5 mr-0.5" weight="fill" />
+                                                                                                    Used
+                                                                                                </Badge>
+                                                                                            )}
+                                                                                        </div>
+                                                                                        <p className="text-xs text-muted-foreground line-clamp-2">{finding.summary}</p>
+                                                                                        {finding.sourceUrl && (
+                                                                                            <p className="text-[10px] text-blue-600 mt-1 truncate">
+                                                                                                {finding.sourceTitle || finding.sourceUrl}
+                                                                                            </p>
+                                                                                        )}
+                                                                                    </div>
+                                                                                ))}
+                                                                            </div>
+                                                                        </div>
+                                                                    ) : (
+                                                                        <p className="text-xs text-muted-foreground">No findings for this run.</p>
+                                                                    )}
+
+                                                                    {/* Digests created from this run */}
+                                                                    {runDigests[run.id] && runDigests[run.id].length > 0 && (
+                                                                        <div className="mt-3 pt-3 border-t border-muted/50">
+                                                                            <p className="text-xs font-medium mb-2 flex items-center gap-1.5">
+                                                                                <Newspaper className="h-3 w-3" />
+                                                                                Digests created from this run:
+                                                                            </p>
+                                                                            <div className="space-y-1.5">
+                                                                                {runDigests[run.id].map((digest) => {
+                                                                                    const digestStatusCfg = DIGEST_STATUS_BADGE[digest.status] ?? DIGEST_STATUS_BADGE.DRAFT
+                                                                                    return (
+                                                                                        <div key={digest.id} className="flex items-center gap-2 rounded-md border border-muted/50 p-2 bg-background">
+                                                                                            <span className="text-xs font-medium">#{digest.digestNumber}</span>
+                                                                                            <span className="text-xs text-muted-foreground">{digest.publishDay}</span>
+                                                                                            <Badge variant="outline" className={`text-[10px] py-0 px-1.5 font-normal ${digestStatusCfg.className}`}>
+                                                                                                {digestStatusCfg.label}
+                                                                                            </Badge>
+                                                                                            <span className="flex-1" />
+                                                                                            <Link
+                                                                                                href={`/admin/digests/${digest.id}`}
+                                                                                                className="text-[10px] text-primary hover:underline inline-flex items-center gap-0.5"
+                                                                                            >
+                                                                                                View
+                                                                                                <ArrowRight className="h-2.5 w-2.5" />
+                                                                                            </Link>
+                                                                                        </div>
+                                                                                    )
+                                                                                })}
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                            </TableCell>
+                                                        </TableRow>
                                                     )}
-                                                </div>
-                                            ))}
-                                        </div>
-                                        {run.error && (
-                                            <div className="mt-2 rounded-md border border-red-200/50 p-2 bg-red-50/50 dark:bg-red-500/5">
-                                                <p className="text-xs text-red-700 dark:text-red-400">{run.error}</p>
-                                            </div>
-                                        )}
-                                    </div>
-                                )
-                            })()}
+                                                </Fragment>
+                                            )
+                                        })}
+                                    </TableBody>
+                                </Table>
+                            </div>
                         </div>
                     )}
                 </CardContent>
