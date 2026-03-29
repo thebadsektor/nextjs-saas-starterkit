@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { Toaster } from "sonner";
 
 const nunitoSans = Nunito_Sans({ variable: '--font-sans' });
 
@@ -43,6 +44,7 @@ export default function RootLayout({
             <AppLayout>
               {children}
             </AppLayout>
+            <Toaster richColors position="top-right" />
           </ThemeProvider>
         </Providers>
       </body>
