@@ -32,6 +32,9 @@ export async function GET(
                         findings: {
                             orderBy: { order: "asc" },
                         },
+                        _count: {
+                            select: { findings: true, articleSets: true },
+                        },
                     },
                 },
             },

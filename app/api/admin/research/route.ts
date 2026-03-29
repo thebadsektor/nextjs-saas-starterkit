@@ -10,20 +10,31 @@ export async function GET() {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const researches = await prisma.research.findMany({
-            orderBy: { createdAt: "desc" },
-            include: {
-                knowledgeBase: true,
-                sectionTemplates: {
-                    orderBy: { order: "asc" },
+        const [researches, totalConfigs, activeRuns, totalFindings] = await Promise.all([
+            prisma.research.findMany({
+                orderBy: { createdAt: "desc" },
+                include: {
+                    knowledgeBase: true,
+                    sectionTemplates: {
+                        orderBy: { order: "asc" },
+                    },
+                    prompts: {
+                        orderBy: { createdAt: "desc" },
+                    },
+                    _count: {
+                        select: { sectionTemplates: true, runs: true },
+                    },
                 },
-                prompts: {
-                    orderBy: { createdAt: "desc" },
-                },
-            },
-        });
+            }),
+            prisma.research.count(),
+            prisma.researchRun.count({ where: { status: { in: ["PENDING", "RUNNING"] } } }),
+            prisma.researchFinding.count(),
+        ]);
 
-        return NextResponse.json({ researches });
+        return NextResponse.json({
+            researches,
+            stats: { totalConfigs, activeRuns, totalFindings },
+        });
     } catch (error) {
         console.error("Failed to list research configs:", error);
         return NextResponse.json({ error: "Failed to list research configs" }, { status: 500 });
