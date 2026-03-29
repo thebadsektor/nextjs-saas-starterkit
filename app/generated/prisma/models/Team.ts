@@ -185,6 +185,8 @@ export type TeamWhereInput = {
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   members?: Prisma.TeamMemberListRelationFilter
   digests?: Prisma.DigestListRelationFilter
+  knowledgeBases?: Prisma.KnowledgeBaseListRelationFilter
+  researches?: Prisma.ResearchListRelationFilter
 }
 
 export type TeamOrderByWithRelationInput = {
@@ -196,6 +198,8 @@ export type TeamOrderByWithRelationInput = {
   owner?: Prisma.UserOrderByWithRelationInput
   members?: Prisma.TeamMemberOrderByRelationAggregateInput
   digests?: Prisma.DigestOrderByRelationAggregateInput
+  knowledgeBases?: Prisma.KnowledgeBaseOrderByRelationAggregateInput
+  researches?: Prisma.ResearchOrderByRelationAggregateInput
 }
 
 export type TeamWhereUniqueInput = Prisma.AtLeast<{
@@ -210,6 +214,8 @@ export type TeamWhereUniqueInput = Prisma.AtLeast<{
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   members?: Prisma.TeamMemberListRelationFilter
   digests?: Prisma.DigestListRelationFilter
+  knowledgeBases?: Prisma.KnowledgeBaseListRelationFilter
+  researches?: Prisma.ResearchListRelationFilter
 }, "id">
 
 export type TeamOrderByWithAggregationInput = {
@@ -242,6 +248,8 @@ export type TeamCreateInput = {
   owner: Prisma.UserCreateNestedOneWithoutOwnedTeamsInput
   members?: Prisma.TeamMemberCreateNestedManyWithoutTeamInput
   digests?: Prisma.DigestCreateNestedManyWithoutTeamInput
+  knowledgeBases?: Prisma.KnowledgeBaseCreateNestedManyWithoutTeamInput
+  researches?: Prisma.ResearchCreateNestedManyWithoutTeamInput
 }
 
 export type TeamUncheckedCreateInput = {
@@ -252,6 +260,8 @@ export type TeamUncheckedCreateInput = {
   updatedAt?: Date | string
   members?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutTeamInput
   digests?: Prisma.DigestUncheckedCreateNestedManyWithoutTeamInput
+  knowledgeBases?: Prisma.KnowledgeBaseUncheckedCreateNestedManyWithoutTeamInput
+  researches?: Prisma.ResearchUncheckedCreateNestedManyWithoutTeamInput
 }
 
 export type TeamUpdateInput = {
@@ -262,6 +272,8 @@ export type TeamUpdateInput = {
   owner?: Prisma.UserUpdateOneRequiredWithoutOwnedTeamsNestedInput
   members?: Prisma.TeamMemberUpdateManyWithoutTeamNestedInput
   digests?: Prisma.DigestUpdateManyWithoutTeamNestedInput
+  knowledgeBases?: Prisma.KnowledgeBaseUpdateManyWithoutTeamNestedInput
+  researches?: Prisma.ResearchUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamUncheckedUpdateInput = {
@@ -272,6 +284,8 @@ export type TeamUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
   digests?: Prisma.DigestUncheckedUpdateManyWithoutTeamNestedInput
+  knowledgeBases?: Prisma.KnowledgeBaseUncheckedUpdateManyWithoutTeamNestedInput
+  researches?: Prisma.ResearchUncheckedUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamCreateManyInput = {
@@ -383,6 +397,38 @@ export type TeamUncheckedUpdateManyWithoutOwnerNestedInput = {
   deleteMany?: Prisma.TeamScalarWhereInput | Prisma.TeamScalarWhereInput[]
 }
 
+export type TeamCreateNestedOneWithoutKnowledgeBasesInput = {
+  create?: Prisma.XOR<Prisma.TeamCreateWithoutKnowledgeBasesInput, Prisma.TeamUncheckedCreateWithoutKnowledgeBasesInput>
+  connectOrCreate?: Prisma.TeamCreateOrConnectWithoutKnowledgeBasesInput
+  connect?: Prisma.TeamWhereUniqueInput
+}
+
+export type TeamUpdateOneWithoutKnowledgeBasesNestedInput = {
+  create?: Prisma.XOR<Prisma.TeamCreateWithoutKnowledgeBasesInput, Prisma.TeamUncheckedCreateWithoutKnowledgeBasesInput>
+  connectOrCreate?: Prisma.TeamCreateOrConnectWithoutKnowledgeBasesInput
+  upsert?: Prisma.TeamUpsertWithoutKnowledgeBasesInput
+  disconnect?: Prisma.TeamWhereInput | boolean
+  delete?: Prisma.TeamWhereInput | boolean
+  connect?: Prisma.TeamWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TeamUpdateToOneWithWhereWithoutKnowledgeBasesInput, Prisma.TeamUpdateWithoutKnowledgeBasesInput>, Prisma.TeamUncheckedUpdateWithoutKnowledgeBasesInput>
+}
+
+export type TeamCreateNestedOneWithoutResearchesInput = {
+  create?: Prisma.XOR<Prisma.TeamCreateWithoutResearchesInput, Prisma.TeamUncheckedCreateWithoutResearchesInput>
+  connectOrCreate?: Prisma.TeamCreateOrConnectWithoutResearchesInput
+  connect?: Prisma.TeamWhereUniqueInput
+}
+
+export type TeamUpdateOneWithoutResearchesNestedInput = {
+  create?: Prisma.XOR<Prisma.TeamCreateWithoutResearchesInput, Prisma.TeamUncheckedCreateWithoutResearchesInput>
+  connectOrCreate?: Prisma.TeamCreateOrConnectWithoutResearchesInput
+  upsert?: Prisma.TeamUpsertWithoutResearchesInput
+  disconnect?: Prisma.TeamWhereInput | boolean
+  delete?: Prisma.TeamWhereInput | boolean
+  connect?: Prisma.TeamWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TeamUpdateToOneWithWhereWithoutResearchesInput, Prisma.TeamUpdateWithoutResearchesInput>, Prisma.TeamUncheckedUpdateWithoutResearchesInput>
+}
+
 export type TeamCreateNestedOneWithoutDigestsInput = {
   create?: Prisma.XOR<Prisma.TeamCreateWithoutDigestsInput, Prisma.TeamUncheckedCreateWithoutDigestsInput>
   connectOrCreate?: Prisma.TeamCreateOrConnectWithoutDigestsInput
@@ -420,6 +466,8 @@ export type TeamCreateWithoutOwnerInput = {
   updatedAt?: Date | string
   members?: Prisma.TeamMemberCreateNestedManyWithoutTeamInput
   digests?: Prisma.DigestCreateNestedManyWithoutTeamInput
+  knowledgeBases?: Prisma.KnowledgeBaseCreateNestedManyWithoutTeamInput
+  researches?: Prisma.ResearchCreateNestedManyWithoutTeamInput
 }
 
 export type TeamUncheckedCreateWithoutOwnerInput = {
@@ -429,6 +477,8 @@ export type TeamUncheckedCreateWithoutOwnerInput = {
   updatedAt?: Date | string
   members?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutTeamInput
   digests?: Prisma.DigestUncheckedCreateNestedManyWithoutTeamInput
+  knowledgeBases?: Prisma.KnowledgeBaseUncheckedCreateNestedManyWithoutTeamInput
+  researches?: Prisma.ResearchUncheckedCreateNestedManyWithoutTeamInput
 }
 
 export type TeamCreateOrConnectWithoutOwnerInput = {
@@ -468,6 +518,126 @@ export type TeamScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Team"> | Date | string
 }
 
+export type TeamCreateWithoutKnowledgeBasesInput = {
+  id?: string
+  name: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutOwnedTeamsInput
+  members?: Prisma.TeamMemberCreateNestedManyWithoutTeamInput
+  digests?: Prisma.DigestCreateNestedManyWithoutTeamInput
+  researches?: Prisma.ResearchCreateNestedManyWithoutTeamInput
+}
+
+export type TeamUncheckedCreateWithoutKnowledgeBasesInput = {
+  id?: string
+  name: string
+  ownerId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutTeamInput
+  digests?: Prisma.DigestUncheckedCreateNestedManyWithoutTeamInput
+  researches?: Prisma.ResearchUncheckedCreateNestedManyWithoutTeamInput
+}
+
+export type TeamCreateOrConnectWithoutKnowledgeBasesInput = {
+  where: Prisma.TeamWhereUniqueInput
+  create: Prisma.XOR<Prisma.TeamCreateWithoutKnowledgeBasesInput, Prisma.TeamUncheckedCreateWithoutKnowledgeBasesInput>
+}
+
+export type TeamUpsertWithoutKnowledgeBasesInput = {
+  update: Prisma.XOR<Prisma.TeamUpdateWithoutKnowledgeBasesInput, Prisma.TeamUncheckedUpdateWithoutKnowledgeBasesInput>
+  create: Prisma.XOR<Prisma.TeamCreateWithoutKnowledgeBasesInput, Prisma.TeamUncheckedCreateWithoutKnowledgeBasesInput>
+  where?: Prisma.TeamWhereInput
+}
+
+export type TeamUpdateToOneWithWhereWithoutKnowledgeBasesInput = {
+  where?: Prisma.TeamWhereInput
+  data: Prisma.XOR<Prisma.TeamUpdateWithoutKnowledgeBasesInput, Prisma.TeamUncheckedUpdateWithoutKnowledgeBasesInput>
+}
+
+export type TeamUpdateWithoutKnowledgeBasesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutOwnedTeamsNestedInput
+  members?: Prisma.TeamMemberUpdateManyWithoutTeamNestedInput
+  digests?: Prisma.DigestUpdateManyWithoutTeamNestedInput
+  researches?: Prisma.ResearchUpdateManyWithoutTeamNestedInput
+}
+
+export type TeamUncheckedUpdateWithoutKnowledgeBasesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+  digests?: Prisma.DigestUncheckedUpdateManyWithoutTeamNestedInput
+  researches?: Prisma.ResearchUncheckedUpdateManyWithoutTeamNestedInput
+}
+
+export type TeamCreateWithoutResearchesInput = {
+  id?: string
+  name: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutOwnedTeamsInput
+  members?: Prisma.TeamMemberCreateNestedManyWithoutTeamInput
+  digests?: Prisma.DigestCreateNestedManyWithoutTeamInput
+  knowledgeBases?: Prisma.KnowledgeBaseCreateNestedManyWithoutTeamInput
+}
+
+export type TeamUncheckedCreateWithoutResearchesInput = {
+  id?: string
+  name: string
+  ownerId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  members?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutTeamInput
+  digests?: Prisma.DigestUncheckedCreateNestedManyWithoutTeamInput
+  knowledgeBases?: Prisma.KnowledgeBaseUncheckedCreateNestedManyWithoutTeamInput
+}
+
+export type TeamCreateOrConnectWithoutResearchesInput = {
+  where: Prisma.TeamWhereUniqueInput
+  create: Prisma.XOR<Prisma.TeamCreateWithoutResearchesInput, Prisma.TeamUncheckedCreateWithoutResearchesInput>
+}
+
+export type TeamUpsertWithoutResearchesInput = {
+  update: Prisma.XOR<Prisma.TeamUpdateWithoutResearchesInput, Prisma.TeamUncheckedUpdateWithoutResearchesInput>
+  create: Prisma.XOR<Prisma.TeamCreateWithoutResearchesInput, Prisma.TeamUncheckedCreateWithoutResearchesInput>
+  where?: Prisma.TeamWhereInput
+}
+
+export type TeamUpdateToOneWithWhereWithoutResearchesInput = {
+  where?: Prisma.TeamWhereInput
+  data: Prisma.XOR<Prisma.TeamUpdateWithoutResearchesInput, Prisma.TeamUncheckedUpdateWithoutResearchesInput>
+}
+
+export type TeamUpdateWithoutResearchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutOwnedTeamsNestedInput
+  members?: Prisma.TeamMemberUpdateManyWithoutTeamNestedInput
+  digests?: Prisma.DigestUpdateManyWithoutTeamNestedInput
+  knowledgeBases?: Prisma.KnowledgeBaseUpdateManyWithoutTeamNestedInput
+}
+
+export type TeamUncheckedUpdateWithoutResearchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  members?: Prisma.TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+  digests?: Prisma.DigestUncheckedUpdateManyWithoutTeamNestedInput
+  knowledgeBases?: Prisma.KnowledgeBaseUncheckedUpdateManyWithoutTeamNestedInput
+}
+
 export type TeamCreateWithoutDigestsInput = {
   id?: string
   name: string
@@ -475,6 +645,8 @@ export type TeamCreateWithoutDigestsInput = {
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutOwnedTeamsInput
   members?: Prisma.TeamMemberCreateNestedManyWithoutTeamInput
+  knowledgeBases?: Prisma.KnowledgeBaseCreateNestedManyWithoutTeamInput
+  researches?: Prisma.ResearchCreateNestedManyWithoutTeamInput
 }
 
 export type TeamUncheckedCreateWithoutDigestsInput = {
@@ -484,6 +656,8 @@ export type TeamUncheckedCreateWithoutDigestsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   members?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutTeamInput
+  knowledgeBases?: Prisma.KnowledgeBaseUncheckedCreateNestedManyWithoutTeamInput
+  researches?: Prisma.ResearchUncheckedCreateNestedManyWithoutTeamInput
 }
 
 export type TeamCreateOrConnectWithoutDigestsInput = {
@@ -509,6 +683,8 @@ export type TeamUpdateWithoutDigestsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutOwnedTeamsNestedInput
   members?: Prisma.TeamMemberUpdateManyWithoutTeamNestedInput
+  knowledgeBases?: Prisma.KnowledgeBaseUpdateManyWithoutTeamNestedInput
+  researches?: Prisma.ResearchUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamUncheckedUpdateWithoutDigestsInput = {
@@ -518,6 +694,8 @@ export type TeamUncheckedUpdateWithoutDigestsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+  knowledgeBases?: Prisma.KnowledgeBaseUncheckedUpdateManyWithoutTeamNestedInput
+  researches?: Prisma.ResearchUncheckedUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamCreateWithoutMembersInput = {
@@ -527,6 +705,8 @@ export type TeamCreateWithoutMembersInput = {
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutOwnedTeamsInput
   digests?: Prisma.DigestCreateNestedManyWithoutTeamInput
+  knowledgeBases?: Prisma.KnowledgeBaseCreateNestedManyWithoutTeamInput
+  researches?: Prisma.ResearchCreateNestedManyWithoutTeamInput
 }
 
 export type TeamUncheckedCreateWithoutMembersInput = {
@@ -536,6 +716,8 @@ export type TeamUncheckedCreateWithoutMembersInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   digests?: Prisma.DigestUncheckedCreateNestedManyWithoutTeamInput
+  knowledgeBases?: Prisma.KnowledgeBaseUncheckedCreateNestedManyWithoutTeamInput
+  researches?: Prisma.ResearchUncheckedCreateNestedManyWithoutTeamInput
 }
 
 export type TeamCreateOrConnectWithoutMembersInput = {
@@ -561,6 +743,8 @@ export type TeamUpdateWithoutMembersInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutOwnedTeamsNestedInput
   digests?: Prisma.DigestUpdateManyWithoutTeamNestedInput
+  knowledgeBases?: Prisma.KnowledgeBaseUpdateManyWithoutTeamNestedInput
+  researches?: Prisma.ResearchUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamUncheckedUpdateWithoutMembersInput = {
@@ -570,6 +754,8 @@ export type TeamUncheckedUpdateWithoutMembersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   digests?: Prisma.DigestUncheckedUpdateManyWithoutTeamNestedInput
+  knowledgeBases?: Prisma.KnowledgeBaseUncheckedUpdateManyWithoutTeamNestedInput
+  researches?: Prisma.ResearchUncheckedUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamCreateManyOwnerInput = {
@@ -586,6 +772,8 @@ export type TeamUpdateWithoutOwnerInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.TeamMemberUpdateManyWithoutTeamNestedInput
   digests?: Prisma.DigestUpdateManyWithoutTeamNestedInput
+  knowledgeBases?: Prisma.KnowledgeBaseUpdateManyWithoutTeamNestedInput
+  researches?: Prisma.ResearchUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamUncheckedUpdateWithoutOwnerInput = {
@@ -595,6 +783,8 @@ export type TeamUncheckedUpdateWithoutOwnerInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   members?: Prisma.TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
   digests?: Prisma.DigestUncheckedUpdateManyWithoutTeamNestedInput
+  knowledgeBases?: Prisma.KnowledgeBaseUncheckedUpdateManyWithoutTeamNestedInput
+  researches?: Prisma.ResearchUncheckedUpdateManyWithoutTeamNestedInput
 }
 
 export type TeamUncheckedUpdateManyWithoutOwnerInput = {
@@ -612,11 +802,15 @@ export type TeamUncheckedUpdateManyWithoutOwnerInput = {
 export type TeamCountOutputType = {
   members: number
   digests: number
+  knowledgeBases: number
+  researches: number
 }
 
 export type TeamCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   members?: boolean | TeamCountOutputTypeCountMembersArgs
   digests?: boolean | TeamCountOutputTypeCountDigestsArgs
+  knowledgeBases?: boolean | TeamCountOutputTypeCountKnowledgeBasesArgs
+  researches?: boolean | TeamCountOutputTypeCountResearchesArgs
 }
 
 /**
@@ -643,6 +837,20 @@ export type TeamCountOutputTypeCountDigestsArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.DigestWhereInput
 }
 
+/**
+ * TeamCountOutputType without action
+ */
+export type TeamCountOutputTypeCountKnowledgeBasesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.KnowledgeBaseWhereInput
+}
+
+/**
+ * TeamCountOutputType without action
+ */
+export type TeamCountOutputTypeCountResearchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ResearchWhereInput
+}
+
 
 export type TeamSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -653,6 +861,8 @@ export type TeamSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   members?: boolean | Prisma.Team$membersArgs<ExtArgs>
   digests?: boolean | Prisma.Team$digestsArgs<ExtArgs>
+  knowledgeBases?: boolean | Prisma.Team$knowledgeBasesArgs<ExtArgs>
+  researches?: boolean | Prisma.Team$researchesArgs<ExtArgs>
   _count?: boolean | Prisma.TeamCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["team"]>
 
@@ -687,6 +897,8 @@ export type TeamInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   members?: boolean | Prisma.Team$membersArgs<ExtArgs>
   digests?: boolean | Prisma.Team$digestsArgs<ExtArgs>
+  knowledgeBases?: boolean | Prisma.Team$knowledgeBasesArgs<ExtArgs>
+  researches?: boolean | Prisma.Team$researchesArgs<ExtArgs>
   _count?: boolean | Prisma.TeamCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TeamIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -702,6 +914,8 @@ export type $TeamPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     owner: Prisma.$UserPayload<ExtArgs>
     members: Prisma.$TeamMemberPayload<ExtArgs>[]
     digests: Prisma.$DigestPayload<ExtArgs>[]
+    knowledgeBases: Prisma.$KnowledgeBasePayload<ExtArgs>[]
+    researches: Prisma.$ResearchPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1106,6 +1320,8 @@ export interface Prisma__TeamClient<T, Null = never, ExtArgs extends runtime.Typ
   owner<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   members<T extends Prisma.Team$membersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Team$membersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   digests<T extends Prisma.Team$digestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Team$digestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DigestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  knowledgeBases<T extends Prisma.Team$knowledgeBasesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Team$knowledgeBasesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$KnowledgeBasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  researches<T extends Prisma.Team$researchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Team$researchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ResearchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1581,6 +1797,54 @@ export type Team$digestsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.DigestScalarFieldEnum | Prisma.DigestScalarFieldEnum[]
+}
+
+/**
+ * Team.knowledgeBases
+ */
+export type Team$knowledgeBasesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the KnowledgeBase
+   */
+  select?: Prisma.KnowledgeBaseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the KnowledgeBase
+   */
+  omit?: Prisma.KnowledgeBaseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KnowledgeBaseInclude<ExtArgs> | null
+  where?: Prisma.KnowledgeBaseWhereInput
+  orderBy?: Prisma.KnowledgeBaseOrderByWithRelationInput | Prisma.KnowledgeBaseOrderByWithRelationInput[]
+  cursor?: Prisma.KnowledgeBaseWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.KnowledgeBaseScalarFieldEnum | Prisma.KnowledgeBaseScalarFieldEnum[]
+}
+
+/**
+ * Team.researches
+ */
+export type Team$researchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Research
+   */
+  select?: Prisma.ResearchSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Research
+   */
+  omit?: Prisma.ResearchOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ResearchInclude<ExtArgs> | null
+  where?: Prisma.ResearchWhereInput
+  orderBy?: Prisma.ResearchOrderByWithRelationInput | Prisma.ResearchOrderByWithRelationInput[]
+  cursor?: Prisma.ResearchWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ResearchScalarFieldEnum | Prisma.ResearchScalarFieldEnum[]
 }
 
 /**

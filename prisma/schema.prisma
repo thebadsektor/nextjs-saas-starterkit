@@ -240,20 +240,143 @@ enum DigestStatus {
   FAILED
 }
 
-enum SectionType {
-  EXPERT_TIP
-  MARKETING_TIP
-  COMMUNITY_SPOTLIGHT
-  FUNNEL_OF_THE_WEEK
-  FOOD_FOR_THOUGHT
+enum ArticleSetStatus {
+  EMPTY
+  GENERATING
+  GENERATED
+  EDITED
 }
 
-enum SourceType {
-  RSS
-  SOCIAL
-  NEWSLETTER
-  MANUAL
+enum ArticleStatus {
+  EMPTY
+  GENERATED
+  EDITED
+  APPROVED
 }
+
+enum ResearchRunStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+  PARTIAL
+}
+
+enum ResearchPromptType {
+  RESEARCH
+  WRITING
+}
+
+// ── Knowledge Base ────────────────────────────────────────────
+
+model KnowledgeBase {
+  id             String     @id @default(cuid())
+  teamId         String?
+  team           Team?      @relation(fields: [teamId], references: [id])
+  name           String
+  brandVoice     String     @db.Text
+  sourceUrls     String[]   @default([])
+  previousTopics String[]   @default([])
+  researches     Research[]
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  @@map("knowledge_base")
+}
+
+// ── Research Pipeline ─────────────────────────────────────────
+
+model Research {
+  id               String            @id @default(cuid())
+  teamId           String?
+  team             Team?             @relation(fields: [teamId], references: [id])
+  knowledgeBaseId  String
+  knowledgeBase    KnowledgeBase     @relation(fields: [knowledgeBaseId], references: [id])
+  name             String
+  description      String?
+  searchWindowDays Int               @default(10)
+  minFindings      Int               @default(15)
+  reRunOnFailure   Boolean           @default(true)
+  sectionTemplates SectionTemplate[]
+  prompts          ResearchPrompt[]
+  runs             ResearchRun[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  @@map("research")
+}
+
+model SectionTemplate {
+  id              String    @id @default(cuid())
+  researchId      String
+  research        Research  @relation(fields: [researchId], references: [id], onDelete: Cascade)
+  name            String
+  key             String
+  description     String?
+  order           Int
+  findingCategory String
+  promptTemplate  String    @db.Text
+  isActive        Boolean   @default(true)
+  articles        Article[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([researchId, key])
+  @@map("section_template")
+}
+
+model ResearchPrompt {
+  id         String             @id @default(cuid())
+  researchId String
+  research   Research           @relation(fields: [researchId], references: [id], onDelete: Cascade)
+  type       ResearchPromptType
+  name       String
+  content    String             @db.Text
+  isActive   Boolean            @default(true)
+  version    Int                @default(1)
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+
+  @@map("research_prompt")
+}
+
+model ResearchRun {
+  id               String            @id @default(cuid())
+  researchId       String
+  research         Research          @relation(fields: [researchId], references: [id], onDelete: Cascade)
+  status           ResearchRunStatus @default(PENDING)
+  promptUsed       String?           @db.Text
+  searchWindowDays Int
+  startedAt        DateTime?
+  completedAt      DateTime?
+  findings         ResearchFinding[]
+  articleSets      ArticleSet[]
+  error            String?           @db.Text
+  createdAt        DateTime          @default(now())
+
+  @@index([status])
+  @@map("research_run")
+}
+
+model ResearchFinding {
+  id          String      @id @default(cuid())
+  runId       String
+  run         ResearchRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+  order       Int
+  category    String
+  title       String
+  summary     String      @db.Text
+  sourceUrl   String
+  sourceTitle String?
+  sourceDate  DateTime?
+  used        Boolean     @default(false)
+  article     Article?
+  createdAt   DateTime    @default(now())
+
+  @@map("research_finding")
+}
+
+// ── Digest & Articles ─────────────────────────────────────────
 
 model Digest {
   id             String       @id @default(cuid())
@@ -269,9 +392,7 @@ model Digest {
   clickFunnelsId String?
   teamId         String?
   team           Team?        @relation(fields: [teamId], references: [id])
-  sections       DigestSection[]
-  topics         DigestTopic[]
-  stagedContent  StagedContent[]
+  articleSet     ArticleSet?
   approvals      DigestApproval[]
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
@@ -283,62 +404,55 @@ model Digest {
   @@map("digest")
 }
 
-model DigestSection {
-  id          String      @id @default(cuid())
-  digestId    String
-  digest      Digest      @relation(fields: [digestId], references: [id], onDelete: Cascade)
-  sectionType SectionType
-  order       Int
-  heading     String?
-  body        String?     @db.Text
-  sourceUrl   String?
-  sourceTitle String?
-  sourceDate  DateTime?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+model ArticleSet {
+  id        String           @id @default(cuid())
+  runId     String?
+  run       ResearchRun?     @relation(fields: [runId], references: [id])
+  digestId  String           @unique
+  digest    Digest           @relation(fields: [digestId], references: [id], onDelete: Cascade)
+  status    ArticleSetStatus @default(EMPTY)
+  articles  Article[]
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
 
-  @@unique([digestId, sectionType])
-  @@map("digest_section")
+  @@map("article_set")
 }
 
-model DigestTopic {
-  id        String   @id @default(cuid())
-  title     String
-  digestId  String
-  digest    Digest   @relation(fields: [digestId], references: [id], onDelete: Cascade)
-  weekOf    DateTime
-  createdAt DateTime @default(now())
+model Article {
+  id                String           @id @default(cuid())
+  articleSetId      String
+  articleSet        ArticleSet       @relation(fields: [articleSetId], references: [id], onDelete: Cascade)
+  sectionTemplateId String?
+  sectionTemplate   SectionTemplate? @relation(fields: [sectionTemplateId], references: [id])
+  order             Int
+  heading           String?
+  body              String?          @db.Text
+  sourceUrl         String?
+  sourceTitle       String?
+  sourceDate        DateTime?
+  findingId         String?          @unique
+  finding           ResearchFinding? @relation(fields: [findingId], references: [id])
+  status            ArticleStatus    @default(EMPTY)
+  generatedAt       DateTime?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
 
-  @@map("digest_topic")
+  @@unique([articleSetId, sectionTemplateId])
+  @@map("article")
 }
 
-model StagedContent {
-  id          String     @id @default(cuid())
-  title       String
-  summary     String     @db.Text
-  sourceUrl   String
-  sourceName  String
-  sourceType  SourceType
-  category    String?
-  publishedAt DateTime?
-  used        Boolean    @default(false)
-  digestId    String?
-  digest      Digest?    @relation(fields: [digestId], references: [id], onDelete: SetNull)
-  createdAt   DateTime   @default(now())
-
-  @@index([used])
-  @@index([sourceType])
-  @@map("staged_content")
-}
+// ── Teams & Approvals ─────────────────────────────────────────
 
 model Team {
   id        String       @id @default(cuid())
   name      String
   ownerId   String
   owner     User         @relation("TeamOwner", fields: [ownerId], references: [id])
-  members   TeamMember[]
-  digests   Digest[]
-  createdAt DateTime     @default(now())
+  members        TeamMember[]
+  digests        Digest[]
+  knowledgeBases KnowledgeBase[]
+  researches     Research[]
+  createdAt      DateTime        @default(now())
   updatedAt DateTime     @updatedAt
 
   @@map("team")

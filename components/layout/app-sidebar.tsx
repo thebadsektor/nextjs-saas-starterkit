@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { navigationConfig } from "@/config/navigation";
 import { useSession } from "@/lib/auth-client";
-import { BookOpen, ChatCircleText, House, Shield, SquaresFour, CaretUpDown, Newspaper } from "@phosphor-icons/react";
+import { BookOpen, ChatCircleText, House, Shield, SquaresFour, CaretUpDown, Newspaper, Flask, CalendarBlank } from "@phosphor-icons/react";
 import { saasMeta } from "@/lib/constants";
 import {
     Sidebar,
@@ -91,6 +91,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                     <Link href="/admin/digests">
                                         <Newspaper size={20} />
                                         <span>Digests</span>
+                                    </Link>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton asChild tooltip="Research">
+                                    <Link href="/admin/research">
+                                        <Flask size={20} />
+                                        <span>Research</span>
+                                    </Link>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton asChild tooltip="Schedule">
+                                    <Link href="/admin/schedule">
+                                        <CalendarBlank size={20} />
+                                        <span>Schedule</span>
                                     </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>

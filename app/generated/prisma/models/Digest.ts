@@ -297,9 +297,7 @@ export type DigestWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Digest"> | Date | string
   publishedAt?: Prisma.DateTimeNullableFilter<"Digest"> | Date | string | null
   team?: Prisma.XOR<Prisma.TeamNullableScalarRelationFilter, Prisma.TeamWhereInput> | null
-  sections?: Prisma.DigestSectionListRelationFilter
-  topics?: Prisma.DigestTopicListRelationFilter
-  stagedContent?: Prisma.StagedContentListRelationFilter
+  articleSet?: Prisma.XOR<Prisma.ArticleSetNullableScalarRelationFilter, Prisma.ArticleSetWhereInput> | null
   approvals?: Prisma.DigestApprovalListRelationFilter
 }
 
@@ -320,9 +318,7 @@ export type DigestOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   team?: Prisma.TeamOrderByWithRelationInput
-  sections?: Prisma.DigestSectionOrderByRelationAggregateInput
-  topics?: Prisma.DigestTopicOrderByRelationAggregateInput
-  stagedContent?: Prisma.StagedContentOrderByRelationAggregateInput
+  articleSet?: Prisma.ArticleSetOrderByWithRelationInput
   approvals?: Prisma.DigestApprovalOrderByRelationAggregateInput
 }
 
@@ -346,9 +342,7 @@ export type DigestWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Digest"> | Date | string
   publishedAt?: Prisma.DateTimeNullableFilter<"Digest"> | Date | string | null
   team?: Prisma.XOR<Prisma.TeamNullableScalarRelationFilter, Prisma.TeamWhereInput> | null
-  sections?: Prisma.DigestSectionListRelationFilter
-  topics?: Prisma.DigestTopicListRelationFilter
-  stagedContent?: Prisma.StagedContentListRelationFilter
+  articleSet?: Prisma.XOR<Prisma.ArticleSetNullableScalarRelationFilter, Prisma.ArticleSetWhereInput> | null
   approvals?: Prisma.DigestApprovalListRelationFilter
 }, "id" | "digestNumber">
 
@@ -412,9 +406,7 @@ export type DigestCreateInput = {
   updatedAt?: Date | string
   publishedAt?: Date | string | null
   team?: Prisma.TeamCreateNestedOneWithoutDigestsInput
-  sections?: Prisma.DigestSectionCreateNestedManyWithoutDigestInput
-  topics?: Prisma.DigestTopicCreateNestedManyWithoutDigestInput
-  stagedContent?: Prisma.StagedContentCreateNestedManyWithoutDigestInput
+  articleSet?: Prisma.ArticleSetCreateNestedOneWithoutDigestInput
   approvals?: Prisma.DigestApprovalCreateNestedManyWithoutDigestInput
 }
 
@@ -434,9 +426,7 @@ export type DigestUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
-  sections?: Prisma.DigestSectionUncheckedCreateNestedManyWithoutDigestInput
-  topics?: Prisma.DigestTopicUncheckedCreateNestedManyWithoutDigestInput
-  stagedContent?: Prisma.StagedContentUncheckedCreateNestedManyWithoutDigestInput
+  articleSet?: Prisma.ArticleSetUncheckedCreateNestedOneWithoutDigestInput
   approvals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutDigestInput
 }
 
@@ -456,9 +446,7 @@ export type DigestUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   team?: Prisma.TeamUpdateOneWithoutDigestsNestedInput
-  sections?: Prisma.DigestSectionUpdateManyWithoutDigestNestedInput
-  topics?: Prisma.DigestTopicUpdateManyWithoutDigestNestedInput
-  stagedContent?: Prisma.StagedContentUpdateManyWithoutDigestNestedInput
+  articleSet?: Prisma.ArticleSetUpdateOneWithoutDigestNestedInput
   approvals?: Prisma.DigestApprovalUpdateManyWithoutDigestNestedInput
 }
 
@@ -478,9 +466,7 @@ export type DigestUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sections?: Prisma.DigestSectionUncheckedUpdateManyWithoutDigestNestedInput
-  topics?: Prisma.DigestTopicUncheckedUpdateManyWithoutDigestNestedInput
-  stagedContent?: Prisma.StagedContentUncheckedUpdateManyWithoutDigestNestedInput
+  articleSet?: Prisma.ArticleSetUncheckedUpdateOneWithoutDigestNestedInput
   approvals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutDigestNestedInput
 }
 
@@ -604,11 +590,6 @@ export type DigestScalarRelationFilter = {
   isNot?: Prisma.DigestWhereInput
 }
 
-export type DigestNullableScalarRelationFilter = {
-  is?: Prisma.DigestWhereInput | null
-  isNot?: Prisma.DigestWhereInput | null
-}
-
 export type DigestListRelationFilter = {
   every?: Prisma.DigestWhereInput
   some?: Prisma.DigestWhereInput
@@ -627,48 +608,18 @@ export type EnumDigestStatusFieldUpdateOperationsInput = {
   set?: $Enums.DigestStatus
 }
 
-export type DigestCreateNestedOneWithoutSectionsInput = {
-  create?: Prisma.XOR<Prisma.DigestCreateWithoutSectionsInput, Prisma.DigestUncheckedCreateWithoutSectionsInput>
-  connectOrCreate?: Prisma.DigestCreateOrConnectWithoutSectionsInput
+export type DigestCreateNestedOneWithoutArticleSetInput = {
+  create?: Prisma.XOR<Prisma.DigestCreateWithoutArticleSetInput, Prisma.DigestUncheckedCreateWithoutArticleSetInput>
+  connectOrCreate?: Prisma.DigestCreateOrConnectWithoutArticleSetInput
   connect?: Prisma.DigestWhereUniqueInput
 }
 
-export type DigestUpdateOneRequiredWithoutSectionsNestedInput = {
-  create?: Prisma.XOR<Prisma.DigestCreateWithoutSectionsInput, Prisma.DigestUncheckedCreateWithoutSectionsInput>
-  connectOrCreate?: Prisma.DigestCreateOrConnectWithoutSectionsInput
-  upsert?: Prisma.DigestUpsertWithoutSectionsInput
+export type DigestUpdateOneRequiredWithoutArticleSetNestedInput = {
+  create?: Prisma.XOR<Prisma.DigestCreateWithoutArticleSetInput, Prisma.DigestUncheckedCreateWithoutArticleSetInput>
+  connectOrCreate?: Prisma.DigestCreateOrConnectWithoutArticleSetInput
+  upsert?: Prisma.DigestUpsertWithoutArticleSetInput
   connect?: Prisma.DigestWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.DigestUpdateToOneWithWhereWithoutSectionsInput, Prisma.DigestUpdateWithoutSectionsInput>, Prisma.DigestUncheckedUpdateWithoutSectionsInput>
-}
-
-export type DigestCreateNestedOneWithoutTopicsInput = {
-  create?: Prisma.XOR<Prisma.DigestCreateWithoutTopicsInput, Prisma.DigestUncheckedCreateWithoutTopicsInput>
-  connectOrCreate?: Prisma.DigestCreateOrConnectWithoutTopicsInput
-  connect?: Prisma.DigestWhereUniqueInput
-}
-
-export type DigestUpdateOneRequiredWithoutTopicsNestedInput = {
-  create?: Prisma.XOR<Prisma.DigestCreateWithoutTopicsInput, Prisma.DigestUncheckedCreateWithoutTopicsInput>
-  connectOrCreate?: Prisma.DigestCreateOrConnectWithoutTopicsInput
-  upsert?: Prisma.DigestUpsertWithoutTopicsInput
-  connect?: Prisma.DigestWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.DigestUpdateToOneWithWhereWithoutTopicsInput, Prisma.DigestUpdateWithoutTopicsInput>, Prisma.DigestUncheckedUpdateWithoutTopicsInput>
-}
-
-export type DigestCreateNestedOneWithoutStagedContentInput = {
-  create?: Prisma.XOR<Prisma.DigestCreateWithoutStagedContentInput, Prisma.DigestUncheckedCreateWithoutStagedContentInput>
-  connectOrCreate?: Prisma.DigestCreateOrConnectWithoutStagedContentInput
-  connect?: Prisma.DigestWhereUniqueInput
-}
-
-export type DigestUpdateOneWithoutStagedContentNestedInput = {
-  create?: Prisma.XOR<Prisma.DigestCreateWithoutStagedContentInput, Prisma.DigestUncheckedCreateWithoutStagedContentInput>
-  connectOrCreate?: Prisma.DigestCreateOrConnectWithoutStagedContentInput
-  upsert?: Prisma.DigestUpsertWithoutStagedContentInput
-  disconnect?: Prisma.DigestWhereInput | boolean
-  delete?: Prisma.DigestWhereInput | boolean
-  connect?: Prisma.DigestWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.DigestUpdateToOneWithWhereWithoutStagedContentInput, Prisma.DigestUpdateWithoutStagedContentInput>, Prisma.DigestUncheckedUpdateWithoutStagedContentInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DigestUpdateToOneWithWhereWithoutArticleSetInput, Prisma.DigestUpdateWithoutArticleSetInput>, Prisma.DigestUncheckedUpdateWithoutArticleSetInput>
 }
 
 export type DigestCreateNestedManyWithoutTeamInput = {
@@ -727,7 +678,7 @@ export type DigestUpdateOneRequiredWithoutApprovalsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DigestUpdateToOneWithWhereWithoutApprovalsInput, Prisma.DigestUpdateWithoutApprovalsInput>, Prisma.DigestUncheckedUpdateWithoutApprovalsInput>
 }
 
-export type DigestCreateWithoutSectionsInput = {
+export type DigestCreateWithoutArticleSetInput = {
   id?: string
   digestNumber: number
   title?: string | null
@@ -743,12 +694,10 @@ export type DigestCreateWithoutSectionsInput = {
   updatedAt?: Date | string
   publishedAt?: Date | string | null
   team?: Prisma.TeamCreateNestedOneWithoutDigestsInput
-  topics?: Prisma.DigestTopicCreateNestedManyWithoutDigestInput
-  stagedContent?: Prisma.StagedContentCreateNestedManyWithoutDigestInput
   approvals?: Prisma.DigestApprovalCreateNestedManyWithoutDigestInput
 }
 
-export type DigestUncheckedCreateWithoutSectionsInput = {
+export type DigestUncheckedCreateWithoutArticleSetInput = {
   id?: string
   digestNumber: number
   title?: string | null
@@ -764,28 +713,26 @@ export type DigestUncheckedCreateWithoutSectionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
-  topics?: Prisma.DigestTopicUncheckedCreateNestedManyWithoutDigestInput
-  stagedContent?: Prisma.StagedContentUncheckedCreateNestedManyWithoutDigestInput
   approvals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutDigestInput
 }
 
-export type DigestCreateOrConnectWithoutSectionsInput = {
+export type DigestCreateOrConnectWithoutArticleSetInput = {
   where: Prisma.DigestWhereUniqueInput
-  create: Prisma.XOR<Prisma.DigestCreateWithoutSectionsInput, Prisma.DigestUncheckedCreateWithoutSectionsInput>
+  create: Prisma.XOR<Prisma.DigestCreateWithoutArticleSetInput, Prisma.DigestUncheckedCreateWithoutArticleSetInput>
 }
 
-export type DigestUpsertWithoutSectionsInput = {
-  update: Prisma.XOR<Prisma.DigestUpdateWithoutSectionsInput, Prisma.DigestUncheckedUpdateWithoutSectionsInput>
-  create: Prisma.XOR<Prisma.DigestCreateWithoutSectionsInput, Prisma.DigestUncheckedCreateWithoutSectionsInput>
+export type DigestUpsertWithoutArticleSetInput = {
+  update: Prisma.XOR<Prisma.DigestUpdateWithoutArticleSetInput, Prisma.DigestUncheckedUpdateWithoutArticleSetInput>
+  create: Prisma.XOR<Prisma.DigestCreateWithoutArticleSetInput, Prisma.DigestUncheckedCreateWithoutArticleSetInput>
   where?: Prisma.DigestWhereInput
 }
 
-export type DigestUpdateToOneWithWhereWithoutSectionsInput = {
+export type DigestUpdateToOneWithWhereWithoutArticleSetInput = {
   where?: Prisma.DigestWhereInput
-  data: Prisma.XOR<Prisma.DigestUpdateWithoutSectionsInput, Prisma.DigestUncheckedUpdateWithoutSectionsInput>
+  data: Prisma.XOR<Prisma.DigestUpdateWithoutArticleSetInput, Prisma.DigestUncheckedUpdateWithoutArticleSetInput>
 }
 
-export type DigestUpdateWithoutSectionsInput = {
+export type DigestUpdateWithoutArticleSetInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   digestNumber?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -801,12 +748,10 @@ export type DigestUpdateWithoutSectionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   team?: Prisma.TeamUpdateOneWithoutDigestsNestedInput
-  topics?: Prisma.DigestTopicUpdateManyWithoutDigestNestedInput
-  stagedContent?: Prisma.StagedContentUpdateManyWithoutDigestNestedInput
   approvals?: Prisma.DigestApprovalUpdateManyWithoutDigestNestedInput
 }
 
-export type DigestUncheckedUpdateWithoutSectionsInput = {
+export type DigestUncheckedUpdateWithoutArticleSetInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   digestNumber?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -822,208 +767,6 @@ export type DigestUncheckedUpdateWithoutSectionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  topics?: Prisma.DigestTopicUncheckedUpdateManyWithoutDigestNestedInput
-  stagedContent?: Prisma.StagedContentUncheckedUpdateManyWithoutDigestNestedInput
-  approvals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutDigestNestedInput
-}
-
-export type DigestCreateWithoutTopicsInput = {
-  id?: string
-  digestNumber: number
-  title?: string | null
-  subjectLine?: string | null
-  preHeader?: string | null
-  publishDay: $Enums.PublishDay
-  publishDate: Date | string
-  status?: $Enums.DigestStatus
-  personalNote?: string | null
-  googleDocUrl?: string | null
-  clickFunnelsId?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  publishedAt?: Date | string | null
-  team?: Prisma.TeamCreateNestedOneWithoutDigestsInput
-  sections?: Prisma.DigestSectionCreateNestedManyWithoutDigestInput
-  stagedContent?: Prisma.StagedContentCreateNestedManyWithoutDigestInput
-  approvals?: Prisma.DigestApprovalCreateNestedManyWithoutDigestInput
-}
-
-export type DigestUncheckedCreateWithoutTopicsInput = {
-  id?: string
-  digestNumber: number
-  title?: string | null
-  subjectLine?: string | null
-  preHeader?: string | null
-  publishDay: $Enums.PublishDay
-  publishDate: Date | string
-  status?: $Enums.DigestStatus
-  personalNote?: string | null
-  googleDocUrl?: string | null
-  clickFunnelsId?: string | null
-  teamId?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  publishedAt?: Date | string | null
-  sections?: Prisma.DigestSectionUncheckedCreateNestedManyWithoutDigestInput
-  stagedContent?: Prisma.StagedContentUncheckedCreateNestedManyWithoutDigestInput
-  approvals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutDigestInput
-}
-
-export type DigestCreateOrConnectWithoutTopicsInput = {
-  where: Prisma.DigestWhereUniqueInput
-  create: Prisma.XOR<Prisma.DigestCreateWithoutTopicsInput, Prisma.DigestUncheckedCreateWithoutTopicsInput>
-}
-
-export type DigestUpsertWithoutTopicsInput = {
-  update: Prisma.XOR<Prisma.DigestUpdateWithoutTopicsInput, Prisma.DigestUncheckedUpdateWithoutTopicsInput>
-  create: Prisma.XOR<Prisma.DigestCreateWithoutTopicsInput, Prisma.DigestUncheckedCreateWithoutTopicsInput>
-  where?: Prisma.DigestWhereInput
-}
-
-export type DigestUpdateToOneWithWhereWithoutTopicsInput = {
-  where?: Prisma.DigestWhereInput
-  data: Prisma.XOR<Prisma.DigestUpdateWithoutTopicsInput, Prisma.DigestUncheckedUpdateWithoutTopicsInput>
-}
-
-export type DigestUpdateWithoutTopicsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  digestNumber?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subjectLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  preHeader?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  publishDay?: Prisma.EnumPublishDayFieldUpdateOperationsInput | $Enums.PublishDay
-  publishDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.EnumDigestStatusFieldUpdateOperationsInput | $Enums.DigestStatus
-  personalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  googleDocUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clickFunnelsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  team?: Prisma.TeamUpdateOneWithoutDigestsNestedInput
-  sections?: Prisma.DigestSectionUpdateManyWithoutDigestNestedInput
-  stagedContent?: Prisma.StagedContentUpdateManyWithoutDigestNestedInput
-  approvals?: Prisma.DigestApprovalUpdateManyWithoutDigestNestedInput
-}
-
-export type DigestUncheckedUpdateWithoutTopicsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  digestNumber?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subjectLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  preHeader?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  publishDay?: Prisma.EnumPublishDayFieldUpdateOperationsInput | $Enums.PublishDay
-  publishDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.EnumDigestStatusFieldUpdateOperationsInput | $Enums.DigestStatus
-  personalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  googleDocUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clickFunnelsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sections?: Prisma.DigestSectionUncheckedUpdateManyWithoutDigestNestedInput
-  stagedContent?: Prisma.StagedContentUncheckedUpdateManyWithoutDigestNestedInput
-  approvals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutDigestNestedInput
-}
-
-export type DigestCreateWithoutStagedContentInput = {
-  id?: string
-  digestNumber: number
-  title?: string | null
-  subjectLine?: string | null
-  preHeader?: string | null
-  publishDay: $Enums.PublishDay
-  publishDate: Date | string
-  status?: $Enums.DigestStatus
-  personalNote?: string | null
-  googleDocUrl?: string | null
-  clickFunnelsId?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  publishedAt?: Date | string | null
-  team?: Prisma.TeamCreateNestedOneWithoutDigestsInput
-  sections?: Prisma.DigestSectionCreateNestedManyWithoutDigestInput
-  topics?: Prisma.DigestTopicCreateNestedManyWithoutDigestInput
-  approvals?: Prisma.DigestApprovalCreateNestedManyWithoutDigestInput
-}
-
-export type DigestUncheckedCreateWithoutStagedContentInput = {
-  id?: string
-  digestNumber: number
-  title?: string | null
-  subjectLine?: string | null
-  preHeader?: string | null
-  publishDay: $Enums.PublishDay
-  publishDate: Date | string
-  status?: $Enums.DigestStatus
-  personalNote?: string | null
-  googleDocUrl?: string | null
-  clickFunnelsId?: string | null
-  teamId?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  publishedAt?: Date | string | null
-  sections?: Prisma.DigestSectionUncheckedCreateNestedManyWithoutDigestInput
-  topics?: Prisma.DigestTopicUncheckedCreateNestedManyWithoutDigestInput
-  approvals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutDigestInput
-}
-
-export type DigestCreateOrConnectWithoutStagedContentInput = {
-  where: Prisma.DigestWhereUniqueInput
-  create: Prisma.XOR<Prisma.DigestCreateWithoutStagedContentInput, Prisma.DigestUncheckedCreateWithoutStagedContentInput>
-}
-
-export type DigestUpsertWithoutStagedContentInput = {
-  update: Prisma.XOR<Prisma.DigestUpdateWithoutStagedContentInput, Prisma.DigestUncheckedUpdateWithoutStagedContentInput>
-  create: Prisma.XOR<Prisma.DigestCreateWithoutStagedContentInput, Prisma.DigestUncheckedCreateWithoutStagedContentInput>
-  where?: Prisma.DigestWhereInput
-}
-
-export type DigestUpdateToOneWithWhereWithoutStagedContentInput = {
-  where?: Prisma.DigestWhereInput
-  data: Prisma.XOR<Prisma.DigestUpdateWithoutStagedContentInput, Prisma.DigestUncheckedUpdateWithoutStagedContentInput>
-}
-
-export type DigestUpdateWithoutStagedContentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  digestNumber?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subjectLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  preHeader?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  publishDay?: Prisma.EnumPublishDayFieldUpdateOperationsInput | $Enums.PublishDay
-  publishDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.EnumDigestStatusFieldUpdateOperationsInput | $Enums.DigestStatus
-  personalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  googleDocUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clickFunnelsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  team?: Prisma.TeamUpdateOneWithoutDigestsNestedInput
-  sections?: Prisma.DigestSectionUpdateManyWithoutDigestNestedInput
-  topics?: Prisma.DigestTopicUpdateManyWithoutDigestNestedInput
-  approvals?: Prisma.DigestApprovalUpdateManyWithoutDigestNestedInput
-}
-
-export type DigestUncheckedUpdateWithoutStagedContentInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  digestNumber?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subjectLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  preHeader?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  publishDay?: Prisma.EnumPublishDayFieldUpdateOperationsInput | $Enums.PublishDay
-  publishDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  status?: Prisma.EnumDigestStatusFieldUpdateOperationsInput | $Enums.DigestStatus
-  personalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  googleDocUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clickFunnelsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sections?: Prisma.DigestSectionUncheckedUpdateManyWithoutDigestNestedInput
-  topics?: Prisma.DigestTopicUncheckedUpdateManyWithoutDigestNestedInput
   approvals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutDigestNestedInput
 }
 
@@ -1042,9 +785,7 @@ export type DigestCreateWithoutTeamInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
-  sections?: Prisma.DigestSectionCreateNestedManyWithoutDigestInput
-  topics?: Prisma.DigestTopicCreateNestedManyWithoutDigestInput
-  stagedContent?: Prisma.StagedContentCreateNestedManyWithoutDigestInput
+  articleSet?: Prisma.ArticleSetCreateNestedOneWithoutDigestInput
   approvals?: Prisma.DigestApprovalCreateNestedManyWithoutDigestInput
 }
 
@@ -1063,9 +804,7 @@ export type DigestUncheckedCreateWithoutTeamInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
-  sections?: Prisma.DigestSectionUncheckedCreateNestedManyWithoutDigestInput
-  topics?: Prisma.DigestTopicUncheckedCreateNestedManyWithoutDigestInput
-  stagedContent?: Prisma.StagedContentUncheckedCreateNestedManyWithoutDigestInput
+  articleSet?: Prisma.ArticleSetUncheckedCreateNestedOneWithoutDigestInput
   approvals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutDigestInput
 }
 
@@ -1132,9 +871,7 @@ export type DigestCreateWithoutApprovalsInput = {
   updatedAt?: Date | string
   publishedAt?: Date | string | null
   team?: Prisma.TeamCreateNestedOneWithoutDigestsInput
-  sections?: Prisma.DigestSectionCreateNestedManyWithoutDigestInput
-  topics?: Prisma.DigestTopicCreateNestedManyWithoutDigestInput
-  stagedContent?: Prisma.StagedContentCreateNestedManyWithoutDigestInput
+  articleSet?: Prisma.ArticleSetCreateNestedOneWithoutDigestInput
 }
 
 export type DigestUncheckedCreateWithoutApprovalsInput = {
@@ -1153,9 +890,7 @@ export type DigestUncheckedCreateWithoutApprovalsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
-  sections?: Prisma.DigestSectionUncheckedCreateNestedManyWithoutDigestInput
-  topics?: Prisma.DigestTopicUncheckedCreateNestedManyWithoutDigestInput
-  stagedContent?: Prisma.StagedContentUncheckedCreateNestedManyWithoutDigestInput
+  articleSet?: Prisma.ArticleSetUncheckedCreateNestedOneWithoutDigestInput
 }
 
 export type DigestCreateOrConnectWithoutApprovalsInput = {
@@ -1190,9 +925,7 @@ export type DigestUpdateWithoutApprovalsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   team?: Prisma.TeamUpdateOneWithoutDigestsNestedInput
-  sections?: Prisma.DigestSectionUpdateManyWithoutDigestNestedInput
-  topics?: Prisma.DigestTopicUpdateManyWithoutDigestNestedInput
-  stagedContent?: Prisma.StagedContentUpdateManyWithoutDigestNestedInput
+  articleSet?: Prisma.ArticleSetUpdateOneWithoutDigestNestedInput
 }
 
 export type DigestUncheckedUpdateWithoutApprovalsInput = {
@@ -1211,9 +944,7 @@ export type DigestUncheckedUpdateWithoutApprovalsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sections?: Prisma.DigestSectionUncheckedUpdateManyWithoutDigestNestedInput
-  topics?: Prisma.DigestTopicUncheckedUpdateManyWithoutDigestNestedInput
-  stagedContent?: Prisma.StagedContentUncheckedUpdateManyWithoutDigestNestedInput
+  articleSet?: Prisma.ArticleSetUncheckedUpdateOneWithoutDigestNestedInput
 }
 
 export type DigestCreateManyTeamInput = {
@@ -1248,9 +979,7 @@ export type DigestUpdateWithoutTeamInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sections?: Prisma.DigestSectionUpdateManyWithoutDigestNestedInput
-  topics?: Prisma.DigestTopicUpdateManyWithoutDigestNestedInput
-  stagedContent?: Prisma.StagedContentUpdateManyWithoutDigestNestedInput
+  articleSet?: Prisma.ArticleSetUpdateOneWithoutDigestNestedInput
   approvals?: Prisma.DigestApprovalUpdateManyWithoutDigestNestedInput
 }
 
@@ -1269,9 +998,7 @@ export type DigestUncheckedUpdateWithoutTeamInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sections?: Prisma.DigestSectionUncheckedUpdateManyWithoutDigestNestedInput
-  topics?: Prisma.DigestTopicUncheckedUpdateManyWithoutDigestNestedInput
-  stagedContent?: Prisma.StagedContentUncheckedUpdateManyWithoutDigestNestedInput
+  articleSet?: Prisma.ArticleSetUncheckedUpdateOneWithoutDigestNestedInput
   approvals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutDigestNestedInput
 }
 
@@ -1298,16 +1025,10 @@ export type DigestUncheckedUpdateManyWithoutTeamInput = {
  */
 
 export type DigestCountOutputType = {
-  sections: number
-  topics: number
-  stagedContent: number
   approvals: number
 }
 
 export type DigestCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  sections?: boolean | DigestCountOutputTypeCountSectionsArgs
-  topics?: boolean | DigestCountOutputTypeCountTopicsArgs
-  stagedContent?: boolean | DigestCountOutputTypeCountStagedContentArgs
   approvals?: boolean | DigestCountOutputTypeCountApprovalsArgs
 }
 
@@ -1319,27 +1040,6 @@ export type DigestCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exten
    * Select specific fields to fetch from the DigestCountOutputType
    */
   select?: Prisma.DigestCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * DigestCountOutputType without action
- */
-export type DigestCountOutputTypeCountSectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DigestSectionWhereInput
-}
-
-/**
- * DigestCountOutputType without action
- */
-export type DigestCountOutputTypeCountTopicsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DigestTopicWhereInput
-}
-
-/**
- * DigestCountOutputType without action
- */
-export type DigestCountOutputTypeCountStagedContentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.StagedContentWhereInput
 }
 
 /**
@@ -1367,9 +1067,7 @@ export type DigestSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   updatedAt?: boolean
   publishedAt?: boolean
   team?: boolean | Prisma.Digest$teamArgs<ExtArgs>
-  sections?: boolean | Prisma.Digest$sectionsArgs<ExtArgs>
-  topics?: boolean | Prisma.Digest$topicsArgs<ExtArgs>
-  stagedContent?: boolean | Prisma.Digest$stagedContentArgs<ExtArgs>
+  articleSet?: boolean | Prisma.Digest$articleSetArgs<ExtArgs>
   approvals?: boolean | Prisma.Digest$approvalsArgs<ExtArgs>
   _count?: boolean | Prisma.DigestCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["digest"]>
@@ -1433,9 +1131,7 @@ export type DigestSelectScalar = {
 export type DigestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "digestNumber" | "title" | "subjectLine" | "preHeader" | "publishDay" | "publishDate" | "status" | "personalNote" | "googleDocUrl" | "clickFunnelsId" | "teamId" | "createdAt" | "updatedAt" | "publishedAt", ExtArgs["result"]["digest"]>
 export type DigestInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   team?: boolean | Prisma.Digest$teamArgs<ExtArgs>
-  sections?: boolean | Prisma.Digest$sectionsArgs<ExtArgs>
-  topics?: boolean | Prisma.Digest$topicsArgs<ExtArgs>
-  stagedContent?: boolean | Prisma.Digest$stagedContentArgs<ExtArgs>
+  articleSet?: boolean | Prisma.Digest$articleSetArgs<ExtArgs>
   approvals?: boolean | Prisma.Digest$approvalsArgs<ExtArgs>
   _count?: boolean | Prisma.DigestCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1450,9 +1146,7 @@ export type $DigestPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name: "Digest"
   objects: {
     team: Prisma.$TeamPayload<ExtArgs> | null
-    sections: Prisma.$DigestSectionPayload<ExtArgs>[]
-    topics: Prisma.$DigestTopicPayload<ExtArgs>[]
-    stagedContent: Prisma.$StagedContentPayload<ExtArgs>[]
+    articleSet: Prisma.$ArticleSetPayload<ExtArgs> | null
     approvals: Prisma.$DigestApprovalPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1866,9 +1560,7 @@ readonly fields: DigestFieldRefs;
 export interface Prisma__DigestClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   team<T extends Prisma.Digest$teamArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Digest$teamArgs<ExtArgs>>): Prisma.Prisma__TeamClient<runtime.Types.Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  sections<T extends Prisma.Digest$sectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Digest$sectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DigestSectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  topics<T extends Prisma.Digest$topicsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Digest$topicsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DigestTopicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  stagedContent<T extends Prisma.Digest$stagedContentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Digest$stagedContentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StagedContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  articleSet<T extends Prisma.Digest$articleSetArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Digest$articleSetArgs<ExtArgs>>): Prisma.Prisma__ArticleSetClient<runtime.Types.Result.GetResult<Prisma.$ArticleSetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   approvals<T extends Prisma.Digest$approvalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Digest$approvalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DigestApprovalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2329,75 +2021,22 @@ export type Digest$teamArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 }
 
 /**
- * Digest.sections
+ * Digest.articleSet
  */
-export type Digest$sectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Digest$articleSetArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the DigestSection
+   * Select specific fields to fetch from the ArticleSet
    */
-  select?: Prisma.DigestSectionSelect<ExtArgs> | null
+  select?: Prisma.ArticleSetSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the DigestSection
+   * Omit specific fields from the ArticleSet
    */
-  omit?: Prisma.DigestSectionOmit<ExtArgs> | null
+  omit?: Prisma.ArticleSetOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.DigestSectionInclude<ExtArgs> | null
-  where?: Prisma.DigestSectionWhereInput
-  orderBy?: Prisma.DigestSectionOrderByWithRelationInput | Prisma.DigestSectionOrderByWithRelationInput[]
-  cursor?: Prisma.DigestSectionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.DigestSectionScalarFieldEnum | Prisma.DigestSectionScalarFieldEnum[]
-}
-
-/**
- * Digest.topics
- */
-export type Digest$topicsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the DigestTopic
-   */
-  select?: Prisma.DigestTopicSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the DigestTopic
-   */
-  omit?: Prisma.DigestTopicOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.DigestTopicInclude<ExtArgs> | null
-  where?: Prisma.DigestTopicWhereInput
-  orderBy?: Prisma.DigestTopicOrderByWithRelationInput | Prisma.DigestTopicOrderByWithRelationInput[]
-  cursor?: Prisma.DigestTopicWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.DigestTopicScalarFieldEnum | Prisma.DigestTopicScalarFieldEnum[]
-}
-
-/**
- * Digest.stagedContent
- */
-export type Digest$stagedContentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the StagedContent
-   */
-  select?: Prisma.StagedContentSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the StagedContent
-   */
-  omit?: Prisma.StagedContentOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.StagedContentInclude<ExtArgs> | null
-  where?: Prisma.StagedContentWhereInput
-  orderBy?: Prisma.StagedContentOrderByWithRelationInput | Prisma.StagedContentOrderByWithRelationInput[]
-  cursor?: Prisma.StagedContentWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.StagedContentScalarFieldEnum | Prisma.StagedContentScalarFieldEnum[]
+  include?: Prisma.ArticleSetInclude<ExtArgs> | null
+  where?: Prisma.ArticleSetWhereInput
 }
 
 /**

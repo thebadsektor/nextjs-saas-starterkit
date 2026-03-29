@@ -46,19 +46,23 @@ import {
     X,
     CheckCircle,
     UserCircle,
+    Lightning,
+    BookOpen,
 } from "@phosphor-icons/react"
 
 type DigestStatus = "DRAFT" | "IN_REVIEW" | "APPROVED" | "PUBLISHED" | "FAILED"
-type SectionType = "EXPERT_TIP" | "MARKETING_TIP" | "COMMUNITY_SPOTLIGHT" | "FUNNEL_OF_THE_WEEK" | "FOOD_FOR_THOUGHT"
+type ArticleStatus = "EMPTY" | "GENERATED" | "EDITED" | "APPROVED"
 
-interface DigestSection {
-    id?: string
-    sectionType: SectionType
+interface Article {
+    id: string
     order: number
     heading: string
     body: string
     sourceUrl: string
     sourceTitle: string
+    status: ArticleStatus
+    sectionTemplate: { id: string; name: string; key: string } | null
+    finding: { id: string; title: string; summary: string } | null
 }
 
 interface DigestApproval {
@@ -81,7 +85,11 @@ interface Digest {
     preHeader: string | null
     personalNote: string | null
     approvals: DigestApproval[]
-    sections: DigestSection[]
+    articleSet: {
+        id: string
+        status: string
+        articles: Article[]
+    } | null
 }
 
 const STATUS_BADGE: Record<DigestStatus, { label: string; variant: "default" | "secondary" | "destructive" | "outline"; className?: string }> = {
@@ -92,20 +100,11 @@ const STATUS_BADGE: Record<DigestStatus, { label: string; variant: "default" | "
     FAILED: { label: "Failed", variant: "destructive" },
 }
 
-const SECTION_ORDER: SectionType[] = [
-    "EXPERT_TIP",
-    "MARKETING_TIP",
-    "COMMUNITY_SPOTLIGHT",
-    "FUNNEL_OF_THE_WEEK",
-    "FOOD_FOR_THOUGHT",
-]
-
-const SECTION_DISPLAY_NAMES: Record<SectionType, string> = {
-    EXPERT_TIP: "FBM Expert Tip",
-    MARKETING_TIP: "Marketing Tip of the Week",
-    COMMUNITY_SPOTLIGHT: "Community Spotlight",
-    FUNNEL_OF_THE_WEEK: "Funnel of the Week",
-    FOOD_FOR_THOUGHT: "Food for Thought",
+const ARTICLE_STATUS_BADGE: Record<ArticleStatus, { label: string; className: string }> = {
+    EMPTY: { label: "Empty", className: "border-gray-400/30 bg-gray-50 text-gray-600 dark:bg-gray-500/10 dark:text-gray-400" },
+    GENERATED: { label: "Generated", className: "border-blue-500/30 bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400" },
+    EDITED: { label: "Edited", className: "border-yellow-500/30 bg-yellow-50 text-yellow-700 dark:bg-yellow-500/10 dark:text-yellow-400" },
+    APPROVED: { label: "Approved", className: "border-green-500/30 bg-green-50 text-green-700 dark:bg-green-500/10 dark:text-green-400" },
 }
 
 const DAY_LABELS: Record<string, string> = {
@@ -120,17 +119,6 @@ const ROLE_BADGE: Record<string, { label: string; className: string }> = {
     proofreader: { label: "Proofreader", className: "border-orange-500/30 bg-orange-50 text-orange-700 dark:bg-orange-500/10 dark:text-orange-400" },
 }
 
-function makeEmptySections(): DigestSection[] {
-    return SECTION_ORDER.map((type, i) => ({
-        sectionType: type,
-        order: i + 1,
-        heading: "",
-        body: "",
-        sourceUrl: "",
-        sourceTitle: "",
-    }))
-}
-
 export default function DigestEditorPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params)
     const { data: session, isPending } = useSession()
@@ -142,14 +130,15 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
     const [deleting, setDeleting] = useState(false)
     const [publishing, setPublishing] = useState(false)
     const [showPreview, setShowPreview] = useState(false)
-    const [generatingSection, setGeneratingSection] = useState<number | null>(null)
+    const [generatingArticle, setGeneratingArticle] = useState<string | null>(null)
+    const [generatingAll, setGeneratingAll] = useState(false)
 
     // Form state
     const [subjectLine, setSubjectLine] = useState("")
     const [preHeader, setPreHeader] = useState("")
     const [title, setTitle] = useState("")
     const [personalNote, setPersonalNote] = useState("")
-    const [sections, setSections] = useState<DigestSection[]>(makeEmptySections())
+    const [articles, setArticles] = useState<Article[]>([])
 
     // Add reviewer form state
     const [showAddReviewer, setShowAddReviewer] = useState(false)
@@ -171,14 +160,17 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
             setTitle(data.title ?? "")
             setPersonalNote(data.personalNote ?? "")
 
-            // Merge fetched sections with empty defaults
-            const merged = SECTION_ORDER.map((type, i) => {
-                const existing = data.sections?.find((s) => s.sectionType === type)
-                return existing
-                    ? { ...existing, order: i + 1 }
-                    : { sectionType: type, order: i + 1, heading: "", body: "", sourceUrl: "", sourceTitle: "" }
-            })
-            setSections(merged)
+            // Load articles from articleSet
+            const loadedArticles = (data.articleSet?.articles ?? [])
+                .sort((a, b) => a.order - b.order)
+                .map((a) => ({
+                    ...a,
+                    heading: a.heading ?? "",
+                    body: a.body ?? "",
+                    sourceUrl: a.sourceUrl ?? "",
+                    sourceTitle: a.sourceTitle ?? "",
+                }))
+            setArticles(loadedArticles)
         } catch (error) {
             toast.error("Failed to load digest")
         } finally {
@@ -203,14 +195,12 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
                     preHeader: preHeader || null,
                     title: title || null,
                     personalNote: personalNote || null,
-                    sections: sections.map((s) => ({
-                        id: s.id,
-                        sectionType: s.sectionType,
-                        order: s.order,
-                        heading: s.heading,
-                        body: s.body,
-                        sourceUrl: s.sourceUrl,
-                        sourceTitle: s.sourceTitle,
+                    articles: articles.map((a) => ({
+                        id: a.id,
+                        heading: a.heading,
+                        body: a.body,
+                        sourceUrl: a.sourceUrl,
+                        sourceTitle: a.sourceTitle,
                     })),
                 }),
             })
@@ -262,24 +252,24 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
         }
     }
 
-    const updateSection = (index: number, field: keyof DigestSection, value: string) => {
-        setSections((prev) => {
-            const updated = [...prev]
-            updated[index] = { ...updated[index], [field]: value }
-            return updated
-        })
+    const updateArticle = (articleId: string, field: keyof Article, value: string) => {
+        setArticles((prev) =>
+            prev.map((a) => (a.id === articleId ? { ...a, [field]: value } : a))
+        )
     }
 
-    const handleGenerate = async (index: number) => {
-        const section = sections[index]
-        setGeneratingSection(index)
+    const handleGenerate = async (articleId: string) => {
+        const article = articles.find((a) => a.id === articleId)
+        if (!article) return
+
+        setGeneratingArticle(articleId)
         try {
             const res = await fetch(`/api/admin/digests/${id}/generate`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    sectionType: section.sectionType,
-                    topic: section.heading || undefined,
+                    articleId: article.id,
+                    topic: article.heading || undefined,
                 }),
             })
             if (!res.ok) {
@@ -287,16 +277,40 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
                 throw new Error(data.error || "Failed to generate")
             }
             const { heading, body } = await res.json()
-            setSections((prev) => {
-                const updated = [...prev]
-                updated[index] = { ...updated[index], heading, body }
-                return updated
-            })
-            toast.success(`Generated ${SECTION_DISPLAY_NAMES[section.sectionType]} content`)
+            setArticles((prev) =>
+                prev.map((a) =>
+                    a.id === articleId
+                        ? { ...a, heading, body, status: "GENERATED" as ArticleStatus }
+                        : a
+                )
+            )
+            const templateName = article.sectionTemplate?.name ?? `Article ${article.order}`
+            toast.success(`Generated ${templateName} content`)
         } catch (error: any) {
             toast.error(error.message || "Failed to generate content")
         } finally {
-            setGeneratingSection(null)
+            setGeneratingArticle(null)
+        }
+    }
+
+    const handleGenerateAll = async () => {
+        setGeneratingAll(true)
+        try {
+            const res = await fetch(`/api/admin/digests/${id}/generate`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ generateAll: true }),
+            })
+            if (!res.ok) {
+                const data = await res.json().catch(() => ({}))
+                throw new Error(data.error || "Failed to generate all")
+            }
+            toast.success("All articles generated successfully")
+            await fetchDigest()
+        } catch (error: any) {
+            toast.error(error.message || "Failed to generate all content")
+        } finally {
+            setGeneratingAll(false)
         }
     }
 
@@ -428,6 +442,11 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
                     <Badge variant={statusConfig.variant} className={`text-[10px] py-0 px-1.5 font-normal ${statusConfig.className ?? ""}`}>
                         {statusConfig.label}
                     </Badge>
+                    {digest.articleSet && (
+                        <Badge variant="outline" className="text-[10px] py-0 px-1.5 font-normal">
+                            Articles: {digest.articleSet.status}
+                        </Badge>
+                    )}
                 </div>
             </div>
 
@@ -436,6 +455,16 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
                 <Button onClick={handleSave} disabled={saving} className="text-xs">
                     {saving ? <CircleNotch className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <FloppyDisk className="mr-1.5 h-3.5 w-3.5" />}
                     Save
+                </Button>
+
+                <Button
+                    onClick={handleGenerateAll}
+                    disabled={generatingAll || generatingArticle !== null}
+                    variant="outline"
+                    className="text-xs"
+                >
+                    {generatingAll ? <CircleNotch className="mr-1.5 h-3.5 w-3.5 animate-spin" /> : <Lightning className="mr-1.5 h-3.5 w-3.5" />}
+                    {generatingAll ? "Generating All..." : "Generate All"}
                 </Button>
 
                 {digest.status === "APPROVED" && (
@@ -470,7 +499,7 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
                                 <AlertDialogTitle>Delete Digest</AlertDialogTitle>
                             </div>
                             <AlertDialogDescription>
-                                Are you sure you want to delete Digest #{digest.digestNumber}? This action cannot be undone and will permanently remove the digest and all its sections.
+                                Are you sure you want to delete Digest #{digest.digestNumber}? This action cannot be undone and will permanently remove the digest and all its articles.
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
@@ -520,16 +549,16 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
                             </div>
                         )}
                         <hr className="border-muted" />
-                        {sections.map((section) => (
-                            <div key={section.sectionType} className="space-y-1">
+                        {articles.map((article) => (
+                            <div key={article.id} className="space-y-1">
                                 <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
-                                    {SECTION_DISPLAY_NAMES[section.sectionType]}
+                                    {article.sectionTemplate?.name ?? `Article ${article.order}`}
                                 </p>
-                                {section.heading && <p className="text-sm font-semibold">{section.heading}</p>}
-                                {section.body && <p className="text-sm whitespace-pre-wrap">{section.body}</p>}
-                                {section.sourceUrl && (
+                                {article.heading && <p className="text-sm font-semibold">{article.heading}</p>}
+                                {article.body && <p className="text-sm whitespace-pre-wrap">{article.body}</p>}
+                                {article.sourceUrl && (
                                     <p className="text-xs text-blue-600">
-                                        Source: {section.sourceTitle || section.sourceUrl}
+                                        Source: {article.sourceTitle || article.sourceUrl}
                                     </p>
                                 )}
                             </div>
@@ -711,76 +740,105 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
                 </CardContent>
             </Card>
 
-            {/* Section Editors */}
-            {sections.map((section, index) => (
-                <Card key={section.sectionType} className="border-none shadow-sm">
-                    <CardHeader className="flex flex-row items-center justify-between">
-                        <CardTitle className="text-lg flex items-center gap-2">
-                            <span className="text-xs text-muted-foreground font-normal">Section {index + 1}</span>
-                            {SECTION_DISPLAY_NAMES[section.sectionType]}
-                        </CardTitle>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            className="text-xs"
-                            onClick={() => handleGenerate(index)}
-                            disabled={generatingSection !== null}
-                        >
-                            {generatingSection === index ? (
-                                <CircleNotch className="mr-1.5 h-3.5 w-3.5 animate-spin" />
-                            ) : (
-                                <MagicWand className="mr-1.5 h-3.5 w-3.5" />
-                            )}
-                            {generatingSection === index ? "Generating..." : "Generate with AI"}
-                        </Button>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div className="space-y-2">
-                            <Label htmlFor={`heading-${index}`} className="text-xs">Heading</Label>
-                            <Input
-                                id={`heading-${index}`}
-                                value={section.heading}
-                                onChange={(e) => updateSection(index, "heading", e.target.value)}
-                                placeholder="Section heading..."
-                                className="text-xs"
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor={`body-${index}`} className="text-xs">Body</Label>
-                            <Textarea
-                                id={`body-${index}`}
-                                value={section.body}
-                                onChange={(e) => updateSection(index, "body", e.target.value)}
-                                placeholder="Section content..."
-                                rows={6}
-                                className="text-xs"
-                            />
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <Label htmlFor={`sourceUrl-${index}`} className="text-xs">Source URL</Label>
-                                <Input
-                                    id={`sourceUrl-${index}`}
-                                    value={section.sourceUrl}
-                                    onChange={(e) => updateSection(index, "sourceUrl", e.target.value)}
-                                    placeholder="https://..."
-                                    className="text-xs"
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor={`sourceTitle-${index}`} className="text-xs">Source Title</Label>
-                                <Input
-                                    id={`sourceTitle-${index}`}
-                                    value={section.sourceTitle}
-                                    onChange={(e) => updateSection(index, "sourceTitle", e.target.value)}
-                                    placeholder="Source name or title..."
-                                    className="text-xs"
-                                />
-                            </div>
-                        </div>
+            {/* Article Editors */}
+            {articles.length === 0 && (
+                <Card className="border-none shadow-sm">
+                    <CardContent className="py-10 text-center">
+                        <p className="text-sm text-muted-foreground">No articles yet. This digest has no article set.</p>
                     </CardContent>
                 </Card>
-            ))}
+            )}
+
+            {articles.map((article) => {
+                const articleTitle = article.sectionTemplate?.name ?? `Article ${article.order}`
+                const statusCfg = ARTICLE_STATUS_BADGE[article.status]
+
+                return (
+                    <Card key={article.id} className="border-none shadow-sm">
+                        <CardHeader className="flex flex-row items-center justify-between">
+                            <CardTitle className="text-lg flex items-center gap-2">
+                                <span className="text-xs text-muted-foreground font-normal">#{article.order}</span>
+                                {articleTitle}
+                                <Badge variant="outline" className={`text-[10px] py-0 px-1.5 font-normal ${statusCfg.className}`}>
+                                    {statusCfg.label}
+                                </Badge>
+                            </CardTitle>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="text-xs"
+                                onClick={() => handleGenerate(article.id)}
+                                disabled={generatingArticle !== null || generatingAll}
+                            >
+                                {generatingArticle === article.id ? (
+                                    <CircleNotch className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+                                ) : (
+                                    <MagicWand className="mr-1.5 h-3.5 w-3.5" />
+                                )}
+                                {generatingArticle === article.id ? "Generating..." : "Generate with AI"}
+                            </Button>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div className="space-y-2">
+                                <Label htmlFor={`heading-${article.id}`} className="text-xs">Heading</Label>
+                                <Input
+                                    id={`heading-${article.id}`}
+                                    value={article.heading}
+                                    onChange={(e) => updateArticle(article.id, "heading", e.target.value)}
+                                    placeholder="Article heading..."
+                                    className="text-xs"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor={`body-${article.id}`} className="text-xs">Body</Label>
+                                <Textarea
+                                    id={`body-${article.id}`}
+                                    value={article.body}
+                                    onChange={(e) => updateArticle(article.id, "body", e.target.value)}
+                                    placeholder="Article content..."
+                                    rows={6}
+                                    className="text-xs"
+                                />
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor={`sourceUrl-${article.id}`} className="text-xs">Source URL</Label>
+                                    <Input
+                                        id={`sourceUrl-${article.id}`}
+                                        value={article.sourceUrl}
+                                        onChange={(e) => updateArticle(article.id, "sourceUrl", e.target.value)}
+                                        placeholder="https://..."
+                                        className="text-xs"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor={`sourceTitle-${article.id}`} className="text-xs">Source Title</Label>
+                                    <Input
+                                        id={`sourceTitle-${article.id}`}
+                                        value={article.sourceTitle}
+                                        onChange={(e) => updateArticle(article.id, "sourceTitle", e.target.value)}
+                                        placeholder="Source name or title..."
+                                        className="text-xs"
+                                    />
+                                </div>
+                            </div>
+                            {/* Research source note */}
+                            {article.finding && (
+                                <div className="flex items-center gap-2 p-2 rounded-md bg-blue-50/50 dark:bg-blue-500/5 border border-blue-200/50 dark:border-blue-500/20">
+                                    <BookOpen className="h-3.5 w-3.5 text-blue-600 shrink-0" />
+                                    <div className="text-xs text-blue-700 dark:text-blue-400">
+                                        <span className="font-medium">Research source:</span>{" "}
+                                        {article.finding.title}
+                                        {article.finding.summary && (
+                                            <span className="text-blue-600/70 dark:text-blue-400/70"> — {article.finding.summary.slice(0, 100)}{article.finding.summary.length > 100 ? "..." : ""}</span>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                        </CardContent>
+                    </Card>
+                )
+            })}
 
             {/* Bottom Save */}
             <div className="flex gap-2 pb-8">

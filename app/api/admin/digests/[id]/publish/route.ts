@@ -18,7 +18,13 @@ export async function POST(
         const digest = await prisma.digest.findUnique({
             where: { id },
             include: {
-                approvals: true,
+                approvals: {
+                    include: {
+                        user: {
+                            select: { id: true, name: true, email: true, image: true },
+                        },
+                    },
+                },
             },
         });
         if (!digest) {
@@ -47,8 +53,15 @@ export async function POST(
                 publishedAt: new Date(),
             },
             include: {
-                sections: {
-                    orderBy: { order: "asc" },
+                articleSet: {
+                    include: {
+                        articles: {
+                            orderBy: { order: "asc" },
+                            include: {
+                                sectionTemplate: true,
+                            },
+                        },
+                    },
                 },
                 approvals: {
                     include: {

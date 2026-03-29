@@ -11,6 +11,18 @@ const APPROVALS_INCLUDE = {
     },
 };
 
+const ARTICLE_SET_INCLUDE = {
+    include: {
+        articles: {
+            orderBy: { order: "asc" as const },
+            include: {
+                sectionTemplate: true,
+                finding: true,
+            },
+        },
+    },
+};
+
 export async function GET(
     _req: NextRequest,
     { params }: { params: Promise<{ id: string }> }
@@ -26,9 +38,7 @@ export async function GET(
         const digest = await prisma.digest.findUnique({
             where: { id },
             include: {
-                sections: {
-                    orderBy: { order: "asc" },
-                },
+                articleSet: ARTICLE_SET_INCLUDE,
                 approvals: APPROVALS_INCLUDE,
             },
         });
@@ -63,7 +73,7 @@ export async function PATCH(
             return NextResponse.json({ error: "Digest not found" }, { status: 404 });
         }
 
-        const { sections, ...digestFields } = body;
+        const { articles, ...digestFields } = body;
 
         // Build digest update data from allowed fields
         const allowedFields = ["title", "subjectLine", "preHeader", "personalNote", "status", "publishDate"];
@@ -77,51 +87,41 @@ export async function PATCH(
         }
 
         // Update digest fields
-        const digest = await prisma.digest.update({
+        await prisma.digest.update({
             where: { id },
             data: updateData,
+        });
+
+        // Update articles if provided
+        if (articles && Array.isArray(articles)) {
+            for (const article of articles) {
+                if (!article.id) continue;
+                const articleUpdate: Record<string, unknown> = {};
+                const articleFields = ["heading", "body", "sourceUrl", "sourceTitle", "status"];
+                for (const field of articleFields) {
+                    if (article[field] !== undefined) {
+                        articleUpdate[field] = article[field];
+                    }
+                }
+                if (Object.keys(articleUpdate).length > 0) {
+                    await prisma.article.update({
+                        where: { id: article.id },
+                        data: articleUpdate,
+                    });
+                }
+            }
+        }
+
+        // Re-fetch with all relations
+        const updated = await prisma.digest.findUnique({
+            where: { id },
             include: {
-                sections: {
-                    orderBy: { order: "asc" },
-                },
+                articleSet: ARTICLE_SET_INCLUDE,
                 approvals: APPROVALS_INCLUDE,
             },
         });
 
-        // Update sections if provided
-        if (sections && Array.isArray(sections)) {
-            for (const section of sections) {
-                if (!section.id) continue;
-                const sectionUpdate: Record<string, unknown> = {};
-                const sectionFields = ["heading", "body", "sourceUrl", "sourceTitle"];
-                for (const field of sectionFields) {
-                    if (section[field] !== undefined) {
-                        sectionUpdate[field] = section[field];
-                    }
-                }
-                if (Object.keys(sectionUpdate).length > 0) {
-                    await prisma.digestSection.update({
-                        where: { id: section.id },
-                        data: sectionUpdate,
-                    });
-                }
-            }
-
-            // Re-fetch with updated sections
-            const updated = await prisma.digest.findUnique({
-                where: { id },
-                include: {
-                    sections: {
-                        orderBy: { order: "asc" },
-                    },
-                    approvals: APPROVALS_INCLUDE,
-                },
-            });
-
-            return NextResponse.json(updated);
-        }
-
-        return NextResponse.json(digest);
+        return NextResponse.json(updated);
     } catch (error) {
         console.error("Failed to update digest:", error);
         return NextResponse.json({ error: "Failed to update digest" }, { status: 500 });

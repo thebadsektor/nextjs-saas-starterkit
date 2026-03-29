@@ -65,10 +65,15 @@ export const ModelName = {
   Feedback: 'Feedback',
   FeedbackReply: 'FeedbackReply',
   FeedbackNotificationEmail: 'FeedbackNotificationEmail',
+  KnowledgeBase: 'KnowledgeBase',
+  Research: 'Research',
+  SectionTemplate: 'SectionTemplate',
+  ResearchPrompt: 'ResearchPrompt',
+  ResearchRun: 'ResearchRun',
+  ResearchFinding: 'ResearchFinding',
   Digest: 'Digest',
-  DigestSection: 'DigestSection',
-  DigestTopic: 'DigestTopic',
-  StagedContent: 'StagedContent',
+  ArticleSet: 'ArticleSet',
+  Article: 'Article',
   Team: 'Team',
   TeamMember: 'TeamMember',
   DigestApproval: 'DigestApproval',
@@ -276,6 +281,100 @@ export const FeedbackNotificationEmailScalarFieldEnum = {
 export type FeedbackNotificationEmailScalarFieldEnum = (typeof FeedbackNotificationEmailScalarFieldEnum)[keyof typeof FeedbackNotificationEmailScalarFieldEnum]
 
 
+export const KnowledgeBaseScalarFieldEnum = {
+  id: 'id',
+  teamId: 'teamId',
+  name: 'name',
+  brandVoice: 'brandVoice',
+  sourceUrls: 'sourceUrls',
+  previousTopics: 'previousTopics',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type KnowledgeBaseScalarFieldEnum = (typeof KnowledgeBaseScalarFieldEnum)[keyof typeof KnowledgeBaseScalarFieldEnum]
+
+
+export const ResearchScalarFieldEnum = {
+  id: 'id',
+  teamId: 'teamId',
+  knowledgeBaseId: 'knowledgeBaseId',
+  name: 'name',
+  description: 'description',
+  searchWindowDays: 'searchWindowDays',
+  minFindings: 'minFindings',
+  reRunOnFailure: 'reRunOnFailure',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ResearchScalarFieldEnum = (typeof ResearchScalarFieldEnum)[keyof typeof ResearchScalarFieldEnum]
+
+
+export const SectionTemplateScalarFieldEnum = {
+  id: 'id',
+  researchId: 'researchId',
+  name: 'name',
+  key: 'key',
+  description: 'description',
+  order: 'order',
+  findingCategory: 'findingCategory',
+  promptTemplate: 'promptTemplate',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SectionTemplateScalarFieldEnum = (typeof SectionTemplateScalarFieldEnum)[keyof typeof SectionTemplateScalarFieldEnum]
+
+
+export const ResearchPromptScalarFieldEnum = {
+  id: 'id',
+  researchId: 'researchId',
+  type: 'type',
+  name: 'name',
+  content: 'content',
+  isActive: 'isActive',
+  version: 'version',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ResearchPromptScalarFieldEnum = (typeof ResearchPromptScalarFieldEnum)[keyof typeof ResearchPromptScalarFieldEnum]
+
+
+export const ResearchRunScalarFieldEnum = {
+  id: 'id',
+  researchId: 'researchId',
+  status: 'status',
+  promptUsed: 'promptUsed',
+  searchWindowDays: 'searchWindowDays',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  error: 'error',
+  createdAt: 'createdAt'
+} as const
+
+export type ResearchRunScalarFieldEnum = (typeof ResearchRunScalarFieldEnum)[keyof typeof ResearchRunScalarFieldEnum]
+
+
+export const ResearchFindingScalarFieldEnum = {
+  id: 'id',
+  runId: 'runId',
+  order: 'order',
+  category: 'category',
+  title: 'title',
+  summary: 'summary',
+  sourceUrl: 'sourceUrl',
+  sourceTitle: 'sourceTitle',
+  sourceDate: 'sourceDate',
+  used: 'used',
+  createdAt: 'createdAt'
+} as const
+
+export type ResearchFindingScalarFieldEnum = (typeof ResearchFindingScalarFieldEnum)[keyof typeof ResearchFindingScalarFieldEnum]
+
+
 export const DigestScalarFieldEnum = {
   id: 'id',
   digestNumber: 'digestNumber',
@@ -297,49 +396,36 @@ export const DigestScalarFieldEnum = {
 export type DigestScalarFieldEnum = (typeof DigestScalarFieldEnum)[keyof typeof DigestScalarFieldEnum]
 
 
-export const DigestSectionScalarFieldEnum = {
+export const ArticleSetScalarFieldEnum = {
   id: 'id',
+  runId: 'runId',
   digestId: 'digestId',
-  sectionType: 'sectionType',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ArticleSetScalarFieldEnum = (typeof ArticleSetScalarFieldEnum)[keyof typeof ArticleSetScalarFieldEnum]
+
+
+export const ArticleScalarFieldEnum = {
+  id: 'id',
+  articleSetId: 'articleSetId',
+  sectionTemplateId: 'sectionTemplateId',
   order: 'order',
   heading: 'heading',
   body: 'body',
   sourceUrl: 'sourceUrl',
   sourceTitle: 'sourceTitle',
   sourceDate: 'sourceDate',
+  findingId: 'findingId',
+  status: 'status',
+  generatedAt: 'generatedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type DigestSectionScalarFieldEnum = (typeof DigestSectionScalarFieldEnum)[keyof typeof DigestSectionScalarFieldEnum]
-
-
-export const DigestTopicScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  digestId: 'digestId',
-  weekOf: 'weekOf',
-  createdAt: 'createdAt'
-} as const
-
-export type DigestTopicScalarFieldEnum = (typeof DigestTopicScalarFieldEnum)[keyof typeof DigestTopicScalarFieldEnum]
-
-
-export const StagedContentScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  summary: 'summary',
-  sourceUrl: 'sourceUrl',
-  sourceName: 'sourceName',
-  sourceType: 'sourceType',
-  category: 'category',
-  publishedAt: 'publishedAt',
-  used: 'used',
-  digestId: 'digestId',
-  createdAt: 'createdAt'
-} as const
-
-export type StagedContentScalarFieldEnum = (typeof StagedContentScalarFieldEnum)[keyof typeof StagedContentScalarFieldEnum]
+export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeof ArticleScalarFieldEnum]
 
 
 export const TeamScalarFieldEnum = {

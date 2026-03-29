@@ -110,25 +110,50 @@ export type FeedbackReply = Prisma.FeedbackReplyModel
  */
 export type FeedbackNotificationEmail = Prisma.FeedbackNotificationEmailModel
 /**
+ * Model KnowledgeBase
+ * 
+ */
+export type KnowledgeBase = Prisma.KnowledgeBaseModel
+/**
+ * Model Research
+ * 
+ */
+export type Research = Prisma.ResearchModel
+/**
+ * Model SectionTemplate
+ * 
+ */
+export type SectionTemplate = Prisma.SectionTemplateModel
+/**
+ * Model ResearchPrompt
+ * 
+ */
+export type ResearchPrompt = Prisma.ResearchPromptModel
+/**
+ * Model ResearchRun
+ * 
+ */
+export type ResearchRun = Prisma.ResearchRunModel
+/**
+ * Model ResearchFinding
+ * 
+ */
+export type ResearchFinding = Prisma.ResearchFindingModel
+/**
  * Model Digest
  * 
  */
 export type Digest = Prisma.DigestModel
 /**
- * Model DigestSection
+ * Model ArticleSet
  * 
  */
-export type DigestSection = Prisma.DigestSectionModel
+export type ArticleSet = Prisma.ArticleSetModel
 /**
- * Model DigestTopic
+ * Model Article
  * 
  */
-export type DigestTopic = Prisma.DigestTopicModel
-/**
- * Model StagedContent
- * 
- */
-export type StagedContent = Prisma.StagedContentModel
+export type Article = Prisma.ArticleModel
 /**
  * Model Team
  * 

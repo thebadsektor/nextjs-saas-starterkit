@@ -29,22 +29,40 @@ export const DigestStatus = {
 export type DigestStatus = (typeof DigestStatus)[keyof typeof DigestStatus]
 
 
-export const SectionType = {
-  EXPERT_TIP: 'EXPERT_TIP',
-  MARKETING_TIP: 'MARKETING_TIP',
-  COMMUNITY_SPOTLIGHT: 'COMMUNITY_SPOTLIGHT',
-  FUNNEL_OF_THE_WEEK: 'FUNNEL_OF_THE_WEEK',
-  FOOD_FOR_THOUGHT: 'FOOD_FOR_THOUGHT'
+export const ArticleSetStatus = {
+  EMPTY: 'EMPTY',
+  GENERATING: 'GENERATING',
+  GENERATED: 'GENERATED',
+  EDITED: 'EDITED'
 } as const
 
-export type SectionType = (typeof SectionType)[keyof typeof SectionType]
+export type ArticleSetStatus = (typeof ArticleSetStatus)[keyof typeof ArticleSetStatus]
 
 
-export const SourceType = {
-  RSS: 'RSS',
-  SOCIAL: 'SOCIAL',
-  NEWSLETTER: 'NEWSLETTER',
-  MANUAL: 'MANUAL'
+export const ArticleStatus = {
+  EMPTY: 'EMPTY',
+  GENERATED: 'GENERATED',
+  EDITED: 'EDITED',
+  APPROVED: 'APPROVED'
 } as const
 
-export type SourceType = (typeof SourceType)[keyof typeof SourceType]
+export type ArticleStatus = (typeof ArticleStatus)[keyof typeof ArticleStatus]
+
+
+export const ResearchRunStatus = {
+  PENDING: 'PENDING',
+  RUNNING: 'RUNNING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  PARTIAL: 'PARTIAL'
+} as const
+
+export type ResearchRunStatus = (typeof ResearchRunStatus)[keyof typeof ResearchRunStatus]
+
+
+export const ResearchPromptType = {
+  RESEARCH: 'RESEARCH',
+  WRITING: 'WRITING'
+} as const
+
+export type ResearchPromptType = (typeof ResearchPromptType)[keyof typeof ResearchPromptType]

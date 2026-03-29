@@ -2,15 +2,25 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { DigestStatus, PublishDay, SectionType } from "@/app/generated/prisma/client";
+import { DigestStatus, PublishDay } from "@/app/generated/prisma/client";
 
-const SECTION_TYPES_ORDERED: SectionType[] = [
-    "EXPERT_TIP",
-    "MARKETING_TIP",
-    "COMMUNITY_SPOTLIGHT",
-    "FUNNEL_OF_THE_WEEK",
-    "FOOD_FOR_THOUGHT",
-];
+const ARTICLE_SET_INCLUDE = {
+    articles: {
+        orderBy: { order: "asc" as const },
+        include: {
+            sectionTemplate: true,
+            finding: true,
+        },
+    },
+};
+
+const APPROVALS_INCLUDE = {
+    include: {
+        user: {
+            select: { id: true, name: true, email: true, image: true },
+        },
+    },
+};
 
 export async function GET(req: NextRequest) {
     try {
@@ -37,16 +47,10 @@ export async function GET(req: NextRequest) {
                 skip,
                 take: limit,
                 include: {
-                    sections: {
-                        orderBy: { order: "asc" },
+                    articleSet: {
+                        include: ARTICLE_SET_INCLUDE,
                     },
-                    approvals: {
-                        include: {
-                            user: {
-                                select: { id: true, name: true, email: true, image: true },
-                            },
-                        },
-                    },
+                    approvals: APPROVALS_INCLUDE,
                 },
             }),
             prisma.digest.count({ where }),
@@ -85,7 +89,7 @@ export async function POST(req: NextRequest) {
         }
 
         const body = await req.json();
-        const { digestNumber, publishDay, publishDate, title } = body;
+        const { digestNumber, publishDay, publishDate, title, researchId } = body;
 
         if (!digestNumber || !publishDay || !publishDate) {
             return NextResponse.json(
@@ -94,32 +98,43 @@ export async function POST(req: NextRequest) {
             );
         }
 
+        // Create digest
         const digest = await prisma.digest.create({
             data: {
                 digestNumber,
                 publishDay,
                 publishDate: new Date(publishDate),
                 title: title || null,
-                sections: {
-                    create: SECTION_TYPES_ORDERED.map((sectionType, index) => ({
-                        sectionType,
-                        order: index + 1,
-                    })),
-                },
-            },
-            include: {
-                sections: {
-                    orderBy: { order: "asc" },
-                },
-                approvals: {
-                    include: {
-                        user: {
-                            select: { id: true, name: true, email: true, image: true },
-                        },
-                    },
-                },
             },
         });
+
+        // Create an empty ArticleSet for this digest
+        const articleSet = await prisma.articleSet.create({
+            data: {
+                digestId: digest.id,
+                status: "EMPTY",
+            },
+        });
+
+        // If a researchId is provided, fetch active SectionTemplates and create empty Articles
+        if (researchId) {
+            const templates = await prisma.sectionTemplate.findMany({
+                where: { researchId, isActive: true },
+                orderBy: { order: "asc" },
+                take: 5,
+            });
+
+            if (templates.length > 0) {
+                await prisma.article.createMany({
+                    data: templates.map((t, i) => ({
+                        articleSetId: articleSet.id,
+                        sectionTemplateId: t.id,
+                        order: i + 1,
+                        status: "EMPTY" as const,
+                    })),
+                });
+            }
+        }
 
         // Create a DigestApproval for the author
         await prisma.digestApproval.create({
@@ -130,24 +145,18 @@ export async function POST(req: NextRequest) {
             },
         });
 
-        // Re-fetch to include the newly created approval
-        const digestWithApprovals = await prisma.digest.findUnique({
+        // Re-fetch to include all relations
+        const digestWithRelations = await prisma.digest.findUnique({
             where: { id: digest.id },
             include: {
-                sections: {
-                    orderBy: { order: "asc" },
+                articleSet: {
+                    include: ARTICLE_SET_INCLUDE,
                 },
-                approvals: {
-                    include: {
-                        user: {
-                            select: { id: true, name: true, email: true, image: true },
-                        },
-                    },
-                },
+                approvals: APPROVALS_INCLUDE,
             },
         });
 
-        return NextResponse.json(digestWithApprovals, { status: 201 });
+        return NextResponse.json(digestWithRelations, { status: 201 });
     } catch (error) {
         console.error("Failed to create digest:", error);
         return NextResponse.json({ error: "Failed to create digest" }, { status: 500 });

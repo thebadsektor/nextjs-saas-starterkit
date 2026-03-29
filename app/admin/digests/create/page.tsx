@@ -20,6 +20,12 @@ import {
 import { toast } from "sonner"
 import { CircleNotch, ArrowLeft } from "@phosphor-icons/react"
 
+interface ResearchOption {
+    id: string
+    name: string
+    description: string | null
+}
+
 function getNextPublishDay() {
     const today = new Date()
     const dow = today.getDay()
@@ -64,6 +70,9 @@ export default function CreateDigestPage() {
     const [publishDay, setPublishDay] = useState("")
     const [publishDate, setPublishDate] = useState("")
     const [title, setTitle] = useState("")
+    const [researchId, setResearchId] = useState("")
+    const [researchOptions, setResearchOptions] = useState<ResearchOption[]>([])
+    const [loadingResearch, setLoadingResearch] = useState(false)
 
     // Fetch smart defaults on mount
     useEffect(() => {
@@ -97,6 +106,27 @@ export default function CreateDigestPage() {
         loadDefaults()
     }, [])
 
+    // Fetch research options
+    useEffect(() => {
+        async function loadResearch() {
+            setLoadingResearch(true)
+            try {
+                const res = await fetch("/api/admin/research")
+                if (res.ok) {
+                    const data = await res.json()
+                    setResearchOptions(data.researches ?? data ?? [])
+                }
+            } catch {
+                // Silently fail - research is optional
+            } finally {
+                setLoadingResearch(false)
+            }
+        }
+        if (session?.user.role === "admin") {
+            loadResearch()
+        }
+    }, [session])
+
     // Auto-update title when number or date changes
     useEffect(() => {
         if (!loadingDefaults && publishDate && digestNumber) {
@@ -122,6 +152,7 @@ export default function CreateDigestPage() {
                     publishDay,
                     publishDate,
                     title: title || null,
+                    researchId: researchId || null,
                 }),
             })
 
@@ -237,6 +268,29 @@ export default function CreateDigestPage() {
                                     onChange={(e) => setTitle(e.target.value)}
                                     className="text-xs"
                                 />
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="researchId" className="text-xs">
+                                    Research Config <span className="text-muted-foreground">(optional)</span>
+                                </Label>
+                                <Select value={researchId} onValueChange={setResearchId}>
+                                    <SelectTrigger className="text-xs">
+                                        <SelectValue placeholder={loadingResearch ? "Loading..." : "Select a research config (optional)"} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="none">No research (manual mode)</SelectItem>
+                                        {researchOptions.map((r) => (
+                                            <SelectItem key={r.id} value={r.id}>
+                                                {r.name}
+                                                {r.description ? ` — ${r.description}` : ""}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <p className="text-[10px] text-muted-foreground">
+                                    When a research config is selected, its section templates will be used to create articles.
+                                </p>
                             </div>
 
                             <div className="flex gap-3 pt-2">

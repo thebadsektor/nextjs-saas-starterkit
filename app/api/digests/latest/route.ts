@@ -7,8 +7,15 @@ export async function GET() {
             where: { status: "PUBLISHED" },
             orderBy: { publishDate: "desc" },
             include: {
-                sections: {
-                    orderBy: { order: "asc" },
+                articleSet: {
+                    include: {
+                        articles: {
+                            orderBy: { order: "asc" },
+                            include: {
+                                sectionTemplate: true,
+                            },
+                        },
+                    },
                 },
             },
         });

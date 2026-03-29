@@ -1,47 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import openai from "@/lib/openai";
 
-// Configurable brand voice — change this to match your newsletter's persona
-const BRAND_VOICE = "a friendly, experienced funnel and marketing expert. Warm, conversational, like a friend sharing advice.";
+const DEFAULT_BRAND_VOICE = "a friendly, experienced funnel and marketing expert. Warm, conversational, like a friend sharing advice.";
 
-const SECTION_PROMPTS: Record<string, string> = {
-    EXPERT_TIP: `You are writing the "FBM Expert Tip" section for the FBM Digest newsletter.
-Write a marketing or growth strategy tip in 2-3 short paragraphs.
-Voice: ${BRAND_VOICE}
+const GENERIC_PROMPT = `You are writing a section for a marketing newsletter.
+Write engaging, actionable content in 2-3 short paragraphs.
 Use contractions (it's, you're, don't). Second person (you/your). Short paragraphs (2-3 sentences max).
-End with a practical action the reader can take this week.
-Do NOT include any section headers — just the body content.`,
-
-    MARKETING_TIP: `You are writing the "Marketing Tip of the Week" section for the FBM Digest newsletter.
-Write about a practical AI tool or productivity hack in under 150 words.
-Voice: ${BRAND_VOICE}
-Include the specific benefit or result if possible.
-End with one clear action step the reader can take this week, starting with "Action step:".
-Do NOT include any section headers — just the body content.`,
-
-    COMMUNITY_SPOTLIGHT: `You are writing the "Community Spotlight" section for the FBM Digest newsletter.
-Frame this as a success story from a ClickFunnels/funnel builder community member.
-Lead with the result (numbers, revenue, growth), then explain how they achieved it.
-Voice: ${BRAND_VOICE} Sharing something too good not to pass along.
-Make it feel authentic and relatable. Use a realistic first name.
-Do NOT include any section headers — just the body content.`,
-
-    FUNNEL_OF_THE_WEEK: `You are writing the "Funnel of the Week" section for the FBM Digest newsletter.
-Describe a funnel strategy in plain English — no jargon.
-Include 2-3 observations or elements the reader can steal for their own funnel.
-Voice: ${BRAND_VOICE} Breaking down what works and why.
-End with exactly this line: "Want a funnel like this built for your business? Send us a message here → funnelbuildermarketplace.com"
-Do NOT include any section headers — just the body content.`,
-
-    FOOD_FOR_THOUGHT: `You are writing the "Food for Thought" section for the FBM Digest newsletter.
-Provide an inspiring business or marketing quote, properly attributed.
-Format: Start with the quote in quotation marks, then "— [Author Name]" on the next line.
-Then add 1-2 sentences connecting the quote to funnel building or marketing.
-Voice: ${BRAND_VOICE} Reflective and encouraging.
-Do NOT include any section headers — just the body content.`,
-};
+Do NOT include any section headers — just the body content.`;
 
 export async function POST(
     req: NextRequest,
@@ -55,63 +23,155 @@ export async function POST(
 
         const { id } = await params;
         const body = await req.json();
-        const { sectionType, topic, context } = body;
+        const { articleId, topic, context, generateAll } = body;
 
-        if (!sectionType || !SECTION_PROMPTS[sectionType]) {
+        // Verify digest exists
+        const digest = await prisma.digest.findUnique({
+            where: { id },
+            include: {
+                articleSet: {
+                    include: {
+                        articles: {
+                            orderBy: { order: "asc" },
+                            include: {
+                                sectionTemplate: {
+                                    include: {
+                                        research: {
+                                            include: {
+                                                knowledgeBase: true,
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        });
+
+        if (!digest) {
+            return NextResponse.json({ error: "Digest not found" }, { status: 404 });
+        }
+
+        if (!digest.articleSet) {
+            return NextResponse.json({ error: "Digest has no article set" }, { status: 400 });
+        }
+
+        // Batch mode: generate all articles in the set
+        if (generateAll) {
+            const results = [];
+            for (const article of digest.articleSet.articles) {
+                const result = await generateForArticle(article, topic, context);
+                results.push(result);
+            }
+            return NextResponse.json({ articles: results });
+        }
+
+        // Single article mode
+        if (!articleId) {
             return NextResponse.json(
-                { error: "Invalid sectionType. Must be one of: " + Object.keys(SECTION_PROMPTS).join(", ") },
+                { error: "articleId is required (or set generateAll: true)" },
                 { status: 400 }
             );
         }
 
-        const systemPrompt = SECTION_PROMPTS[sectionType];
-
-        let userPrompt = `Generate content for this newsletter section.`;
-        if (topic) {
-            userPrompt += `\n\nTopic/subject to write about: ${topic}`;
-        }
-        if (context) {
-            userPrompt += `\n\nAdditional context: ${context}`;
-        }
-        if (!topic && !context) {
-            userPrompt += `\n\nChoose a timely, relevant topic for ClickFunnels users and funnel builders. Make it specific and actionable.`;
+        const article = digest.articleSet.articles.find((a) => a.id === articleId);
+        if (!article) {
+            return NextResponse.json({ error: "Article not found in this digest" }, { status: 404 });
         }
 
-        userPrompt += `\n\nRespond in this exact JSON format (no markdown, no code fences):
-{"heading": "The section heading", "body": "The section body content"}`;
-
-        const completion = await openai.chat.completions.create({
-            model: "gpt-4o-mini",
-            messages: [
-                { role: "system", content: systemPrompt },
-                { role: "user", content: userPrompt },
-            ],
-            temperature: 0.8,
-            max_tokens: 800,
-        });
-
-        const raw = completion.choices[0]?.message?.content?.trim();
-        if (!raw) {
-            return NextResponse.json({ error: "No response from AI" }, { status: 500 });
-        }
-
-        // Parse JSON response — handle potential markdown fences
-        let cleaned = raw;
-        if (cleaned.startsWith("```")) {
-            cleaned = cleaned.replace(/^```(?:json)?\s*/, "").replace(/\s*```$/, "");
-        }
-
-        const parsed = JSON.parse(cleaned);
-
-        return NextResponse.json({
-            heading: parsed.heading,
-            body: parsed.body,
-        });
+        const result = await generateForArticle(article, topic, context);
+        return NextResponse.json(result);
     } catch (error) {
-        console.error("Failed to generate section content:", error);
+        console.error("Failed to generate article content:", error);
         if (error instanceof SyntaxError) {
             return NextResponse.json({ error: "Failed to parse AI response" }, { status: 500 });
         }
         return NextResponse.json({ error: "Failed to generate content" }, { status: 500 });
     }
+}
+
+interface ArticleWithTemplate {
+    id: string;
+    sectionTemplate: {
+        promptTemplate: string;
+        name: string;
+        research: {
+            knowledgeBase: {
+                brandVoice: string;
+            };
+        };
+    } | null;
+}
+
+async function generateForArticle(
+    article: ArticleWithTemplate,
+    topic?: string,
+    context?: string
+) {
+    const template = article.sectionTemplate;
+    const brandVoice = template?.research?.knowledgeBase?.brandVoice || DEFAULT_BRAND_VOICE;
+
+    // Use the SectionTemplate's promptTemplate, or fall back to generic
+    let systemPrompt: string;
+    if (template?.promptTemplate) {
+        systemPrompt = template.promptTemplate.replace("{{BRAND_VOICE}}", brandVoice);
+    } else {
+        systemPrompt = `${GENERIC_PROMPT}\nVoice: ${brandVoice}`;
+    }
+
+    let userPrompt = `Generate content for this newsletter section.`;
+    if (topic) {
+        userPrompt += `\n\nTopic/subject to write about: ${topic}`;
+    }
+    if (context) {
+        userPrompt += `\n\nAdditional context: ${context}`;
+    }
+    if (!topic && !context) {
+        userPrompt += `\n\nChoose a timely, relevant topic for ClickFunnels users and funnel builders. Make it specific and actionable.`;
+    }
+
+    userPrompt += `\n\nRespond in this exact JSON format (no markdown, no code fences):
+{"heading": "The section heading", "body": "The section body content"}`;
+
+    const completion = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: userPrompt },
+        ],
+        temperature: 0.8,
+        max_tokens: 800,
+    });
+
+    const raw = completion.choices[0]?.message?.content?.trim();
+    if (!raw) {
+        throw new Error("No response from AI");
+    }
+
+    // Parse JSON response — handle potential markdown fences
+    let cleaned = raw;
+    if (cleaned.startsWith("```")) {
+        cleaned = cleaned.replace(/^```(?:json)?\s*/, "").replace(/\s*```$/, "");
+    }
+
+    const parsed = JSON.parse(cleaned);
+
+    // Update article in DB
+    await prisma.article.update({
+        where: { id: article.id },
+        data: {
+            heading: parsed.heading,
+            body: parsed.body,
+            status: "GENERATED",
+            generatedAt: new Date(),
+        },
+    });
+
+    return {
+        articleId: article.id,
+        heading: parsed.heading,
+        body: parsed.body,
+    };
 }

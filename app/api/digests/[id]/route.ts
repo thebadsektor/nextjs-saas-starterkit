@@ -24,8 +24,15 @@ export async function GET(
         const digest = await prisma.digest.findUnique({
             where: { id },
             include: {
-                sections: {
-                    orderBy: { order: "asc" },
+                articleSet: {
+                    include: {
+                        articles: {
+                            orderBy: { order: "asc" },
+                            include: {
+                                sectionTemplate: true,
+                            },
+                        },
+                    },
                 },
             },
         });

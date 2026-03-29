@@ -15,8 +15,15 @@ export async function GET(req: NextRequest) {
                 skip,
                 take: limit,
                 include: {
-                    sections: {
-                        orderBy: { order: "asc" },
+                    articleSet: {
+                        include: {
+                            articles: {
+                                orderBy: { order: "asc" },
+                                include: {
+                                    sectionTemplate: true,
+                                },
+                            },
+                        },
                     },
                 },
             }),
