@@ -210,6 +210,30 @@ export async function POST() {
         const userId = session.user.id;
         const userEmail = session.user.email;
 
+        // ── Seed Test Users ──
+        const testUsers = [
+            { name: "Lee Chapman", email: "lee@fbmdigest.com", password: "FBMDigest2026!" },
+            { name: "Hanna Mae Rico", email: "hanna@fbmdigest.com", password: "FBMDigest2026!" },
+        ];
+        let usersSeeded = 0;
+        for (const u of testUsers) {
+            const existing = await prisma.user.findFirst({ where: { email: u.email } });
+            if (existing) continue;
+            try {
+                await auth.api.signUpEmail({
+                    body: { email: u.email, password: u.password, name: u.name },
+                });
+                // Mark email as verified so they can log in immediately
+                await prisma.user.updateMany({
+                    where: { email: u.email },
+                    data: { emailVerified: true },
+                });
+                usersSeeded++;
+            } catch (e) {
+                console.error(`Failed to create user ${u.email}:`, e);
+            }
+        }
+
         // Seed Discussions
         const discussionsToCreate = DISCUSSION_TITLES.map((title, i) => ({
             title,
@@ -450,7 +474,7 @@ export async function POST() {
 
         return NextResponse.json({
             success: true,
-            message: `Successfully seeded ${discussionsToCreate.length} discussions, ${feedbackToCreate.length} feedback entries, and ${digestsSeeded} digests (${digestSeeds.length - digestsSeeded} skipped — already exist). Also created KnowledgeBase, Research config with ${createdTemplates.length} section templates, and ${SAMPLE_FINDINGS.length} research findings.`
+            message: `Successfully seeded ${usersSeeded} test users, ${discussionsToCreate.length} discussions, ${feedbackToCreate.length} feedback entries, and ${digestsSeeded} digests (${digestSeeds.length - digestsSeeded} skipped — already exist). Also created KnowledgeBase, Research config with ${createdTemplates.length} section templates, and ${SAMPLE_FINDINGS.length} research findings.`
         });
 
     } catch (error) {
