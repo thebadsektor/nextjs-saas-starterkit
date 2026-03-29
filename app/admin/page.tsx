@@ -169,14 +169,14 @@ export default function AdminDashboardPage() {
                     </CardContent>
                 </Card>
 
-                {/* <Card className="border-none shadow-sm h-full flex flex-col">
+                <Card className="border-none shadow-sm h-full flex flex-col">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-lg flex items-center gap-2">
                             <Database size={20} className="text-primary" />
                             Database Seeding
                         </CardTitle>
                         <CardDescription className="text-xs">
-                            Populate forum and feedback with 20+ random entries for testing.
+                            Seed test users, digests, research data, and forum entries for demo.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="pt-4 mt-auto">
@@ -199,7 +199,7 @@ export default function AdminDashboardPage() {
                             )}
                         </Button>
                     </CardContent>
-                </Card> */}
+                </Card>
             </div>
         </div>
     )
