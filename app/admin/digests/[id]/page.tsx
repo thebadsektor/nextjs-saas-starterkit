@@ -141,6 +141,12 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
     const [generatingArticle, setGeneratingArticle] = useState<string | null>(null)
     const [generatingAll, setGeneratingAll] = useState(false)
 
+    // Body view state per article
+    const [bodyViewMode, setBodyViewMode] = useState<Record<string, "preview" | "html">>({})
+    const [previewTheme, setPreviewTheme] = useState<Record<string, "light" | "dark">>({})
+    const getBodyView = (id: string) => bodyViewMode[id] || "preview"
+    const getPreviewTheme = (id: string) => previewTheme[id] || "light"
+
     // Form state
     const [subjectLine, setSubjectLine] = useState("")
     const [preHeader, setPreHeader] = useState("")
@@ -794,15 +800,66 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor={`body-${article.id}`} className="text-xs">Body</Label>
-                                <Textarea
-                                    id={`body-${article.id}`}
-                                    value={article.body}
-                                    onChange={(e) => updateArticle(article.id, "body", e.target.value)}
-                                    placeholder="Article content..."
-                                    rows={6}
-                                    className="text-xs"
-                                />
+                                <div className="flex items-center justify-between">
+                                    <Label className="text-xs">Body</Label>
+                                    <div className="flex items-center gap-2">
+                                        <div className="flex rounded-md border border-muted overflow-hidden text-[10px]">
+                                            <button
+                                                type="button"
+                                                onClick={() => setBodyViewMode((prev) => ({ ...prev, [article.id]: "preview" }))}
+                                                className={`px-2.5 py-1 transition-colors ${getBodyView(article.id) === "preview" ? "bg-primary text-primary-foreground" : "bg-transparent text-muted-foreground hover:text-foreground"}`}
+                                            >
+                                                Preview
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => setBodyViewMode((prev) => ({ ...prev, [article.id]: "html" }))}
+                                                className={`px-2.5 py-1 transition-colors ${getBodyView(article.id) === "html" ? "bg-primary text-primary-foreground" : "bg-transparent text-muted-foreground hover:text-foreground"}`}
+                                            >
+                                                HTML
+                                            </button>
+                                        </div>
+                                        {getBodyView(article.id) === "preview" && (
+                                            <div className="flex rounded-md border border-muted overflow-hidden text-[10px]">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setPreviewTheme((prev) => ({ ...prev, [article.id]: "light" }))}
+                                                    className={`px-2 py-1 transition-colors ${getPreviewTheme(article.id) === "light" ? "bg-primary text-primary-foreground" : "bg-transparent text-muted-foreground hover:text-foreground"}`}
+                                                >
+                                                    ☀️
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setPreviewTheme((prev) => ({ ...prev, [article.id]: "dark" }))}
+                                                    className={`px-2 py-1 transition-colors ${getPreviewTheme(article.id) === "dark" ? "bg-primary text-primary-foreground" : "bg-transparent text-muted-foreground hover:text-foreground"}`}
+                                                >
+                                                    🌙
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                                {getBodyView(article.id) === "html" ? (
+                                    <Textarea
+                                        id={`body-${article.id}`}
+                                        value={article.body}
+                                        onChange={(e) => updateArticle(article.id, "body", e.target.value)}
+                                        placeholder="Article HTML content..."
+                                        rows={8}
+                                        className="text-xs font-mono"
+                                    />
+                                ) : (
+                                    <div
+                                        className={`rounded-md border min-h-[120px] p-4 text-sm ${
+                                            getPreviewTheme(article.id) === "light"
+                                                ? "bg-white text-gray-900 border-gray-200 prose prose-sm"
+                                                : "bg-gray-900 text-gray-100 border-gray-700 prose prose-sm prose-invert"
+                                        } max-w-none`}
+                                        dangerouslySetInnerHTML={{
+                                            __html: article.body || '<p style="color:#9ca3af">No content yet</p>',
+                                        }}
+                                    />
+                                )}
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-2">
