@@ -1,4 +1,4 @@
-import { House, SquaresFour, ShieldCheck, UserCircle, Gear, Shield, Users, ChatCircleText } from "@phosphor-icons/react";
+import { House, SquaresFour, ShieldCheck, UserCircle, Gear, Shield, Users, ChatCircleText, Newspaper, Flask, CalendarBlank } from "@phosphor-icons/react";
 
 export interface NavItem {
     label: string;
@@ -74,6 +74,27 @@ export const navigationConfig = {
                 label: "Home",
                 href: "/",
                 icon: House,
+            },
+            {
+                label: "Digests",
+                href: "/admin/digests",
+                icon: Newspaper,
+                adminOnly: true,
+                authRequired: true,
+            },
+            {
+                label: "Research",
+                href: "/admin/research",
+                icon: Flask,
+                adminOnly: true,
+                authRequired: true,
+            },
+            {
+                label: "Schedule",
+                href: "/admin/schedule",
+                icon: CalendarBlank,
+                adminOnly: true,
+                authRequired: true,
             },
         ] as NavItem[],
     }
