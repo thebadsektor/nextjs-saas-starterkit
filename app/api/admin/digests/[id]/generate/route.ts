@@ -9,7 +9,8 @@ const DEFAULT_BRAND_VOICE = "a friendly, experienced funnel and marketing expert
 const GENERIC_PROMPT = `You are writing a section for a marketing newsletter.
 Write engaging, actionable content in 2-3 short paragraphs.
 Use contractions (it's, you're, don't). Second person (you/your). Short paragraphs (2-3 sentences max).
-Do NOT include any section headers — just the body content.`;
+Do NOT include any section headers — just the body content.
+Format the body as clean HTML paragraphs using <p>, <strong>, <em>, and <ul>/<li> tags. Do NOT use markdown.`;
 
 export async function POST(
     req: NextRequest,
@@ -143,8 +144,10 @@ async function generateForArticle(
         userPrompt += `\n\nChoose a timely, relevant topic for ClickFunnels users and funnel builders. Make it specific and actionable.`;
     }
 
-    userPrompt += `\n\nRespond in this exact JSON format (no markdown, no code fences):
-{"heading": "The section heading", "body": "The section body content"}`;
+    userPrompt += `\n\nFormat the body as clean HTML. Use <p> tags for paragraphs, <strong> for emphasis, <em> for italic, <ul>/<li> for lists. Do NOT use markdown syntax like ** or *.
+
+Respond in this exact JSON format (no markdown, no code fences):
+{"heading": "The section heading", "body": "<p>First paragraph.</p><p>Second paragraph with <strong>key point</strong>.</p>"}`;
 
     const completion = await openai.chat.completions.create({
         model: "gpt-4o-mini",

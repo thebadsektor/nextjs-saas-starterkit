@@ -11,6 +11,14 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import {
@@ -428,13 +436,17 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
         <div className="space-y-6 max-w-4xl mx-auto">
             {/* Header */}
             <div>
-                <Link
-                    href="/admin/digests"
-                    className="text-xs text-muted-foreground hover:text-foreground inline-flex items-center gap-1 mb-4"
-                >
-                    <ArrowLeft className="h-3 w-3" />
-                    Back to Digests
-                </Link>
+                <Breadcrumb className="mb-4">
+                    <BreadcrumbList className="text-xs">
+                        <BreadcrumbItem>
+                            <BreadcrumbLink href="/admin/digests">Digests</BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem>
+                            <BreadcrumbPage>{digest.title || `Digest #${digest.digestNumber} — ${DAY_LABELS[digest.publishDay] ?? digest.publishDay}`}</BreadcrumbPage>
+                        </BreadcrumbItem>
+                    </BreadcrumbList>
+                </Breadcrumb>
                 <div className="flex items-center gap-3">
                     <h1 className="text-2xl font-bold tracking-tight">
                         Digest #{digest.digestNumber} &mdash; {DAY_LABELS[digest.publishDay] ?? digest.publishDay}
@@ -555,7 +567,10 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
                                     {article.sectionTemplate?.name ?? `Article ${article.order}`}
                                 </p>
                                 {article.heading && <p className="text-sm font-semibold">{article.heading}</p>}
-                                {article.body && <p className="text-sm whitespace-pre-wrap">{article.body}</p>}
+                                {article.body && (
+                                <div className="text-sm prose prose-sm max-w-none dark:prose-invert"
+                                     dangerouslySetInnerHTML={{ __html: article.body }} />
+                            )}
                                 {article.sourceUrl && (
                                     <p className="text-xs text-blue-600">
                                         Source: {article.sourceTitle || article.sourceUrl}

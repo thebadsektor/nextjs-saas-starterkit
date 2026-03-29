@@ -11,6 +11,14 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import {
@@ -329,13 +337,17 @@ export default function ResearchEditorPage({ params }: { params: Promise<{ id: s
         <div className="space-y-6 max-w-4xl mx-auto">
             {/* Header */}
             <div>
-                <Link
-                    href="/admin/research"
-                    className="text-xs text-muted-foreground hover:text-foreground inline-flex items-center gap-1 mb-4"
-                >
-                    <ArrowLeft className="h-3 w-3" />
-                    Back to Research
-                </Link>
+                <Breadcrumb className="mb-4">
+                    <BreadcrumbList className="text-xs">
+                        <BreadcrumbItem>
+                            <BreadcrumbLink href="/admin/research">Research</BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem>
+                            <BreadcrumbPage>{research.name}</BreadcrumbPage>
+                        </BreadcrumbItem>
+                    </BreadcrumbList>
+                </Breadcrumb>
                 <h1 className="text-2xl font-bold tracking-tight">{research.name}</h1>
                 <p className="text-muted-foreground text-xs">{research.description || "Research configuration"}</p>
             </div>
