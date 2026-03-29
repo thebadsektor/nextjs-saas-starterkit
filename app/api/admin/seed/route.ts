@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { PublishDay, DigestStatus, SectionType } from "@/app/generated/prisma";
+import { PublishDay, DigestStatus, SectionType } from "@/app/generated/prisma/client";
 
 const DISCUSSION_TITLES = [
     "Best Funnel Strategies for Lead Generation",
