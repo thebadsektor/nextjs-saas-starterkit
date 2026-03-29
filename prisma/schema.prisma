@@ -32,6 +32,10 @@ model User {
   commentVotes      CommentVote[]
   notifications     Notification[]
 
+  ownedTeams        Team[]            @relation("TeamOwner")
+  teamMemberships   TeamMember[]
+  digestApprovals   DigestApproval[]
+
   @@unique([email])
   @@map("user")
 }
@@ -260,14 +264,15 @@ model Digest {
   publishDay     PublishDay
   publishDate    DateTime
   status         DigestStatus @default(DRAFT)
-  leeApproved    Boolean      @default(false)
-  hannaApproved  Boolean      @default(false)
   personalNote   String?      @db.Text
   googleDocUrl   String?
   clickFunnelsId String?
+  teamId         String?
+  team           Team?        @relation(fields: [teamId], references: [id])
   sections       DigestSection[]
   topics         DigestTopic[]
   stagedContent  StagedContent[]
+  approvals      DigestApproval[]
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   publishedAt    DateTime?
@@ -324,6 +329,47 @@ model StagedContent {
   @@index([used])
   @@index([sourceType])
   @@map("staged_content")
+}
+
+model Team {
+  id        String       @id @default(cuid())
+  name      String
+  ownerId   String
+  owner     User         @relation("TeamOwner", fields: [ownerId], references: [id])
+  members   TeamMember[]
+  digests   Digest[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@map("team")
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  teamId    String
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      String   @default("member")
+  createdAt DateTime @default(now())
+
+  @@unique([teamId, userId])
+  @@map("team_member")
+}
+
+model DigestApproval {
+  id         String    @id @default(cuid())
+  digestId   String
+  digest     Digest    @relation(fields: [digestId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role       String
+  approved   Boolean   @default(false)
+  approvedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@unique([digestId, userId])
+  @@map("digest_approval")
 }
 
 model Subscription {

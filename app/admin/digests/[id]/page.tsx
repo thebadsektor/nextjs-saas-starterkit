@@ -14,6 +14,13 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import {
     AlertDialog,
     AlertDialogAction,
     AlertDialogCancel,
@@ -35,6 +42,10 @@ import {
     EyeSlash,
     Warning,
     MagicWand,
+    Plus,
+    X,
+    CheckCircle,
+    UserCircle,
 } from "@phosphor-icons/react"
 
 type DigestStatus = "DRAFT" | "IN_REVIEW" | "APPROVED" | "PUBLISHED" | "FAILED"
@@ -50,6 +61,15 @@ interface DigestSection {
     sourceTitle: string
 }
 
+interface DigestApproval {
+    id: string
+    userId: string
+    role: string
+    approved: boolean
+    approvedAt: string | null
+    user: { id: string; name: string; email: string; image: string | null }
+}
+
 interface Digest {
     id: string
     digestNumber: number
@@ -60,8 +80,7 @@ interface Digest {
     subjectLine: string | null
     preHeader: string | null
     personalNote: string | null
-    leeApproved: boolean
-    hannaApproved: boolean
+    approvals: DigestApproval[]
     sections: DigestSection[]
 }
 
@@ -95,6 +114,12 @@ const DAY_LABELS: Record<string, string> = {
     FRIDAY: "Friday",
 }
 
+const ROLE_BADGE: Record<string, { label: string; className: string }> = {
+    author: { label: "Author", className: "border-purple-500/30 bg-purple-50 text-purple-700 dark:bg-purple-500/10 dark:text-purple-400" },
+    reviewer: { label: "Reviewer", className: "border-blue-500/30 bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400" },
+    proofreader: { label: "Proofreader", className: "border-orange-500/30 bg-orange-50 text-orange-700 dark:bg-orange-500/10 dark:text-orange-400" },
+}
+
 function makeEmptySections(): DigestSection[] {
     return SECTION_ORDER.map((type, i) => ({
         sectionType: type,
@@ -125,6 +150,13 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
     const [title, setTitle] = useState("")
     const [personalNote, setPersonalNote] = useState("")
     const [sections, setSections] = useState<DigestSection[]>(makeEmptySections())
+
+    // Add reviewer form state
+    const [showAddReviewer, setShowAddReviewer] = useState(false)
+    const [newReviewerEmail, setNewReviewerEmail] = useState("")
+    const [newReviewerRole, setNewReviewerRole] = useState("reviewer")
+    const [addingReviewer, setAddingReviewer] = useState(false)
+    const [togglingApproval, setTogglingApproval] = useState<string | null>(null)
 
     const fetchDigest = async () => {
         setLoading(true)
@@ -265,6 +297,71 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
             toast.error(error.message || "Failed to generate content")
         } finally {
             setGeneratingSection(null)
+        }
+    }
+
+    const handleToggleApproval = async (approval: DigestApproval) => {
+        setTogglingApproval(approval.id)
+        try {
+            const res = await fetch(`/api/admin/digests/${id}/approvals/${approval.id}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ approved: !approval.approved }),
+            })
+            if (!res.ok) {
+                const data = await res.json().catch(() => ({}))
+                throw new Error(data.error || "Failed to update approval")
+            }
+            await fetchDigest()
+            toast.success(`Approval updated`)
+        } catch (error: any) {
+            toast.error(error.message || "Failed to update approval")
+        } finally {
+            setTogglingApproval(null)
+        }
+    }
+
+    const handleAddReviewer = async () => {
+        if (!newReviewerEmail.trim()) {
+            toast.error("Please enter an email address")
+            return
+        }
+        setAddingReviewer(true)
+        try {
+            const res = await fetch(`/api/admin/digests/${id}/approvals`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: newReviewerEmail.trim(), role: newReviewerRole }),
+            })
+            if (!res.ok) {
+                const data = await res.json().catch(() => ({}))
+                throw new Error(data.error || "Failed to add reviewer")
+            }
+            await fetchDigest()
+            setNewReviewerEmail("")
+            setNewReviewerRole("reviewer")
+            setShowAddReviewer(false)
+            toast.success("Reviewer added")
+        } catch (error: any) {
+            toast.error(error.message || "Failed to add reviewer")
+        } finally {
+            setAddingReviewer(false)
+        }
+    }
+
+    const handleRemoveReviewer = async (approvalId: string) => {
+        try {
+            const res = await fetch(`/api/admin/digests/${id}/approvals/${approvalId}`, {
+                method: "DELETE",
+            })
+            if (!res.ok) {
+                const data = await res.json().catch(() => ({}))
+                throw new Error(data.error || "Failed to remove reviewer")
+            }
+            await fetchDigest()
+            toast.success("Reviewer removed")
+        } catch (error: any) {
+            toast.error(error.message || "Failed to remove reviewer")
         }
     }
 
@@ -418,7 +515,7 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
                         )}
                         {personalNote && (
                             <div>
-                                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide mb-1">Lee&apos;s Personal Note</p>
+                                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide mb-1">Personal Note</p>
                                 <p className="text-sm whitespace-pre-wrap">{personalNote}</p>
                             </div>
                         )}
@@ -480,48 +577,137 @@ export default function DigestEditorPage({ params }: { params: Promise<{ id: str
                 </CardContent>
             </Card>
 
-            {/* Lee's Personal Note */}
+            {/* Personal Note */}
             <Card className="border-none shadow-sm">
                 <CardHeader>
-                    <CardTitle className="text-lg">Lee&apos;s Personal Note</CardTitle>
+                    <CardTitle className="text-lg">Personal Note</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <Textarea
                         value={personalNote}
                         onChange={(e) => setPersonalNote(e.target.value)}
-                        placeholder="Write a personal note from Lee..."
+                        placeholder="Write a personal note..."
                         rows={4}
                         className="text-xs"
                     />
                 </CardContent>
             </Card>
 
-            {/* Approval Status */}
+            {/* Reviewers & Approvals */}
             <Card className="border-none shadow-sm">
                 <CardHeader>
-                    <CardTitle className="text-lg">Approval Status</CardTitle>
+                    <CardTitle className="text-lg">Reviewers &amp; Approvals</CardTitle>
                 </CardHeader>
-                <CardContent>
-                    <div className="flex gap-8">
-                        <label className="flex items-center gap-2 text-xs">
-                            <input
-                                type="checkbox"
-                                checked={digest.leeApproved}
-                                readOnly
-                                className="pointer-events-none h-3.5 w-3.5"
-                            />
-                            Lee Approved
-                        </label>
-                        <label className="flex items-center gap-2 text-xs">
-                            <input
-                                type="checkbox"
-                                checked={digest.hannaApproved}
-                                readOnly
-                                className="pointer-events-none h-3.5 w-3.5"
-                            />
-                            Hanna Approved
-                        </label>
-                    </div>
+                <CardContent className="space-y-4">
+                    {(digest.approvals ?? []).length === 0 ? (
+                        <p className="text-xs text-muted-foreground">No reviewers assigned yet.</p>
+                    ) : (
+                        <div className="space-y-3">
+                            {digest.approvals.map((approval) => {
+                                const roleCfg = ROLE_BADGE[approval.role] ?? { label: approval.role, className: "" }
+                                return (
+                                    <div key={approval.id} className="flex items-center gap-3 py-2 px-3 rounded-md border border-muted/50 bg-muted/10">
+                                        <UserCircle className="h-5 w-5 text-muted-foreground shrink-0" />
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-xs font-medium truncate">{approval.user.name}</p>
+                                            <p className="text-[10px] text-muted-foreground truncate">{approval.user.email}</p>
+                                        </div>
+                                        <Badge variant="outline" className={`text-[10px] py-0 px-1.5 font-normal shrink-0 ${roleCfg.className}`}>
+                                            {roleCfg.label}
+                                        </Badge>
+                                        <div className="flex items-center gap-2 shrink-0">
+                                            <label className="flex items-center gap-1.5 text-xs cursor-pointer">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={approval.approved}
+                                                    disabled={togglingApproval === approval.id}
+                                                    onChange={() => handleToggleApproval(approval)}
+                                                    className="h-3.5 w-3.5"
+                                                />
+                                                {approval.approved ? (
+                                                    <span className="text-green-600 flex items-center gap-0.5">
+                                                        <CheckCircle className="h-3 w-3" weight="fill" />
+                                                        Approved
+                                                    </span>
+                                                ) : (
+                                                    <span className="text-muted-foreground">Pending</span>
+                                                )}
+                                            </label>
+                                            {approval.approved && approval.approvedAt && (
+                                                <span className="text-[10px] text-muted-foreground">
+                                                    {new Date(approval.approvedAt).toLocaleDateString()}
+                                                </span>
+                                            )}
+                                        </div>
+                                        {digest.approvals.length > 1 && (
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="h-6 w-6 shrink-0 text-muted-foreground hover:text-red-600"
+                                                onClick={() => handleRemoveReviewer(approval.id)}
+                                            >
+                                                <X className="h-3 w-3" />
+                                            </Button>
+                                        )}
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    )}
+
+                    {showAddReviewer ? (
+                        <div className="flex items-end gap-2 pt-2 border-t border-muted/50">
+                            <div className="flex-1 space-y-1.5">
+                                <Label className="text-xs">Email</Label>
+                                <Input
+                                    type="email"
+                                    value={newReviewerEmail}
+                                    onChange={(e) => setNewReviewerEmail(e.target.value)}
+                                    placeholder="user@example.com"
+                                    className="text-xs"
+                                />
+                            </div>
+                            <div className="w-[140px] space-y-1.5">
+                                <Label className="text-xs">Role</Label>
+                                <Select value={newReviewerRole} onValueChange={setNewReviewerRole}>
+                                    <SelectTrigger className="text-xs">
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="author">Author</SelectItem>
+                                        <SelectItem value="reviewer">Reviewer</SelectItem>
+                                        <SelectItem value="proofreader">Proofreader</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <Button
+                                onClick={handleAddReviewer}
+                                disabled={addingReviewer}
+                                size="sm"
+                                className="text-xs"
+                            >
+                                {addingReviewer ? <CircleNotch className="h-3.5 w-3.5 animate-spin" /> : "Add"}
+                            </Button>
+                            <Button
+                                onClick={() => { setShowAddReviewer(false); setNewReviewerEmail(""); }}
+                                variant="ghost"
+                                size="sm"
+                                className="text-xs"
+                            >
+                                Cancel
+                            </Button>
+                        </div>
+                    ) : (
+                        <Button
+                            onClick={() => setShowAddReviewer(true)}
+                            variant="outline"
+                            size="sm"
+                            className="text-xs"
+                        >
+                            <Plus className="mr-1.5 h-3 w-3" />
+                            Add Reviewer
+                        </Button>
+                    )}
                 </CardContent>
             </Card>
 

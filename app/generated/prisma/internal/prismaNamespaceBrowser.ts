@@ -69,6 +69,9 @@ export const ModelName = {
   DigestSection: 'DigestSection',
   DigestTopic: 'DigestTopic',
   StagedContent: 'StagedContent',
+  Team: 'Team',
+  TeamMember: 'TeamMember',
+  DigestApproval: 'DigestApproval',
   Subscription: 'Subscription'
 } as const
 
@@ -282,11 +285,10 @@ export const DigestScalarFieldEnum = {
   publishDay: 'publishDay',
   publishDate: 'publishDate',
   status: 'status',
-  leeApproved: 'leeApproved',
-  hannaApproved: 'hannaApproved',
   personalNote: 'personalNote',
   googleDocUrl: 'googleDocUrl',
   clickFunnelsId: 'clickFunnelsId',
+  teamId: 'teamId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   publishedAt: 'publishedAt'
@@ -338,6 +340,41 @@ export const StagedContentScalarFieldEnum = {
 } as const
 
 export type StagedContentScalarFieldEnum = (typeof StagedContentScalarFieldEnum)[keyof typeof StagedContentScalarFieldEnum]
+
+
+export const TeamScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  ownerId: 'ownerId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TeamScalarFieldEnum = (typeof TeamScalarFieldEnum)[keyof typeof TeamScalarFieldEnum]
+
+
+export const TeamMemberScalarFieldEnum = {
+  id: 'id',
+  teamId: 'teamId',
+  userId: 'userId',
+  role: 'role',
+  createdAt: 'createdAt'
+} as const
+
+export type TeamMemberScalarFieldEnum = (typeof TeamMemberScalarFieldEnum)[keyof typeof TeamMemberScalarFieldEnum]
+
+
+export const DigestApprovalScalarFieldEnum = {
+  id: 'id',
+  digestId: 'digestId',
+  userId: 'userId',
+  role: 'role',
+  approved: 'approved',
+  approvedAt: 'approvedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type DigestApprovalScalarFieldEnum = (typeof DigestApprovalScalarFieldEnum)[keyof typeof DigestApprovalScalarFieldEnum]
 
 
 export const SubscriptionScalarFieldEnum = {

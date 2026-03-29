@@ -15,17 +15,26 @@ export async function POST(
 
         const { id } = await params;
 
-        const digest = await prisma.digest.findUnique({ where: { id } });
+        const digest = await prisma.digest.findUnique({
+            where: { id },
+            include: {
+                approvals: true,
+            },
+        });
         if (!digest) {
             return NextResponse.json({ error: "Digest not found" }, { status: 404 });
         }
 
-        if (!digest.leeApproved || !digest.hannaApproved) {
+        const approvals = digest.approvals;
+        const allApproved = approvals.length > 0 && approvals.every((a: { approved: boolean }) => a.approved);
+        if (!allApproved) {
             return NextResponse.json(
                 {
-                    error: "Cannot publish: both Lee and Hanna must approve before publishing",
-                    leeApproved: digest.leeApproved,
-                    hannaApproved: digest.hannaApproved,
+                    error: "All assigned reviewers must approve before publishing",
+                    approvals: approvals.map((a: { role: string; approved: boolean }) => ({
+                        role: a.role,
+                        approved: a.approved,
+                    })),
                 },
                 { status: 400 }
             );
@@ -40,6 +49,13 @@ export async function POST(
             include: {
                 sections: {
                     orderBy: { order: "asc" },
+                },
+                approvals: {
+                    include: {
+                        user: {
+                            select: { id: true, name: true, email: true, image: true },
+                        },
+                    },
                 },
             },
         });

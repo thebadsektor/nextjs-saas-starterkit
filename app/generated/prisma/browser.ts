@@ -108,6 +108,21 @@ export type DigestTopic = Prisma.DigestTopicModel
  */
 export type StagedContent = Prisma.StagedContentModel
 /**
+ * Model Team
+ * 
+ */
+export type Team = Prisma.TeamModel
+/**
+ * Model TeamMember
+ * 
+ */
+export type TeamMember = Prisma.TeamMemberModel
+/**
+ * Model DigestApproval
+ * 
+ */
+export type DigestApproval = Prisma.DigestApprovalModel
+/**
  * Model Subscription
  * 
  */

@@ -43,11 +43,10 @@ export type DigestMinAggregateOutputType = {
   publishDay: $Enums.PublishDay | null
   publishDate: Date | null
   status: $Enums.DigestStatus | null
-  leeApproved: boolean | null
-  hannaApproved: boolean | null
   personalNote: string | null
   googleDocUrl: string | null
   clickFunnelsId: string | null
+  teamId: string | null
   createdAt: Date | null
   updatedAt: Date | null
   publishedAt: Date | null
@@ -62,11 +61,10 @@ export type DigestMaxAggregateOutputType = {
   publishDay: $Enums.PublishDay | null
   publishDate: Date | null
   status: $Enums.DigestStatus | null
-  leeApproved: boolean | null
-  hannaApproved: boolean | null
   personalNote: string | null
   googleDocUrl: string | null
   clickFunnelsId: string | null
+  teamId: string | null
   createdAt: Date | null
   updatedAt: Date | null
   publishedAt: Date | null
@@ -81,11 +79,10 @@ export type DigestCountAggregateOutputType = {
   publishDay: number
   publishDate: number
   status: number
-  leeApproved: number
-  hannaApproved: number
   personalNote: number
   googleDocUrl: number
   clickFunnelsId: number
+  teamId: number
   createdAt: number
   updatedAt: number
   publishedAt: number
@@ -110,11 +107,10 @@ export type DigestMinAggregateInputType = {
   publishDay?: true
   publishDate?: true
   status?: true
-  leeApproved?: true
-  hannaApproved?: true
   personalNote?: true
   googleDocUrl?: true
   clickFunnelsId?: true
+  teamId?: true
   createdAt?: true
   updatedAt?: true
   publishedAt?: true
@@ -129,11 +125,10 @@ export type DigestMaxAggregateInputType = {
   publishDay?: true
   publishDate?: true
   status?: true
-  leeApproved?: true
-  hannaApproved?: true
   personalNote?: true
   googleDocUrl?: true
   clickFunnelsId?: true
+  teamId?: true
   createdAt?: true
   updatedAt?: true
   publishedAt?: true
@@ -148,11 +143,10 @@ export type DigestCountAggregateInputType = {
   publishDay?: true
   publishDate?: true
   status?: true
-  leeApproved?: true
-  hannaApproved?: true
   personalNote?: true
   googleDocUrl?: true
   clickFunnelsId?: true
+  teamId?: true
   createdAt?: true
   updatedAt?: true
   publishedAt?: true
@@ -254,11 +248,10 @@ export type DigestGroupByOutputType = {
   publishDay: $Enums.PublishDay
   publishDate: Date
   status: $Enums.DigestStatus
-  leeApproved: boolean
-  hannaApproved: boolean
   personalNote: string | null
   googleDocUrl: string | null
   clickFunnelsId: string | null
+  teamId: string | null
   createdAt: Date
   updatedAt: Date
   publishedAt: Date | null
@@ -296,17 +289,18 @@ export type DigestWhereInput = {
   publishDay?: Prisma.EnumPublishDayFilter<"Digest"> | $Enums.PublishDay
   publishDate?: Prisma.DateTimeFilter<"Digest"> | Date | string
   status?: Prisma.EnumDigestStatusFilter<"Digest"> | $Enums.DigestStatus
-  leeApproved?: Prisma.BoolFilter<"Digest"> | boolean
-  hannaApproved?: Prisma.BoolFilter<"Digest"> | boolean
   personalNote?: Prisma.StringNullableFilter<"Digest"> | string | null
   googleDocUrl?: Prisma.StringNullableFilter<"Digest"> | string | null
   clickFunnelsId?: Prisma.StringNullableFilter<"Digest"> | string | null
+  teamId?: Prisma.StringNullableFilter<"Digest"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Digest"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Digest"> | Date | string
   publishedAt?: Prisma.DateTimeNullableFilter<"Digest"> | Date | string | null
+  team?: Prisma.XOR<Prisma.TeamNullableScalarRelationFilter, Prisma.TeamWhereInput> | null
   sections?: Prisma.DigestSectionListRelationFilter
   topics?: Prisma.DigestTopicListRelationFilter
   stagedContent?: Prisma.StagedContentListRelationFilter
+  approvals?: Prisma.DigestApprovalListRelationFilter
 }
 
 export type DigestOrderByWithRelationInput = {
@@ -318,17 +312,18 @@ export type DigestOrderByWithRelationInput = {
   publishDay?: Prisma.SortOrder
   publishDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  leeApproved?: Prisma.SortOrder
-  hannaApproved?: Prisma.SortOrder
   personalNote?: Prisma.SortOrderInput | Prisma.SortOrder
   googleDocUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   clickFunnelsId?: Prisma.SortOrderInput | Prisma.SortOrder
+  teamId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  team?: Prisma.TeamOrderByWithRelationInput
   sections?: Prisma.DigestSectionOrderByRelationAggregateInput
   topics?: Prisma.DigestTopicOrderByRelationAggregateInput
   stagedContent?: Prisma.StagedContentOrderByRelationAggregateInput
+  approvals?: Prisma.DigestApprovalOrderByRelationAggregateInput
 }
 
 export type DigestWhereUniqueInput = Prisma.AtLeast<{
@@ -343,17 +338,18 @@ export type DigestWhereUniqueInput = Prisma.AtLeast<{
   publishDay?: Prisma.EnumPublishDayFilter<"Digest"> | $Enums.PublishDay
   publishDate?: Prisma.DateTimeFilter<"Digest"> | Date | string
   status?: Prisma.EnumDigestStatusFilter<"Digest"> | $Enums.DigestStatus
-  leeApproved?: Prisma.BoolFilter<"Digest"> | boolean
-  hannaApproved?: Prisma.BoolFilter<"Digest"> | boolean
   personalNote?: Prisma.StringNullableFilter<"Digest"> | string | null
   googleDocUrl?: Prisma.StringNullableFilter<"Digest"> | string | null
   clickFunnelsId?: Prisma.StringNullableFilter<"Digest"> | string | null
+  teamId?: Prisma.StringNullableFilter<"Digest"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Digest"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Digest"> | Date | string
   publishedAt?: Prisma.DateTimeNullableFilter<"Digest"> | Date | string | null
+  team?: Prisma.XOR<Prisma.TeamNullableScalarRelationFilter, Prisma.TeamWhereInput> | null
   sections?: Prisma.DigestSectionListRelationFilter
   topics?: Prisma.DigestTopicListRelationFilter
   stagedContent?: Prisma.StagedContentListRelationFilter
+  approvals?: Prisma.DigestApprovalListRelationFilter
 }, "id" | "digestNumber">
 
 export type DigestOrderByWithAggregationInput = {
@@ -365,11 +361,10 @@ export type DigestOrderByWithAggregationInput = {
   publishDay?: Prisma.SortOrder
   publishDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  leeApproved?: Prisma.SortOrder
-  hannaApproved?: Prisma.SortOrder
   personalNote?: Prisma.SortOrderInput | Prisma.SortOrder
   googleDocUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   clickFunnelsId?: Prisma.SortOrderInput | Prisma.SortOrder
+  teamId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -392,11 +387,10 @@ export type DigestScalarWhereWithAggregatesInput = {
   publishDay?: Prisma.EnumPublishDayWithAggregatesFilter<"Digest"> | $Enums.PublishDay
   publishDate?: Prisma.DateTimeWithAggregatesFilter<"Digest"> | Date | string
   status?: Prisma.EnumDigestStatusWithAggregatesFilter<"Digest"> | $Enums.DigestStatus
-  leeApproved?: Prisma.BoolWithAggregatesFilter<"Digest"> | boolean
-  hannaApproved?: Prisma.BoolWithAggregatesFilter<"Digest"> | boolean
   personalNote?: Prisma.StringNullableWithAggregatesFilter<"Digest"> | string | null
   googleDocUrl?: Prisma.StringNullableWithAggregatesFilter<"Digest"> | string | null
   clickFunnelsId?: Prisma.StringNullableWithAggregatesFilter<"Digest"> | string | null
+  teamId?: Prisma.StringNullableWithAggregatesFilter<"Digest"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Digest"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Digest"> | Date | string
   publishedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Digest"> | Date | string | null
@@ -411,17 +405,17 @@ export type DigestCreateInput = {
   publishDay: $Enums.PublishDay
   publishDate: Date | string
   status?: $Enums.DigestStatus
-  leeApproved?: boolean
-  hannaApproved?: boolean
   personalNote?: string | null
   googleDocUrl?: string | null
   clickFunnelsId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
+  team?: Prisma.TeamCreateNestedOneWithoutDigestsInput
   sections?: Prisma.DigestSectionCreateNestedManyWithoutDigestInput
   topics?: Prisma.DigestTopicCreateNestedManyWithoutDigestInput
   stagedContent?: Prisma.StagedContentCreateNestedManyWithoutDigestInput
+  approvals?: Prisma.DigestApprovalCreateNestedManyWithoutDigestInput
 }
 
 export type DigestUncheckedCreateInput = {
@@ -433,17 +427,17 @@ export type DigestUncheckedCreateInput = {
   publishDay: $Enums.PublishDay
   publishDate: Date | string
   status?: $Enums.DigestStatus
-  leeApproved?: boolean
-  hannaApproved?: boolean
   personalNote?: string | null
   googleDocUrl?: string | null
   clickFunnelsId?: string | null
+  teamId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
   sections?: Prisma.DigestSectionUncheckedCreateNestedManyWithoutDigestInput
   topics?: Prisma.DigestTopicUncheckedCreateNestedManyWithoutDigestInput
   stagedContent?: Prisma.StagedContentUncheckedCreateNestedManyWithoutDigestInput
+  approvals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutDigestInput
 }
 
 export type DigestUpdateInput = {
@@ -455,17 +449,17 @@ export type DigestUpdateInput = {
   publishDay?: Prisma.EnumPublishDayFieldUpdateOperationsInput | $Enums.PublishDay
   publishDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDigestStatusFieldUpdateOperationsInput | $Enums.DigestStatus
-  leeApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  hannaApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   personalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleDocUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clickFunnelsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  team?: Prisma.TeamUpdateOneWithoutDigestsNestedInput
   sections?: Prisma.DigestSectionUpdateManyWithoutDigestNestedInput
   topics?: Prisma.DigestTopicUpdateManyWithoutDigestNestedInput
   stagedContent?: Prisma.StagedContentUpdateManyWithoutDigestNestedInput
+  approvals?: Prisma.DigestApprovalUpdateManyWithoutDigestNestedInput
 }
 
 export type DigestUncheckedUpdateInput = {
@@ -477,17 +471,17 @@ export type DigestUncheckedUpdateInput = {
   publishDay?: Prisma.EnumPublishDayFieldUpdateOperationsInput | $Enums.PublishDay
   publishDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDigestStatusFieldUpdateOperationsInput | $Enums.DigestStatus
-  leeApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  hannaApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   personalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleDocUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clickFunnelsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sections?: Prisma.DigestSectionUncheckedUpdateManyWithoutDigestNestedInput
   topics?: Prisma.DigestTopicUncheckedUpdateManyWithoutDigestNestedInput
   stagedContent?: Prisma.StagedContentUncheckedUpdateManyWithoutDigestNestedInput
+  approvals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutDigestNestedInput
 }
 
 export type DigestCreateManyInput = {
@@ -499,11 +493,10 @@ export type DigestCreateManyInput = {
   publishDay: $Enums.PublishDay
   publishDate: Date | string
   status?: $Enums.DigestStatus
-  leeApproved?: boolean
-  hannaApproved?: boolean
   personalNote?: string | null
   googleDocUrl?: string | null
   clickFunnelsId?: string | null
+  teamId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
@@ -518,8 +511,6 @@ export type DigestUpdateManyMutationInput = {
   publishDay?: Prisma.EnumPublishDayFieldUpdateOperationsInput | $Enums.PublishDay
   publishDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDigestStatusFieldUpdateOperationsInput | $Enums.DigestStatus
-  leeApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  hannaApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   personalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleDocUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clickFunnelsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -537,11 +528,10 @@ export type DigestUncheckedUpdateManyInput = {
   publishDay?: Prisma.EnumPublishDayFieldUpdateOperationsInput | $Enums.PublishDay
   publishDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDigestStatusFieldUpdateOperationsInput | $Enums.DigestStatus
-  leeApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  hannaApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   personalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleDocUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clickFunnelsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -556,11 +546,10 @@ export type DigestCountOrderByAggregateInput = {
   publishDay?: Prisma.SortOrder
   publishDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  leeApproved?: Prisma.SortOrder
-  hannaApproved?: Prisma.SortOrder
   personalNote?: Prisma.SortOrder
   googleDocUrl?: Prisma.SortOrder
   clickFunnelsId?: Prisma.SortOrder
+  teamId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
@@ -579,11 +568,10 @@ export type DigestMaxOrderByAggregateInput = {
   publishDay?: Prisma.SortOrder
   publishDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  leeApproved?: Prisma.SortOrder
-  hannaApproved?: Prisma.SortOrder
   personalNote?: Prisma.SortOrder
   googleDocUrl?: Prisma.SortOrder
   clickFunnelsId?: Prisma.SortOrder
+  teamId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
@@ -598,11 +586,10 @@ export type DigestMinOrderByAggregateInput = {
   publishDay?: Prisma.SortOrder
   publishDate?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  leeApproved?: Prisma.SortOrder
-  hannaApproved?: Prisma.SortOrder
   personalNote?: Prisma.SortOrder
   googleDocUrl?: Prisma.SortOrder
   clickFunnelsId?: Prisma.SortOrder
+  teamId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
@@ -620,6 +607,16 @@ export type DigestScalarRelationFilter = {
 export type DigestNullableScalarRelationFilter = {
   is?: Prisma.DigestWhereInput | null
   isNot?: Prisma.DigestWhereInput | null
+}
+
+export type DigestListRelationFilter = {
+  every?: Prisma.DigestWhereInput
+  some?: Prisma.DigestWhereInput
+  none?: Prisma.DigestWhereInput
+}
+
+export type DigestOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type EnumPublishDayFieldUpdateOperationsInput = {
@@ -674,6 +671,62 @@ export type DigestUpdateOneWithoutStagedContentNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DigestUpdateToOneWithWhereWithoutStagedContentInput, Prisma.DigestUpdateWithoutStagedContentInput>, Prisma.DigestUncheckedUpdateWithoutStagedContentInput>
 }
 
+export type DigestCreateNestedManyWithoutTeamInput = {
+  create?: Prisma.XOR<Prisma.DigestCreateWithoutTeamInput, Prisma.DigestUncheckedCreateWithoutTeamInput> | Prisma.DigestCreateWithoutTeamInput[] | Prisma.DigestUncheckedCreateWithoutTeamInput[]
+  connectOrCreate?: Prisma.DigestCreateOrConnectWithoutTeamInput | Prisma.DigestCreateOrConnectWithoutTeamInput[]
+  createMany?: Prisma.DigestCreateManyTeamInputEnvelope
+  connect?: Prisma.DigestWhereUniqueInput | Prisma.DigestWhereUniqueInput[]
+}
+
+export type DigestUncheckedCreateNestedManyWithoutTeamInput = {
+  create?: Prisma.XOR<Prisma.DigestCreateWithoutTeamInput, Prisma.DigestUncheckedCreateWithoutTeamInput> | Prisma.DigestCreateWithoutTeamInput[] | Prisma.DigestUncheckedCreateWithoutTeamInput[]
+  connectOrCreate?: Prisma.DigestCreateOrConnectWithoutTeamInput | Prisma.DigestCreateOrConnectWithoutTeamInput[]
+  createMany?: Prisma.DigestCreateManyTeamInputEnvelope
+  connect?: Prisma.DigestWhereUniqueInput | Prisma.DigestWhereUniqueInput[]
+}
+
+export type DigestUpdateManyWithoutTeamNestedInput = {
+  create?: Prisma.XOR<Prisma.DigestCreateWithoutTeamInput, Prisma.DigestUncheckedCreateWithoutTeamInput> | Prisma.DigestCreateWithoutTeamInput[] | Prisma.DigestUncheckedCreateWithoutTeamInput[]
+  connectOrCreate?: Prisma.DigestCreateOrConnectWithoutTeamInput | Prisma.DigestCreateOrConnectWithoutTeamInput[]
+  upsert?: Prisma.DigestUpsertWithWhereUniqueWithoutTeamInput | Prisma.DigestUpsertWithWhereUniqueWithoutTeamInput[]
+  createMany?: Prisma.DigestCreateManyTeamInputEnvelope
+  set?: Prisma.DigestWhereUniqueInput | Prisma.DigestWhereUniqueInput[]
+  disconnect?: Prisma.DigestWhereUniqueInput | Prisma.DigestWhereUniqueInput[]
+  delete?: Prisma.DigestWhereUniqueInput | Prisma.DigestWhereUniqueInput[]
+  connect?: Prisma.DigestWhereUniqueInput | Prisma.DigestWhereUniqueInput[]
+  update?: Prisma.DigestUpdateWithWhereUniqueWithoutTeamInput | Prisma.DigestUpdateWithWhereUniqueWithoutTeamInput[]
+  updateMany?: Prisma.DigestUpdateManyWithWhereWithoutTeamInput | Prisma.DigestUpdateManyWithWhereWithoutTeamInput[]
+  deleteMany?: Prisma.DigestScalarWhereInput | Prisma.DigestScalarWhereInput[]
+}
+
+export type DigestUncheckedUpdateManyWithoutTeamNestedInput = {
+  create?: Prisma.XOR<Prisma.DigestCreateWithoutTeamInput, Prisma.DigestUncheckedCreateWithoutTeamInput> | Prisma.DigestCreateWithoutTeamInput[] | Prisma.DigestUncheckedCreateWithoutTeamInput[]
+  connectOrCreate?: Prisma.DigestCreateOrConnectWithoutTeamInput | Prisma.DigestCreateOrConnectWithoutTeamInput[]
+  upsert?: Prisma.DigestUpsertWithWhereUniqueWithoutTeamInput | Prisma.DigestUpsertWithWhereUniqueWithoutTeamInput[]
+  createMany?: Prisma.DigestCreateManyTeamInputEnvelope
+  set?: Prisma.DigestWhereUniqueInput | Prisma.DigestWhereUniqueInput[]
+  disconnect?: Prisma.DigestWhereUniqueInput | Prisma.DigestWhereUniqueInput[]
+  delete?: Prisma.DigestWhereUniqueInput | Prisma.DigestWhereUniqueInput[]
+  connect?: Prisma.DigestWhereUniqueInput | Prisma.DigestWhereUniqueInput[]
+  update?: Prisma.DigestUpdateWithWhereUniqueWithoutTeamInput | Prisma.DigestUpdateWithWhereUniqueWithoutTeamInput[]
+  updateMany?: Prisma.DigestUpdateManyWithWhereWithoutTeamInput | Prisma.DigestUpdateManyWithWhereWithoutTeamInput[]
+  deleteMany?: Prisma.DigestScalarWhereInput | Prisma.DigestScalarWhereInput[]
+}
+
+export type DigestCreateNestedOneWithoutApprovalsInput = {
+  create?: Prisma.XOR<Prisma.DigestCreateWithoutApprovalsInput, Prisma.DigestUncheckedCreateWithoutApprovalsInput>
+  connectOrCreate?: Prisma.DigestCreateOrConnectWithoutApprovalsInput
+  connect?: Prisma.DigestWhereUniqueInput
+}
+
+export type DigestUpdateOneRequiredWithoutApprovalsNestedInput = {
+  create?: Prisma.XOR<Prisma.DigestCreateWithoutApprovalsInput, Prisma.DigestUncheckedCreateWithoutApprovalsInput>
+  connectOrCreate?: Prisma.DigestCreateOrConnectWithoutApprovalsInput
+  upsert?: Prisma.DigestUpsertWithoutApprovalsInput
+  connect?: Prisma.DigestWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DigestUpdateToOneWithWhereWithoutApprovalsInput, Prisma.DigestUpdateWithoutApprovalsInput>, Prisma.DigestUncheckedUpdateWithoutApprovalsInput>
+}
+
 export type DigestCreateWithoutSectionsInput = {
   id?: string
   digestNumber: number
@@ -683,16 +736,16 @@ export type DigestCreateWithoutSectionsInput = {
   publishDay: $Enums.PublishDay
   publishDate: Date | string
   status?: $Enums.DigestStatus
-  leeApproved?: boolean
-  hannaApproved?: boolean
   personalNote?: string | null
   googleDocUrl?: string | null
   clickFunnelsId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
+  team?: Prisma.TeamCreateNestedOneWithoutDigestsInput
   topics?: Prisma.DigestTopicCreateNestedManyWithoutDigestInput
   stagedContent?: Prisma.StagedContentCreateNestedManyWithoutDigestInput
+  approvals?: Prisma.DigestApprovalCreateNestedManyWithoutDigestInput
 }
 
 export type DigestUncheckedCreateWithoutSectionsInput = {
@@ -704,16 +757,16 @@ export type DigestUncheckedCreateWithoutSectionsInput = {
   publishDay: $Enums.PublishDay
   publishDate: Date | string
   status?: $Enums.DigestStatus
-  leeApproved?: boolean
-  hannaApproved?: boolean
   personalNote?: string | null
   googleDocUrl?: string | null
   clickFunnelsId?: string | null
+  teamId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
   topics?: Prisma.DigestTopicUncheckedCreateNestedManyWithoutDigestInput
   stagedContent?: Prisma.StagedContentUncheckedCreateNestedManyWithoutDigestInput
+  approvals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutDigestInput
 }
 
 export type DigestCreateOrConnectWithoutSectionsInput = {
@@ -741,16 +794,16 @@ export type DigestUpdateWithoutSectionsInput = {
   publishDay?: Prisma.EnumPublishDayFieldUpdateOperationsInput | $Enums.PublishDay
   publishDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDigestStatusFieldUpdateOperationsInput | $Enums.DigestStatus
-  leeApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  hannaApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   personalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleDocUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clickFunnelsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  team?: Prisma.TeamUpdateOneWithoutDigestsNestedInput
   topics?: Prisma.DigestTopicUpdateManyWithoutDigestNestedInput
   stagedContent?: Prisma.StagedContentUpdateManyWithoutDigestNestedInput
+  approvals?: Prisma.DigestApprovalUpdateManyWithoutDigestNestedInput
 }
 
 export type DigestUncheckedUpdateWithoutSectionsInput = {
@@ -762,16 +815,16 @@ export type DigestUncheckedUpdateWithoutSectionsInput = {
   publishDay?: Prisma.EnumPublishDayFieldUpdateOperationsInput | $Enums.PublishDay
   publishDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDigestStatusFieldUpdateOperationsInput | $Enums.DigestStatus
-  leeApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  hannaApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   personalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleDocUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clickFunnelsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   topics?: Prisma.DigestTopicUncheckedUpdateManyWithoutDigestNestedInput
   stagedContent?: Prisma.StagedContentUncheckedUpdateManyWithoutDigestNestedInput
+  approvals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutDigestNestedInput
 }
 
 export type DigestCreateWithoutTopicsInput = {
@@ -783,16 +836,16 @@ export type DigestCreateWithoutTopicsInput = {
   publishDay: $Enums.PublishDay
   publishDate: Date | string
   status?: $Enums.DigestStatus
-  leeApproved?: boolean
-  hannaApproved?: boolean
   personalNote?: string | null
   googleDocUrl?: string | null
   clickFunnelsId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
+  team?: Prisma.TeamCreateNestedOneWithoutDigestsInput
   sections?: Prisma.DigestSectionCreateNestedManyWithoutDigestInput
   stagedContent?: Prisma.StagedContentCreateNestedManyWithoutDigestInput
+  approvals?: Prisma.DigestApprovalCreateNestedManyWithoutDigestInput
 }
 
 export type DigestUncheckedCreateWithoutTopicsInput = {
@@ -804,16 +857,16 @@ export type DigestUncheckedCreateWithoutTopicsInput = {
   publishDay: $Enums.PublishDay
   publishDate: Date | string
   status?: $Enums.DigestStatus
-  leeApproved?: boolean
-  hannaApproved?: boolean
   personalNote?: string | null
   googleDocUrl?: string | null
   clickFunnelsId?: string | null
+  teamId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
   sections?: Prisma.DigestSectionUncheckedCreateNestedManyWithoutDigestInput
   stagedContent?: Prisma.StagedContentUncheckedCreateNestedManyWithoutDigestInput
+  approvals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutDigestInput
 }
 
 export type DigestCreateOrConnectWithoutTopicsInput = {
@@ -841,16 +894,16 @@ export type DigestUpdateWithoutTopicsInput = {
   publishDay?: Prisma.EnumPublishDayFieldUpdateOperationsInput | $Enums.PublishDay
   publishDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDigestStatusFieldUpdateOperationsInput | $Enums.DigestStatus
-  leeApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  hannaApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   personalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleDocUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clickFunnelsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  team?: Prisma.TeamUpdateOneWithoutDigestsNestedInput
   sections?: Prisma.DigestSectionUpdateManyWithoutDigestNestedInput
   stagedContent?: Prisma.StagedContentUpdateManyWithoutDigestNestedInput
+  approvals?: Prisma.DigestApprovalUpdateManyWithoutDigestNestedInput
 }
 
 export type DigestUncheckedUpdateWithoutTopicsInput = {
@@ -862,16 +915,16 @@ export type DigestUncheckedUpdateWithoutTopicsInput = {
   publishDay?: Prisma.EnumPublishDayFieldUpdateOperationsInput | $Enums.PublishDay
   publishDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDigestStatusFieldUpdateOperationsInput | $Enums.DigestStatus
-  leeApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  hannaApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   personalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleDocUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clickFunnelsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sections?: Prisma.DigestSectionUncheckedUpdateManyWithoutDigestNestedInput
   stagedContent?: Prisma.StagedContentUncheckedUpdateManyWithoutDigestNestedInput
+  approvals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutDigestNestedInput
 }
 
 export type DigestCreateWithoutStagedContentInput = {
@@ -883,16 +936,16 @@ export type DigestCreateWithoutStagedContentInput = {
   publishDay: $Enums.PublishDay
   publishDate: Date | string
   status?: $Enums.DigestStatus
-  leeApproved?: boolean
-  hannaApproved?: boolean
   personalNote?: string | null
   googleDocUrl?: string | null
   clickFunnelsId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
+  team?: Prisma.TeamCreateNestedOneWithoutDigestsInput
   sections?: Prisma.DigestSectionCreateNestedManyWithoutDigestInput
   topics?: Prisma.DigestTopicCreateNestedManyWithoutDigestInput
+  approvals?: Prisma.DigestApprovalCreateNestedManyWithoutDigestInput
 }
 
 export type DigestUncheckedCreateWithoutStagedContentInput = {
@@ -904,16 +957,16 @@ export type DigestUncheckedCreateWithoutStagedContentInput = {
   publishDay: $Enums.PublishDay
   publishDate: Date | string
   status?: $Enums.DigestStatus
-  leeApproved?: boolean
-  hannaApproved?: boolean
   personalNote?: string | null
   googleDocUrl?: string | null
   clickFunnelsId?: string | null
+  teamId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   publishedAt?: Date | string | null
   sections?: Prisma.DigestSectionUncheckedCreateNestedManyWithoutDigestInput
   topics?: Prisma.DigestTopicUncheckedCreateNestedManyWithoutDigestInput
+  approvals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutDigestInput
 }
 
 export type DigestCreateOrConnectWithoutStagedContentInput = {
@@ -941,16 +994,16 @@ export type DigestUpdateWithoutStagedContentInput = {
   publishDay?: Prisma.EnumPublishDayFieldUpdateOperationsInput | $Enums.PublishDay
   publishDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDigestStatusFieldUpdateOperationsInput | $Enums.DigestStatus
-  leeApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  hannaApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   personalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleDocUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clickFunnelsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  team?: Prisma.TeamUpdateOneWithoutDigestsNestedInput
   sections?: Prisma.DigestSectionUpdateManyWithoutDigestNestedInput
   topics?: Prisma.DigestTopicUpdateManyWithoutDigestNestedInput
+  approvals?: Prisma.DigestApprovalUpdateManyWithoutDigestNestedInput
 }
 
 export type DigestUncheckedUpdateWithoutStagedContentInput = {
@@ -962,8 +1015,254 @@ export type DigestUncheckedUpdateWithoutStagedContentInput = {
   publishDay?: Prisma.EnumPublishDayFieldUpdateOperationsInput | $Enums.PublishDay
   publishDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumDigestStatusFieldUpdateOperationsInput | $Enums.DigestStatus
-  leeApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  hannaApproved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  personalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleDocUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clickFunnelsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sections?: Prisma.DigestSectionUncheckedUpdateManyWithoutDigestNestedInput
+  topics?: Prisma.DigestTopicUncheckedUpdateManyWithoutDigestNestedInput
+  approvals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutDigestNestedInput
+}
+
+export type DigestCreateWithoutTeamInput = {
+  id?: string
+  digestNumber: number
+  title?: string | null
+  subjectLine?: string | null
+  preHeader?: string | null
+  publishDay: $Enums.PublishDay
+  publishDate: Date | string
+  status?: $Enums.DigestStatus
+  personalNote?: string | null
+  googleDocUrl?: string | null
+  clickFunnelsId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  publishedAt?: Date | string | null
+  sections?: Prisma.DigestSectionCreateNestedManyWithoutDigestInput
+  topics?: Prisma.DigestTopicCreateNestedManyWithoutDigestInput
+  stagedContent?: Prisma.StagedContentCreateNestedManyWithoutDigestInput
+  approvals?: Prisma.DigestApprovalCreateNestedManyWithoutDigestInput
+}
+
+export type DigestUncheckedCreateWithoutTeamInput = {
+  id?: string
+  digestNumber: number
+  title?: string | null
+  subjectLine?: string | null
+  preHeader?: string | null
+  publishDay: $Enums.PublishDay
+  publishDate: Date | string
+  status?: $Enums.DigestStatus
+  personalNote?: string | null
+  googleDocUrl?: string | null
+  clickFunnelsId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  publishedAt?: Date | string | null
+  sections?: Prisma.DigestSectionUncheckedCreateNestedManyWithoutDigestInput
+  topics?: Prisma.DigestTopicUncheckedCreateNestedManyWithoutDigestInput
+  stagedContent?: Prisma.StagedContentUncheckedCreateNestedManyWithoutDigestInput
+  approvals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutDigestInput
+}
+
+export type DigestCreateOrConnectWithoutTeamInput = {
+  where: Prisma.DigestWhereUniqueInput
+  create: Prisma.XOR<Prisma.DigestCreateWithoutTeamInput, Prisma.DigestUncheckedCreateWithoutTeamInput>
+}
+
+export type DigestCreateManyTeamInputEnvelope = {
+  data: Prisma.DigestCreateManyTeamInput | Prisma.DigestCreateManyTeamInput[]
+  skipDuplicates?: boolean
+}
+
+export type DigestUpsertWithWhereUniqueWithoutTeamInput = {
+  where: Prisma.DigestWhereUniqueInput
+  update: Prisma.XOR<Prisma.DigestUpdateWithoutTeamInput, Prisma.DigestUncheckedUpdateWithoutTeamInput>
+  create: Prisma.XOR<Prisma.DigestCreateWithoutTeamInput, Prisma.DigestUncheckedCreateWithoutTeamInput>
+}
+
+export type DigestUpdateWithWhereUniqueWithoutTeamInput = {
+  where: Prisma.DigestWhereUniqueInput
+  data: Prisma.XOR<Prisma.DigestUpdateWithoutTeamInput, Prisma.DigestUncheckedUpdateWithoutTeamInput>
+}
+
+export type DigestUpdateManyWithWhereWithoutTeamInput = {
+  where: Prisma.DigestScalarWhereInput
+  data: Prisma.XOR<Prisma.DigestUpdateManyMutationInput, Prisma.DigestUncheckedUpdateManyWithoutTeamInput>
+}
+
+export type DigestScalarWhereInput = {
+  AND?: Prisma.DigestScalarWhereInput | Prisma.DigestScalarWhereInput[]
+  OR?: Prisma.DigestScalarWhereInput[]
+  NOT?: Prisma.DigestScalarWhereInput | Prisma.DigestScalarWhereInput[]
+  id?: Prisma.StringFilter<"Digest"> | string
+  digestNumber?: Prisma.IntFilter<"Digest"> | number
+  title?: Prisma.StringNullableFilter<"Digest"> | string | null
+  subjectLine?: Prisma.StringNullableFilter<"Digest"> | string | null
+  preHeader?: Prisma.StringNullableFilter<"Digest"> | string | null
+  publishDay?: Prisma.EnumPublishDayFilter<"Digest"> | $Enums.PublishDay
+  publishDate?: Prisma.DateTimeFilter<"Digest"> | Date | string
+  status?: Prisma.EnumDigestStatusFilter<"Digest"> | $Enums.DigestStatus
+  personalNote?: Prisma.StringNullableFilter<"Digest"> | string | null
+  googleDocUrl?: Prisma.StringNullableFilter<"Digest"> | string | null
+  clickFunnelsId?: Prisma.StringNullableFilter<"Digest"> | string | null
+  teamId?: Prisma.StringNullableFilter<"Digest"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Digest"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Digest"> | Date | string
+  publishedAt?: Prisma.DateTimeNullableFilter<"Digest"> | Date | string | null
+}
+
+export type DigestCreateWithoutApprovalsInput = {
+  id?: string
+  digestNumber: number
+  title?: string | null
+  subjectLine?: string | null
+  preHeader?: string | null
+  publishDay: $Enums.PublishDay
+  publishDate: Date | string
+  status?: $Enums.DigestStatus
+  personalNote?: string | null
+  googleDocUrl?: string | null
+  clickFunnelsId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  publishedAt?: Date | string | null
+  team?: Prisma.TeamCreateNestedOneWithoutDigestsInput
+  sections?: Prisma.DigestSectionCreateNestedManyWithoutDigestInput
+  topics?: Prisma.DigestTopicCreateNestedManyWithoutDigestInput
+  stagedContent?: Prisma.StagedContentCreateNestedManyWithoutDigestInput
+}
+
+export type DigestUncheckedCreateWithoutApprovalsInput = {
+  id?: string
+  digestNumber: number
+  title?: string | null
+  subjectLine?: string | null
+  preHeader?: string | null
+  publishDay: $Enums.PublishDay
+  publishDate: Date | string
+  status?: $Enums.DigestStatus
+  personalNote?: string | null
+  googleDocUrl?: string | null
+  clickFunnelsId?: string | null
+  teamId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  publishedAt?: Date | string | null
+  sections?: Prisma.DigestSectionUncheckedCreateNestedManyWithoutDigestInput
+  topics?: Prisma.DigestTopicUncheckedCreateNestedManyWithoutDigestInput
+  stagedContent?: Prisma.StagedContentUncheckedCreateNestedManyWithoutDigestInput
+}
+
+export type DigestCreateOrConnectWithoutApprovalsInput = {
+  where: Prisma.DigestWhereUniqueInput
+  create: Prisma.XOR<Prisma.DigestCreateWithoutApprovalsInput, Prisma.DigestUncheckedCreateWithoutApprovalsInput>
+}
+
+export type DigestUpsertWithoutApprovalsInput = {
+  update: Prisma.XOR<Prisma.DigestUpdateWithoutApprovalsInput, Prisma.DigestUncheckedUpdateWithoutApprovalsInput>
+  create: Prisma.XOR<Prisma.DigestCreateWithoutApprovalsInput, Prisma.DigestUncheckedCreateWithoutApprovalsInput>
+  where?: Prisma.DigestWhereInput
+}
+
+export type DigestUpdateToOneWithWhereWithoutApprovalsInput = {
+  where?: Prisma.DigestWhereInput
+  data: Prisma.XOR<Prisma.DigestUpdateWithoutApprovalsInput, Prisma.DigestUncheckedUpdateWithoutApprovalsInput>
+}
+
+export type DigestUpdateWithoutApprovalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  digestNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subjectLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preHeader?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  publishDay?: Prisma.EnumPublishDayFieldUpdateOperationsInput | $Enums.PublishDay
+  publishDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumDigestStatusFieldUpdateOperationsInput | $Enums.DigestStatus
+  personalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleDocUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clickFunnelsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  team?: Prisma.TeamUpdateOneWithoutDigestsNestedInput
+  sections?: Prisma.DigestSectionUpdateManyWithoutDigestNestedInput
+  topics?: Prisma.DigestTopicUpdateManyWithoutDigestNestedInput
+  stagedContent?: Prisma.StagedContentUpdateManyWithoutDigestNestedInput
+}
+
+export type DigestUncheckedUpdateWithoutApprovalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  digestNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subjectLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preHeader?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  publishDay?: Prisma.EnumPublishDayFieldUpdateOperationsInput | $Enums.PublishDay
+  publishDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumDigestStatusFieldUpdateOperationsInput | $Enums.DigestStatus
+  personalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleDocUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clickFunnelsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sections?: Prisma.DigestSectionUncheckedUpdateManyWithoutDigestNestedInput
+  topics?: Prisma.DigestTopicUncheckedUpdateManyWithoutDigestNestedInput
+  stagedContent?: Prisma.StagedContentUncheckedUpdateManyWithoutDigestNestedInput
+}
+
+export type DigestCreateManyTeamInput = {
+  id?: string
+  digestNumber: number
+  title?: string | null
+  subjectLine?: string | null
+  preHeader?: string | null
+  publishDay: $Enums.PublishDay
+  publishDate: Date | string
+  status?: $Enums.DigestStatus
+  personalNote?: string | null
+  googleDocUrl?: string | null
+  clickFunnelsId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  publishedAt?: Date | string | null
+}
+
+export type DigestUpdateWithoutTeamInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  digestNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subjectLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preHeader?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  publishDay?: Prisma.EnumPublishDayFieldUpdateOperationsInput | $Enums.PublishDay
+  publishDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumDigestStatusFieldUpdateOperationsInput | $Enums.DigestStatus
+  personalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleDocUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clickFunnelsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  sections?: Prisma.DigestSectionUpdateManyWithoutDigestNestedInput
+  topics?: Prisma.DigestTopicUpdateManyWithoutDigestNestedInput
+  stagedContent?: Prisma.StagedContentUpdateManyWithoutDigestNestedInput
+  approvals?: Prisma.DigestApprovalUpdateManyWithoutDigestNestedInput
+}
+
+export type DigestUncheckedUpdateWithoutTeamInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  digestNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subjectLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preHeader?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  publishDay?: Prisma.EnumPublishDayFieldUpdateOperationsInput | $Enums.PublishDay
+  publishDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumDigestStatusFieldUpdateOperationsInput | $Enums.DigestStatus
   personalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   googleDocUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clickFunnelsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -972,6 +1271,25 @@ export type DigestUncheckedUpdateWithoutStagedContentInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sections?: Prisma.DigestSectionUncheckedUpdateManyWithoutDigestNestedInput
   topics?: Prisma.DigestTopicUncheckedUpdateManyWithoutDigestNestedInput
+  stagedContent?: Prisma.StagedContentUncheckedUpdateManyWithoutDigestNestedInput
+  approvals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutDigestNestedInput
+}
+
+export type DigestUncheckedUpdateManyWithoutTeamInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  digestNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subjectLine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preHeader?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  publishDay?: Prisma.EnumPublishDayFieldUpdateOperationsInput | $Enums.PublishDay
+  publishDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  status?: Prisma.EnumDigestStatusFieldUpdateOperationsInput | $Enums.DigestStatus
+  personalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  googleDocUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clickFunnelsId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -983,12 +1301,14 @@ export type DigestCountOutputType = {
   sections: number
   topics: number
   stagedContent: number
+  approvals: number
 }
 
 export type DigestCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sections?: boolean | DigestCountOutputTypeCountSectionsArgs
   topics?: boolean | DigestCountOutputTypeCountTopicsArgs
   stagedContent?: boolean | DigestCountOutputTypeCountStagedContentArgs
+  approvals?: boolean | DigestCountOutputTypeCountApprovalsArgs
 }
 
 /**
@@ -1022,6 +1342,13 @@ export type DigestCountOutputTypeCountStagedContentArgs<ExtArgs extends runtime.
   where?: Prisma.StagedContentWhereInput
 }
 
+/**
+ * DigestCountOutputType without action
+ */
+export type DigestCountOutputTypeCountApprovalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DigestApprovalWhereInput
+}
+
 
 export type DigestSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1032,17 +1359,18 @@ export type DigestSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   publishDay?: boolean
   publishDate?: boolean
   status?: boolean
-  leeApproved?: boolean
-  hannaApproved?: boolean
   personalNote?: boolean
   googleDocUrl?: boolean
   clickFunnelsId?: boolean
+  teamId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   publishedAt?: boolean
+  team?: boolean | Prisma.Digest$teamArgs<ExtArgs>
   sections?: boolean | Prisma.Digest$sectionsArgs<ExtArgs>
   topics?: boolean | Prisma.Digest$topicsArgs<ExtArgs>
   stagedContent?: boolean | Prisma.Digest$stagedContentArgs<ExtArgs>
+  approvals?: boolean | Prisma.Digest$approvalsArgs<ExtArgs>
   _count?: boolean | Prisma.DigestCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["digest"]>
 
@@ -1055,14 +1383,14 @@ export type DigestSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   publishDay?: boolean
   publishDate?: boolean
   status?: boolean
-  leeApproved?: boolean
-  hannaApproved?: boolean
   personalNote?: boolean
   googleDocUrl?: boolean
   clickFunnelsId?: boolean
+  teamId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   publishedAt?: boolean
+  team?: boolean | Prisma.Digest$teamArgs<ExtArgs>
 }, ExtArgs["result"]["digest"]>
 
 export type DigestSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1074,14 +1402,14 @@ export type DigestSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   publishDay?: boolean
   publishDate?: boolean
   status?: boolean
-  leeApproved?: boolean
-  hannaApproved?: boolean
   personalNote?: boolean
   googleDocUrl?: boolean
   clickFunnelsId?: boolean
+  teamId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   publishedAt?: boolean
+  team?: boolean | Prisma.Digest$teamArgs<ExtArgs>
 }, ExtArgs["result"]["digest"]>
 
 export type DigestSelectScalar = {
@@ -1093,32 +1421,39 @@ export type DigestSelectScalar = {
   publishDay?: boolean
   publishDate?: boolean
   status?: boolean
-  leeApproved?: boolean
-  hannaApproved?: boolean
   personalNote?: boolean
   googleDocUrl?: boolean
   clickFunnelsId?: boolean
+  teamId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   publishedAt?: boolean
 }
 
-export type DigestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "digestNumber" | "title" | "subjectLine" | "preHeader" | "publishDay" | "publishDate" | "status" | "leeApproved" | "hannaApproved" | "personalNote" | "googleDocUrl" | "clickFunnelsId" | "createdAt" | "updatedAt" | "publishedAt", ExtArgs["result"]["digest"]>
+export type DigestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "digestNumber" | "title" | "subjectLine" | "preHeader" | "publishDay" | "publishDate" | "status" | "personalNote" | "googleDocUrl" | "clickFunnelsId" | "teamId" | "createdAt" | "updatedAt" | "publishedAt", ExtArgs["result"]["digest"]>
 export type DigestInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  team?: boolean | Prisma.Digest$teamArgs<ExtArgs>
   sections?: boolean | Prisma.Digest$sectionsArgs<ExtArgs>
   topics?: boolean | Prisma.Digest$topicsArgs<ExtArgs>
   stagedContent?: boolean | Prisma.Digest$stagedContentArgs<ExtArgs>
+  approvals?: boolean | Prisma.Digest$approvalsArgs<ExtArgs>
   _count?: boolean | Prisma.DigestCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type DigestIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type DigestIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type DigestIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  team?: boolean | Prisma.Digest$teamArgs<ExtArgs>
+}
+export type DigestIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  team?: boolean | Prisma.Digest$teamArgs<ExtArgs>
+}
 
 export type $DigestPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Digest"
   objects: {
+    team: Prisma.$TeamPayload<ExtArgs> | null
     sections: Prisma.$DigestSectionPayload<ExtArgs>[]
     topics: Prisma.$DigestTopicPayload<ExtArgs>[]
     stagedContent: Prisma.$StagedContentPayload<ExtArgs>[]
+    approvals: Prisma.$DigestApprovalPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1129,11 +1464,10 @@ export type $DigestPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     publishDay: $Enums.PublishDay
     publishDate: Date
     status: $Enums.DigestStatus
-    leeApproved: boolean
-    hannaApproved: boolean
     personalNote: string | null
     googleDocUrl: string | null
     clickFunnelsId: string | null
+    teamId: string | null
     createdAt: Date
     updatedAt: Date
     publishedAt: Date | null
@@ -1531,9 +1865,11 @@ readonly fields: DigestFieldRefs;
  */
 export interface Prisma__DigestClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  team<T extends Prisma.Digest$teamArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Digest$teamArgs<ExtArgs>>): Prisma.Prisma__TeamClient<runtime.Types.Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   sections<T extends Prisma.Digest$sectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Digest$sectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DigestSectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   topics<T extends Prisma.Digest$topicsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Digest$topicsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DigestTopicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   stagedContent<T extends Prisma.Digest$stagedContentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Digest$stagedContentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StagedContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  approvals<T extends Prisma.Digest$approvalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Digest$approvalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DigestApprovalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1571,11 +1907,10 @@ export interface DigestFieldRefs {
   readonly publishDay: Prisma.FieldRef<"Digest", 'PublishDay'>
   readonly publishDate: Prisma.FieldRef<"Digest", 'DateTime'>
   readonly status: Prisma.FieldRef<"Digest", 'DigestStatus'>
-  readonly leeApproved: Prisma.FieldRef<"Digest", 'Boolean'>
-  readonly hannaApproved: Prisma.FieldRef<"Digest", 'Boolean'>
   readonly personalNote: Prisma.FieldRef<"Digest", 'String'>
   readonly googleDocUrl: Prisma.FieldRef<"Digest", 'String'>
   readonly clickFunnelsId: Prisma.FieldRef<"Digest", 'String'>
+  readonly teamId: Prisma.FieldRef<"Digest", 'String'>
   readonly createdAt: Prisma.FieldRef<"Digest", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Digest", 'DateTime'>
   readonly publishedAt: Prisma.FieldRef<"Digest", 'DateTime'>
@@ -1828,6 +2163,10 @@ export type DigestCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensio
    */
   data: Prisma.DigestCreateManyInput | Prisma.DigestCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DigestIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1898,6 +2237,10 @@ export type DigestUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many Digests to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DigestIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1964,6 +2307,25 @@ export type DigestDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many Digests to delete.
    */
   limit?: number
+}
+
+/**
+ * Digest.team
+ */
+export type Digest$teamArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Team
+   */
+  select?: Prisma.TeamSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Team
+   */
+  omit?: Prisma.TeamOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TeamInclude<ExtArgs> | null
+  where?: Prisma.TeamWhereInput
 }
 
 /**
@@ -2036,6 +2398,30 @@ export type Digest$stagedContentArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.StagedContentScalarFieldEnum | Prisma.StagedContentScalarFieldEnum[]
+}
+
+/**
+ * Digest.approvals
+ */
+export type Digest$approvalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DigestApproval
+   */
+  select?: Prisma.DigestApprovalSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DigestApproval
+   */
+  omit?: Prisma.DigestApprovalOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DigestApprovalInclude<ExtArgs> | null
+  where?: Prisma.DigestApprovalWhereInput
+  orderBy?: Prisma.DigestApprovalOrderByWithRelationInput | Prisma.DigestApprovalOrderByWithRelationInput[]
+  cursor?: Prisma.DigestApprovalWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DigestApprovalScalarFieldEnum | Prisma.DigestApprovalScalarFieldEnum[]
 }
 
 /**

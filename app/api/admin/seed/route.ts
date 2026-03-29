@@ -103,14 +103,6 @@ export async function POST() {
         });
 
         // Seed Digests (6 sample digests — 2 weeks)
-        const sectionTypes = [
-            SectionType.EXPERT_TIP,
-            SectionType.MARKETING_TIP,
-            SectionType.COMMUNITY_SPOTLIGHT,
-            SectionType.FUNNEL_OF_THE_WEEK,
-            SectionType.FOOD_FOR_THOUGHT,
-        ];
-
         const digestSeeds = [
             {
                 digestNumber: 94,
@@ -118,8 +110,6 @@ export async function POST() {
                 publishDate: new Date("2026-03-16"),
                 status: DigestStatus.PUBLISHED,
                 publishedAt: new Date("2026-03-16T09:00:00Z"),
-                leeApproved: true,
-                hannaApproved: true,
                 title: "FBM Digest #94",
                 subjectLine: "FBM Digest #94: AI funnels, split test wins, and more...",
                 preHeader: "This week's best funnel insights",
@@ -138,8 +128,6 @@ export async function POST() {
                 publishDate: new Date("2026-03-18"),
                 status: DigestStatus.PUBLISHED,
                 publishedAt: new Date("2026-03-18T09:00:00Z"),
-                leeApproved: true,
-                hannaApproved: true,
                 title: "FBM Digest #95",
                 subjectLine: "FBM Digest #95: Email sequences, community wins, and more...",
                 preHeader: "Midweek marketing fuel",
@@ -158,8 +146,6 @@ export async function POST() {
                 publishDate: new Date("2026-03-20"),
                 status: DigestStatus.PUBLISHED,
                 publishedAt: new Date("2026-03-20T09:00:00Z"),
-                leeApproved: true,
-                hannaApproved: true,
                 title: "FBM Digest #96",
                 subjectLine: "FBM Digest #96: Weekend reads, funnel hacks, and more...",
                 preHeader: "Finish the week strong",
@@ -178,8 +164,6 @@ export async function POST() {
                 publishDate: new Date("2026-03-23"),
                 status: DigestStatus.PUBLISHED,
                 publishedAt: new Date("2026-03-23T09:00:00Z"),
-                leeApproved: true,
-                hannaApproved: true,
                 title: "FBM Digest #97",
                 subjectLine: "FBM Digest #97: New ClickFunnels features, AI copy, and more...",
                 preHeader: "Start the week with an edge",
@@ -197,8 +181,6 @@ export async function POST() {
                 publishDay: PublishDay.WEDNESDAY,
                 publishDate: new Date("2026-03-25"),
                 status: DigestStatus.IN_REVIEW,
-                leeApproved: false,
-                hannaApproved: false,
                 title: "FBM Digest #98",
                 subjectLine: "FBM Digest #98: Retargeting secrets, community spotlight, and more...",
                 preHeader: "Midweek marketing boost",
@@ -215,8 +197,6 @@ export async function POST() {
                 publishDay: PublishDay.FRIDAY,
                 publishDate: new Date("2026-03-27"),
                 status: DigestStatus.DRAFT,
-                leeApproved: false,
-                hannaApproved: false,
                 title: "FBM Digest #99",
                 sections: [
                     { type: SectionType.EXPERT_TIP, heading: "", body: "" },
@@ -237,7 +217,7 @@ export async function POST() {
             });
             if (existing) continue;
 
-            await prisma.digest.create({
+            const digest = await prisma.digest.create({
                 data: {
                     ...digestData,
                     sections: {
@@ -252,6 +232,30 @@ export async function POST() {
                     },
                 },
             });
+
+            // Create DigestApproval records based on status
+            if (digestData.status === DigestStatus.PUBLISHED) {
+                await prisma.digestApproval.create({
+                    data: {
+                        digestId: digest.id,
+                        userId,
+                        role: "author",
+                        approved: true,
+                        approvedAt: digestData.publishedAt,
+                    },
+                });
+            } else {
+                // IN_REVIEW and DRAFT: create approval with approved=false
+                await prisma.digestApproval.create({
+                    data: {
+                        digestId: digest.id,
+                        userId,
+                        role: "author",
+                        approved: false,
+                    },
+                });
+            }
+
             digestsSeeded++;
         }
 

@@ -3,6 +3,14 @@ import prisma from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
+const APPROVALS_INCLUDE = {
+    include: {
+        user: {
+            select: { id: true, name: true, email: true, image: true },
+        },
+    },
+};
+
 export async function GET(
     _req: NextRequest,
     { params }: { params: Promise<{ id: string }> }
@@ -21,6 +29,7 @@ export async function GET(
                 sections: {
                     orderBy: { order: "asc" },
                 },
+                approvals: APPROVALS_INCLUDE,
             },
         });
 
@@ -75,6 +84,7 @@ export async function PATCH(
                 sections: {
                     orderBy: { order: "asc" },
                 },
+                approvals: APPROVALS_INCLUDE,
             },
         });
 
@@ -104,6 +114,7 @@ export async function PATCH(
                     sections: {
                         orderBy: { order: "asc" },
                     },
+                    approvals: APPROVALS_INCLUDE,
                 },
             });
 

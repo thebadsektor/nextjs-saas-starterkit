@@ -38,6 +38,13 @@ import {
 type DigestStatus = "DRAFT" | "IN_REVIEW" | "APPROVED" | "PUBLISHED" | "FAILED"
 type PublishDay = "MONDAY" | "WEDNESDAY" | "FRIDAY"
 
+interface DigestApproval {
+    id: string
+    role: string
+    approved: boolean
+    user: { name: string }
+}
+
 interface Digest {
     id: string
     digestNumber: number
@@ -45,8 +52,7 @@ interface Digest {
     publishDay: PublishDay
     status: DigestStatus
     publishDate: string
-    leeApproved: boolean
-    hannaApproved: boolean
+    approvals: DigestApproval[]
 }
 
 interface DigestStats {
@@ -123,6 +129,30 @@ export default function AdminDigestsPage() {
             <Badge variant={config.variant} className={`text-[10px] py-0 px-1.5 font-normal ${config.className ?? ""}`}>
                 {config.label}
             </Badge>
+        )
+    }
+
+    const renderApprovals = (approvals: DigestApproval[]) => {
+        const total = approvals.length
+        const approvedCount = approvals.filter((a) => a.approved).length
+
+        if (total === 0) {
+            return <span className="text-muted-foreground">--</span>
+        }
+
+        if (approvedCount === total) {
+            return (
+                <Badge variant="outline" className="text-[10px] py-0 px-1.5 font-normal border-green-500/30 bg-green-50 text-green-700 dark:bg-green-500/10 dark:text-green-400">
+                    <CheckCircle className="h-3 w-3 mr-0.5" weight="fill" />
+                    All
+                </Badge>
+            )
+        }
+
+        return (
+            <span className={approvedCount === 0 ? "text-muted-foreground" : "text-foreground"}>
+                {approvedCount}/{total}
+            </span>
         )
     }
 
@@ -218,8 +248,7 @@ export default function AdminDigestsPage() {
                                     <TableHead>Title</TableHead>
                                     <TableHead>Day</TableHead>
                                     <TableHead>Status</TableHead>
-                                    <TableHead className="text-center">Lee</TableHead>
-                                    <TableHead className="text-center">Hanna</TableHead>
+                                    <TableHead className="text-center">Approvals</TableHead>
                                     <TableHead>Publish Date</TableHead>
                                     <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
@@ -232,15 +261,14 @@ export default function AdminDigestsPage() {
                                             <TableCell><Skeleton className="h-4 w-40" /></TableCell>
                                             <TableCell><Skeleton className="h-4 w-16" /></TableCell>
                                             <TableCell><Skeleton className="h-4 w-16" /></TableCell>
-                                            <TableCell><Skeleton className="h-4 w-4 mx-auto" /></TableCell>
-                                            <TableCell><Skeleton className="h-4 w-4 mx-auto" /></TableCell>
+                                            <TableCell><Skeleton className="h-4 w-10 mx-auto" /></TableCell>
                                             <TableCell><Skeleton className="h-4 w-20" /></TableCell>
                                             <TableCell><Skeleton className="h-4 w-12 ml-auto" /></TableCell>
                                         </TableRow>
                                     ))
                                 ) : digests.length === 0 ? (
                                     <TableRow>
-                                        <TableCell colSpan={8} className="text-center py-10 text-muted-foreground">
+                                        <TableCell colSpan={7} className="text-center py-10 text-muted-foreground">
                                             No digests found.
                                         </TableCell>
                                     </TableRow>
@@ -258,10 +286,7 @@ export default function AdminDigestsPage() {
                                             </TableCell>
                                             <TableCell>{renderStatusBadge(digest.status)}</TableCell>
                                             <TableCell className="text-center">
-                                                <input type="checkbox" checked={digest.leeApproved} readOnly className="pointer-events-none h-3.5 w-3.5" />
-                                            </TableCell>
-                                            <TableCell className="text-center">
-                                                <input type="checkbox" checked={digest.hannaApproved} readOnly className="pointer-events-none h-3.5 w-3.5" />
+                                                {renderApprovals(digest.approvals ?? [])}
                                             </TableCell>
                                             <TableCell className="text-muted-foreground">
                                                 {new Date(digest.publishDate).toLocaleDateString()}

@@ -247,6 +247,9 @@ export type UserWhereInput = {
   discussionReports?: Prisma.DiscussionReportListRelationFilter
   commentVotes?: Prisma.CommentVoteListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
+  ownedTeams?: Prisma.TeamListRelationFilter
+  teamMemberships?: Prisma.TeamMemberListRelationFilter
+  digestApprovals?: Prisma.DigestApprovalListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -271,6 +274,9 @@ export type UserOrderByWithRelationInput = {
   discussionReports?: Prisma.DiscussionReportOrderByRelationAggregateInput
   commentVotes?: Prisma.CommentVoteOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
+  ownedTeams?: Prisma.TeamOrderByRelationAggregateInput
+  teamMemberships?: Prisma.TeamMemberOrderByRelationAggregateInput
+  digestApprovals?: Prisma.DigestApprovalOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -298,6 +304,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   discussionReports?: Prisma.DiscussionReportListRelationFilter
   commentVotes?: Prisma.CommentVoteListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
+  ownedTeams?: Prisma.TeamListRelationFilter
+  teamMemberships?: Prisma.TeamMemberListRelationFilter
+  digestApprovals?: Prisma.DigestApprovalListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -358,6 +367,9 @@ export type UserCreateInput = {
   discussionReports?: Prisma.DiscussionReportCreateNestedManyWithoutUserInput
   commentVotes?: Prisma.CommentVoteCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -382,6 +394,9 @@ export type UserUncheckedCreateInput = {
   discussionReports?: Prisma.DiscussionReportUncheckedCreateNestedManyWithoutUserInput
   commentVotes?: Prisma.CommentVoteUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -406,6 +421,9 @@ export type UserUpdateInput = {
   discussionReports?: Prisma.DiscussionReportUpdateManyWithoutUserNestedInput
   commentVotes?: Prisma.CommentVoteUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -430,6 +448,9 @@ export type UserUncheckedUpdateInput = {
   discussionReports?: Prisma.DiscussionReportUncheckedUpdateManyWithoutUserNestedInput
   commentVotes?: Prisma.CommentVoteUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -684,6 +705,48 @@ export type UserUpdateOneWithoutFeedbacksNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFeedbacksInput, Prisma.UserUpdateWithoutFeedbacksInput>, Prisma.UserUncheckedUpdateWithoutFeedbacksInput>
 }
 
+export type UserCreateNestedOneWithoutOwnedTeamsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOwnedTeamsInput, Prisma.UserUncheckedCreateWithoutOwnedTeamsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOwnedTeamsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutOwnedTeamsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOwnedTeamsInput, Prisma.UserUncheckedCreateWithoutOwnedTeamsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOwnedTeamsInput
+  upsert?: Prisma.UserUpsertWithoutOwnedTeamsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOwnedTeamsInput, Prisma.UserUpdateWithoutOwnedTeamsInput>, Prisma.UserUncheckedUpdateWithoutOwnedTeamsInput>
+}
+
+export type UserCreateNestedOneWithoutTeamMembershipsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTeamMembershipsInput, Prisma.UserUncheckedCreateWithoutTeamMembershipsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTeamMembershipsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutTeamMembershipsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTeamMembershipsInput, Prisma.UserUncheckedCreateWithoutTeamMembershipsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTeamMembershipsInput
+  upsert?: Prisma.UserUpsertWithoutTeamMembershipsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTeamMembershipsInput, Prisma.UserUpdateWithoutTeamMembershipsInput>, Prisma.UserUncheckedUpdateWithoutTeamMembershipsInput>
+}
+
+export type UserCreateNestedOneWithoutDigestApprovalsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDigestApprovalsInput, Prisma.UserUncheckedCreateWithoutDigestApprovalsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDigestApprovalsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutDigestApprovalsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDigestApprovalsInput, Prisma.UserUncheckedCreateWithoutDigestApprovalsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDigestApprovalsInput
+  upsert?: Prisma.UserUpsertWithoutDigestApprovalsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDigestApprovalsInput, Prisma.UserUpdateWithoutDigestApprovalsInput>, Prisma.UserUncheckedUpdateWithoutDigestApprovalsInput>
+}
+
 export type UserCreateWithoutNotificationsInput = {
   id: string
   name: string
@@ -705,6 +768,9 @@ export type UserCreateWithoutNotificationsInput = {
   discussionVotes?: Prisma.DiscussionVoteCreateNestedManyWithoutUserInput
   discussionReports?: Prisma.DiscussionReportCreateNestedManyWithoutUserInput
   commentVotes?: Prisma.CommentVoteCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -728,6 +794,9 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   discussionVotes?: Prisma.DiscussionVoteUncheckedCreateNestedManyWithoutUserInput
   discussionReports?: Prisma.DiscussionReportUncheckedCreateNestedManyWithoutUserInput
   commentVotes?: Prisma.CommentVoteUncheckedCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -767,6 +836,9 @@ export type UserUpdateWithoutNotificationsInput = {
   discussionVotes?: Prisma.DiscussionVoteUpdateManyWithoutUserNestedInput
   discussionReports?: Prisma.DiscussionReportUpdateManyWithoutUserNestedInput
   commentVotes?: Prisma.CommentVoteUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -790,6 +862,9 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   discussionVotes?: Prisma.DiscussionVoteUncheckedUpdateManyWithoutUserNestedInput
   discussionReports?: Prisma.DiscussionReportUncheckedUpdateManyWithoutUserNestedInput
   commentVotes?: Prisma.CommentVoteUncheckedUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDiscussionsInput = {
@@ -813,6 +888,9 @@ export type UserCreateWithoutDiscussionsInput = {
   discussionReports?: Prisma.DiscussionReportCreateNestedManyWithoutUserInput
   commentVotes?: Prisma.CommentVoteCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDiscussionsInput = {
@@ -836,6 +914,9 @@ export type UserUncheckedCreateWithoutDiscussionsInput = {
   discussionReports?: Prisma.DiscussionReportUncheckedCreateNestedManyWithoutUserInput
   commentVotes?: Prisma.CommentVoteUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDiscussionsInput = {
@@ -875,6 +956,9 @@ export type UserUpdateWithoutDiscussionsInput = {
   discussionReports?: Prisma.DiscussionReportUpdateManyWithoutUserNestedInput
   commentVotes?: Prisma.CommentVoteUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDiscussionsInput = {
@@ -898,6 +982,9 @@ export type UserUncheckedUpdateWithoutDiscussionsInput = {
   discussionReports?: Prisma.DiscussionReportUncheckedUpdateManyWithoutUserNestedInput
   commentVotes?: Prisma.CommentVoteUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDiscussionVotesInput = {
@@ -921,6 +1008,9 @@ export type UserCreateWithoutDiscussionVotesInput = {
   discussionReports?: Prisma.DiscussionReportCreateNestedManyWithoutUserInput
   commentVotes?: Prisma.CommentVoteCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDiscussionVotesInput = {
@@ -944,6 +1034,9 @@ export type UserUncheckedCreateWithoutDiscussionVotesInput = {
   discussionReports?: Prisma.DiscussionReportUncheckedCreateNestedManyWithoutUserInput
   commentVotes?: Prisma.CommentVoteUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDiscussionVotesInput = {
@@ -983,6 +1076,9 @@ export type UserUpdateWithoutDiscussionVotesInput = {
   discussionReports?: Prisma.DiscussionReportUpdateManyWithoutUserNestedInput
   commentVotes?: Prisma.CommentVoteUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDiscussionVotesInput = {
@@ -1006,6 +1102,9 @@ export type UserUncheckedUpdateWithoutDiscussionVotesInput = {
   discussionReports?: Prisma.DiscussionReportUncheckedUpdateManyWithoutUserNestedInput
   commentVotes?: Prisma.CommentVoteUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDiscussionReportsInput = {
@@ -1029,6 +1128,9 @@ export type UserCreateWithoutDiscussionReportsInput = {
   discussionVotes?: Prisma.DiscussionVoteCreateNestedManyWithoutUserInput
   commentVotes?: Prisma.CommentVoteCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDiscussionReportsInput = {
@@ -1052,6 +1154,9 @@ export type UserUncheckedCreateWithoutDiscussionReportsInput = {
   discussionVotes?: Prisma.DiscussionVoteUncheckedCreateNestedManyWithoutUserInput
   commentVotes?: Prisma.CommentVoteUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDiscussionReportsInput = {
@@ -1091,6 +1196,9 @@ export type UserUpdateWithoutDiscussionReportsInput = {
   discussionVotes?: Prisma.DiscussionVoteUpdateManyWithoutUserNestedInput
   commentVotes?: Prisma.CommentVoteUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDiscussionReportsInput = {
@@ -1114,6 +1222,9 @@ export type UserUncheckedUpdateWithoutDiscussionReportsInput = {
   discussionVotes?: Prisma.DiscussionVoteUncheckedUpdateManyWithoutUserNestedInput
   commentVotes?: Prisma.CommentVoteUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommentsInput = {
@@ -1137,6 +1248,9 @@ export type UserCreateWithoutCommentsInput = {
   discussionReports?: Prisma.DiscussionReportCreateNestedManyWithoutUserInput
   commentVotes?: Prisma.CommentVoteCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommentsInput = {
@@ -1160,6 +1274,9 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   discussionReports?: Prisma.DiscussionReportUncheckedCreateNestedManyWithoutUserInput
   commentVotes?: Prisma.CommentVoteUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommentsInput = {
@@ -1199,6 +1316,9 @@ export type UserUpdateWithoutCommentsInput = {
   discussionReports?: Prisma.DiscussionReportUpdateManyWithoutUserNestedInput
   commentVotes?: Prisma.CommentVoteUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -1222,6 +1342,9 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   discussionReports?: Prisma.DiscussionReportUncheckedUpdateManyWithoutUserNestedInput
   commentVotes?: Prisma.CommentVoteUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommentVotesInput = {
@@ -1245,6 +1368,9 @@ export type UserCreateWithoutCommentVotesInput = {
   discussionVotes?: Prisma.DiscussionVoteCreateNestedManyWithoutUserInput
   discussionReports?: Prisma.DiscussionReportCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommentVotesInput = {
@@ -1268,6 +1394,9 @@ export type UserUncheckedCreateWithoutCommentVotesInput = {
   discussionVotes?: Prisma.DiscussionVoteUncheckedCreateNestedManyWithoutUserInput
   discussionReports?: Prisma.DiscussionReportUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommentVotesInput = {
@@ -1307,6 +1436,9 @@ export type UserUpdateWithoutCommentVotesInput = {
   discussionVotes?: Prisma.DiscussionVoteUpdateManyWithoutUserNestedInput
   discussionReports?: Prisma.DiscussionReportUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentVotesInput = {
@@ -1330,6 +1462,9 @@ export type UserUncheckedUpdateWithoutCommentVotesInput = {
   discussionVotes?: Prisma.DiscussionVoteUncheckedUpdateManyWithoutUserNestedInput
   discussionReports?: Prisma.DiscussionReportUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -1353,6 +1488,9 @@ export type UserCreateWithoutSessionsInput = {
   discussionReports?: Prisma.DiscussionReportCreateNestedManyWithoutUserInput
   commentVotes?: Prisma.CommentVoteCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -1376,6 +1514,9 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   discussionReports?: Prisma.DiscussionReportUncheckedCreateNestedManyWithoutUserInput
   commentVotes?: Prisma.CommentVoteUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -1415,6 +1556,9 @@ export type UserUpdateWithoutSessionsInput = {
   discussionReports?: Prisma.DiscussionReportUpdateManyWithoutUserNestedInput
   commentVotes?: Prisma.CommentVoteUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -1438,6 +1582,9 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   discussionReports?: Prisma.DiscussionReportUncheckedUpdateManyWithoutUserNestedInput
   commentVotes?: Prisma.CommentVoteUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -1461,6 +1608,9 @@ export type UserCreateWithoutAccountsInput = {
   discussionReports?: Prisma.DiscussionReportCreateNestedManyWithoutUserInput
   commentVotes?: Prisma.CommentVoteCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -1484,6 +1634,9 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   discussionReports?: Prisma.DiscussionReportUncheckedCreateNestedManyWithoutUserInput
   commentVotes?: Prisma.CommentVoteUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -1523,6 +1676,9 @@ export type UserUpdateWithoutAccountsInput = {
   discussionReports?: Prisma.DiscussionReportUpdateManyWithoutUserNestedInput
   commentVotes?: Prisma.CommentVoteUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -1546,6 +1702,9 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   discussionReports?: Prisma.DiscussionReportUncheckedUpdateManyWithoutUserNestedInput
   commentVotes?: Prisma.CommentVoteUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutFeedbacksInput = {
@@ -1569,6 +1728,9 @@ export type UserCreateWithoutFeedbacksInput = {
   discussionReports?: Prisma.DiscussionReportCreateNestedManyWithoutUserInput
   commentVotes?: Prisma.CommentVoteCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutFeedbacksInput = {
@@ -1592,6 +1754,9 @@ export type UserUncheckedCreateWithoutFeedbacksInput = {
   discussionReports?: Prisma.DiscussionReportUncheckedCreateNestedManyWithoutUserInput
   commentVotes?: Prisma.CommentVoteUncheckedCreateNestedManyWithoutUserInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutFeedbacksInput = {
@@ -1631,6 +1796,9 @@ export type UserUpdateWithoutFeedbacksInput = {
   discussionReports?: Prisma.DiscussionReportUpdateManyWithoutUserNestedInput
   commentVotes?: Prisma.CommentVoteUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutFeedbacksInput = {
@@ -1654,6 +1822,369 @@ export type UserUncheckedUpdateWithoutFeedbacksInput = {
   discussionReports?: Prisma.DiscussionReportUncheckedUpdateManyWithoutUserNestedInput
   commentVotes?: Prisma.CommentVoteUncheckedUpdateManyWithoutUserNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutOwnedTeamsInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified: boolean
+  image?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  role?: string | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  stripeCustomerId?: string | null
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  feedbacks?: Prisma.FeedbackCreateNestedManyWithoutUserInput
+  discussions?: Prisma.DiscussionCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  discussionVotes?: Prisma.DiscussionVoteCreateNestedManyWithoutUserInput
+  discussionReports?: Prisma.DiscussionReportCreateNestedManyWithoutUserInput
+  commentVotes?: Prisma.CommentVoteCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutOwnedTeamsInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified: boolean
+  image?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  role?: string | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  stripeCustomerId?: string | null
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  feedbacks?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
+  discussions?: Prisma.DiscussionUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  discussionVotes?: Prisma.DiscussionVoteUncheckedCreateNestedManyWithoutUserInput
+  discussionReports?: Prisma.DiscussionReportUncheckedCreateNestedManyWithoutUserInput
+  commentVotes?: Prisma.CommentVoteUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutOwnedTeamsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutOwnedTeamsInput, Prisma.UserUncheckedCreateWithoutOwnedTeamsInput>
+}
+
+export type UserUpsertWithoutOwnedTeamsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutOwnedTeamsInput, Prisma.UserUncheckedUpdateWithoutOwnedTeamsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutOwnedTeamsInput, Prisma.UserUncheckedCreateWithoutOwnedTeamsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutOwnedTeamsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutOwnedTeamsInput, Prisma.UserUncheckedUpdateWithoutOwnedTeamsInput>
+}
+
+export type UserUpdateWithoutOwnedTeamsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  feedbacks?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
+  discussions?: Prisma.DiscussionUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  discussionVotes?: Prisma.DiscussionVoteUpdateManyWithoutUserNestedInput
+  discussionReports?: Prisma.DiscussionReportUpdateManyWithoutUserNestedInput
+  commentVotes?: Prisma.CommentVoteUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutOwnedTeamsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  feedbacks?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
+  discussions?: Prisma.DiscussionUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  discussionVotes?: Prisma.DiscussionVoteUncheckedUpdateManyWithoutUserNestedInput
+  discussionReports?: Prisma.DiscussionReportUncheckedUpdateManyWithoutUserNestedInput
+  commentVotes?: Prisma.CommentVoteUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutTeamMembershipsInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified: boolean
+  image?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  role?: string | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  stripeCustomerId?: string | null
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  feedbacks?: Prisma.FeedbackCreateNestedManyWithoutUserInput
+  discussions?: Prisma.DiscussionCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  discussionVotes?: Prisma.DiscussionVoteCreateNestedManyWithoutUserInput
+  discussionReports?: Prisma.DiscussionReportCreateNestedManyWithoutUserInput
+  commentVotes?: Prisma.CommentVoteCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput
+  digestApprovals?: Prisma.DigestApprovalCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutTeamMembershipsInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified: boolean
+  image?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  role?: string | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  stripeCustomerId?: string | null
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  feedbacks?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
+  discussions?: Prisma.DiscussionUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  discussionVotes?: Prisma.DiscussionVoteUncheckedCreateNestedManyWithoutUserInput
+  discussionReports?: Prisma.DiscussionReportUncheckedCreateNestedManyWithoutUserInput
+  commentVotes?: Prisma.CommentVoteUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutTeamMembershipsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutTeamMembershipsInput, Prisma.UserUncheckedCreateWithoutTeamMembershipsInput>
+}
+
+export type UserUpsertWithoutTeamMembershipsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTeamMembershipsInput, Prisma.UserUncheckedUpdateWithoutTeamMembershipsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTeamMembershipsInput, Prisma.UserUncheckedCreateWithoutTeamMembershipsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutTeamMembershipsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTeamMembershipsInput, Prisma.UserUncheckedUpdateWithoutTeamMembershipsInput>
+}
+
+export type UserUpdateWithoutTeamMembershipsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  feedbacks?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
+  discussions?: Prisma.DiscussionUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  discussionVotes?: Prisma.DiscussionVoteUpdateManyWithoutUserNestedInput
+  discussionReports?: Prisma.DiscussionReportUpdateManyWithoutUserNestedInput
+  commentVotes?: Prisma.CommentVoteUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput
+  digestApprovals?: Prisma.DigestApprovalUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutTeamMembershipsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  feedbacks?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
+  discussions?: Prisma.DiscussionUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  discussionVotes?: Prisma.DiscussionVoteUncheckedUpdateManyWithoutUserNestedInput
+  discussionReports?: Prisma.DiscussionReportUncheckedUpdateManyWithoutUserNestedInput
+  commentVotes?: Prisma.CommentVoteUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput
+  digestApprovals?: Prisma.DigestApprovalUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutDigestApprovalsInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified: boolean
+  image?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  role?: string | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  stripeCustomerId?: string | null
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  feedbacks?: Prisma.FeedbackCreateNestedManyWithoutUserInput
+  discussions?: Prisma.DiscussionCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  discussionVotes?: Prisma.DiscussionVoteCreateNestedManyWithoutUserInput
+  discussionReports?: Prisma.DiscussionReportCreateNestedManyWithoutUserInput
+  commentVotes?: Prisma.CommentVoteCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutDigestApprovalsInput = {
+  id: string
+  name: string
+  email: string
+  emailVerified: boolean
+  image?: string | null
+  createdAt: Date | string
+  updatedAt: Date | string
+  role?: string | null
+  banned?: boolean | null
+  banReason?: string | null
+  banExpires?: Date | string | null
+  stripeCustomerId?: string | null
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  feedbacks?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
+  discussions?: Prisma.DiscussionUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  discussionVotes?: Prisma.DiscussionVoteUncheckedCreateNestedManyWithoutUserInput
+  discussionReports?: Prisma.DiscussionReportUncheckedCreateNestedManyWithoutUserInput
+  commentVotes?: Prisma.CommentVoteUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  ownedTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutOwnerInput
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutDigestApprovalsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutDigestApprovalsInput, Prisma.UserUncheckedCreateWithoutDigestApprovalsInput>
+}
+
+export type UserUpsertWithoutDigestApprovalsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutDigestApprovalsInput, Prisma.UserUncheckedUpdateWithoutDigestApprovalsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutDigestApprovalsInput, Prisma.UserUncheckedCreateWithoutDigestApprovalsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutDigestApprovalsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutDigestApprovalsInput, Prisma.UserUncheckedUpdateWithoutDigestApprovalsInput>
+}
+
+export type UserUpdateWithoutDigestApprovalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  feedbacks?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
+  discussions?: Prisma.DiscussionUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  discussionVotes?: Prisma.DiscussionVoteUpdateManyWithoutUserNestedInput
+  discussionReports?: Prisma.DiscussionReportUpdateManyWithoutUserNestedInput
+  commentVotes?: Prisma.CommentVoteUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutDigestApprovalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banned?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  feedbacks?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
+  discussions?: Prisma.DiscussionUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  discussionVotes?: Prisma.DiscussionVoteUncheckedUpdateManyWithoutUserNestedInput
+  discussionReports?: Prisma.DiscussionReportUncheckedUpdateManyWithoutUserNestedInput
+  commentVotes?: Prisma.CommentVoteUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  ownedTeams?: Prisma.TeamUncheckedUpdateManyWithoutOwnerNestedInput
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1671,6 +2202,9 @@ export type UserCountOutputType = {
   discussionReports: number
   commentVotes: number
   notifications: number
+  ownedTeams: number
+  teamMemberships: number
+  digestApprovals: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1683,6 +2217,9 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   discussionReports?: boolean | UserCountOutputTypeCountDiscussionReportsArgs
   commentVotes?: boolean | UserCountOutputTypeCountCommentVotesArgs
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+  ownedTeams?: boolean | UserCountOutputTypeCountOwnedTeamsArgs
+  teamMemberships?: boolean | UserCountOutputTypeCountTeamMembershipsArgs
+  digestApprovals?: boolean | UserCountOutputTypeCountDigestApprovalsArgs
 }
 
 /**
@@ -1758,6 +2295,27 @@ export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.NotificationWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountOwnedTeamsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TeamWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountTeamMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TeamMemberWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountDigestApprovalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DigestApprovalWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1781,6 +2339,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   discussionReports?: boolean | Prisma.User$discussionReportsArgs<ExtArgs>
   commentVotes?: boolean | Prisma.User$commentVotesArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
+  ownedTeams?: boolean | Prisma.User$ownedTeamsArgs<ExtArgs>
+  teamMemberships?: boolean | Prisma.User$teamMembershipsArgs<ExtArgs>
+  digestApprovals?: boolean | Prisma.User$digestApprovalsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1840,6 +2401,9 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   discussionReports?: boolean | Prisma.User$discussionReportsArgs<ExtArgs>
   commentVotes?: boolean | Prisma.User$commentVotesArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
+  ownedTeams?: boolean | Prisma.User$ownedTeamsArgs<ExtArgs>
+  teamMemberships?: boolean | Prisma.User$teamMembershipsArgs<ExtArgs>
+  digestApprovals?: boolean | Prisma.User$digestApprovalsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1857,6 +2421,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     discussionReports: Prisma.$DiscussionReportPayload<ExtArgs>[]
     commentVotes: Prisma.$CommentVotePayload<ExtArgs>[]
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
+    ownedTeams: Prisma.$TeamPayload<ExtArgs>[]
+    teamMemberships: Prisma.$TeamMemberPayload<ExtArgs>[]
+    digestApprovals: Prisma.$DigestApprovalPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2274,6 +2841,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   discussionReports<T extends Prisma.User$discussionReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$discussionReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DiscussionReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   commentVotes<T extends Prisma.User$commentVotesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commentVotesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentVotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  ownedTeams<T extends Prisma.User$ownedTeamsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ownedTeamsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  teamMemberships<T extends Prisma.User$teamMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$teamMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  digestApprovals<T extends Prisma.User$digestApprovalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$digestApprovalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DigestApprovalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2916,6 +3486,78 @@ export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
+}
+
+/**
+ * User.ownedTeams
+ */
+export type User$ownedTeamsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Team
+   */
+  select?: Prisma.TeamSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Team
+   */
+  omit?: Prisma.TeamOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TeamInclude<ExtArgs> | null
+  where?: Prisma.TeamWhereInput
+  orderBy?: Prisma.TeamOrderByWithRelationInput | Prisma.TeamOrderByWithRelationInput[]
+  cursor?: Prisma.TeamWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TeamScalarFieldEnum | Prisma.TeamScalarFieldEnum[]
+}
+
+/**
+ * User.teamMemberships
+ */
+export type User$teamMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TeamMember
+   */
+  select?: Prisma.TeamMemberSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TeamMember
+   */
+  omit?: Prisma.TeamMemberOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TeamMemberInclude<ExtArgs> | null
+  where?: Prisma.TeamMemberWhereInput
+  orderBy?: Prisma.TeamMemberOrderByWithRelationInput | Prisma.TeamMemberOrderByWithRelationInput[]
+  cursor?: Prisma.TeamMemberWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TeamMemberScalarFieldEnum | Prisma.TeamMemberScalarFieldEnum[]
+}
+
+/**
+ * User.digestApprovals
+ */
+export type User$digestApprovalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DigestApproval
+   */
+  select?: Prisma.DigestApprovalSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DigestApproval
+   */
+  omit?: Prisma.DigestApprovalOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DigestApprovalInclude<ExtArgs> | null
+  where?: Prisma.DigestApprovalWhereInput
+  orderBy?: Prisma.DigestApprovalOrderByWithRelationInput | Prisma.DigestApprovalOrderByWithRelationInput[]
+  cursor?: Prisma.DigestApprovalWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DigestApprovalScalarFieldEnum | Prisma.DigestApprovalScalarFieldEnum[]
 }
 
 /**

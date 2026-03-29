@@ -40,6 +40,13 @@ export async function GET(req: NextRequest) {
                     sections: {
                         orderBy: { order: "asc" },
                     },
+                    approvals: {
+                        include: {
+                            user: {
+                                select: { id: true, name: true, email: true, image: true },
+                            },
+                        },
+                    },
                 },
             }),
             prisma.digest.count({ where }),
@@ -104,10 +111,43 @@ export async function POST(req: NextRequest) {
                 sections: {
                     orderBy: { order: "asc" },
                 },
+                approvals: {
+                    include: {
+                        user: {
+                            select: { id: true, name: true, email: true, image: true },
+                        },
+                    },
+                },
             },
         });
 
-        return NextResponse.json(digest, { status: 201 });
+        // Create a DigestApproval for the author
+        await prisma.digestApproval.create({
+            data: {
+                digestId: digest.id,
+                userId: session.user.id,
+                role: "author",
+            },
+        });
+
+        // Re-fetch to include the newly created approval
+        const digestWithApprovals = await prisma.digest.findUnique({
+            where: { id: digest.id },
+            include: {
+                sections: {
+                    orderBy: { order: "asc" },
+                },
+                approvals: {
+                    include: {
+                        user: {
+                            select: { id: true, name: true, email: true, image: true },
+                        },
+                    },
+                },
+            },
+        });
+
+        return NextResponse.json(digestWithApprovals, { status: 201 });
     } catch (error) {
         console.error("Failed to create digest:", error);
         return NextResponse.json({ error: "Failed to create digest" }, { status: 500 });
