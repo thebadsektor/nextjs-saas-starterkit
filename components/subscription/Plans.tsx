@@ -146,7 +146,7 @@ export function Plans() {
 
                     return (
                         <Card key={plan.id} className={cn(
-                            "relative flex flex-col border-2 transition-all hover:shadow-md",
+                            "relative flex flex-col border-2 transition-all hover:shadow-md overflow-visible",
                             plan.popular ? "border-primary shadow-sm" : "border-border"
                         )}>
                             {plan.popular && (
